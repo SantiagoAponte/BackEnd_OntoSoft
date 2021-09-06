@@ -15,7 +15,7 @@ Mira **Instalación** para conocer como instalar al detalle el proyecto.
 - [Git desde Visual Studio Code](https://code.visualstudio.com/docs/editor/versioncontrol)
 - [Github](https://github.com/)
 - [Postman](https://www.getpostman.com/)
-- [SqlServer] (https://www.microsoft.com/es-es/sql-server/sql-server-downloads)
+- [Sqlserver] (https://www.microsoft.com/es-es/sql-server/sql-server-downloads)
 
 ### .NET Core
 
@@ -88,8 +88,6 @@ No olvide cambiar la cadena de conexión local en el archivo appsettings.json
     "DefaultConnection" : "Data Source=localhost\\SQLEXPRESS; Initial Catalog=bd_ontosoft; Integrated Security=True"
   }
 ```
-
-_Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo_
 
 ## Ejecutando las pruebas ⚙️
 
