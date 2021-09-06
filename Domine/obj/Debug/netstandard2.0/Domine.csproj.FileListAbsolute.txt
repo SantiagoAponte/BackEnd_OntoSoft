@@ -1,0 +1,9 @@
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\bin\Debug\netstandard2.0\Domine.deps.json
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\bin\Debug\netstandard2.0\Domine.dll
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\bin\Debug\netstandard2.0\Domine.pdb
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\obj\Debug\netstandard2.0\Domine.csprojAssemblyReference.cache
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\obj\Debug\netstandard2.0\Domine.AssemblyInfoInputs.cache
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\obj\Debug\netstandard2.0\Domine.AssemblyInfo.cs
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\obj\Debug\netstandard2.0\Domine.csproj.CoreCompileInputs.cache
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\obj\Debug\netstandard2.0\Domine.dll
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\obj\Debug\netstandard2.0\Domine.pdb

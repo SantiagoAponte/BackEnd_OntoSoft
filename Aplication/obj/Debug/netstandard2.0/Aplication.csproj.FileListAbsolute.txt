@@ -1,0 +1,14 @@
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\bin\Debug\netstandard2.0\Aplication.deps.json
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\bin\Debug\netstandard2.0\Aplication.dll
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\bin\Debug\netstandard2.0\Aplication.pdb
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\bin\Debug\netstandard2.0\Domine.dll
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\bin\Debug\netstandard2.0\persistence.dll
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\bin\Debug\netstandard2.0\Domine.pdb
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\bin\Debug\netstandard2.0\persistence.pdb
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\obj\Debug\netstandard2.0\Aplication.csprojAssemblyReference.cache
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\obj\Debug\netstandard2.0\Aplication.AssemblyInfoInputs.cache
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\obj\Debug\netstandard2.0\Aplication.AssemblyInfo.cs
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\obj\Debug\netstandard2.0\Aplication.csproj.CoreCompileInputs.cache
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\obj\Debug\netstandard2.0\Aplication.csproj.CopyComplete
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\obj\Debug\netstandard2.0\Aplication.dll
+C:\Users\Santiago Aponte\pruebaGoogleAuth\Aplication\obj\Debug\netstandard2.0\Aplication.pdb
