@@ -105,7 +105,7 @@ _El Proyecto se desplego en un servidor con imagen Centos8, usando Nginx y SqlSe
 ## Autores ✒️
 
 * **Santiago Aponte Marin** - *Desarrollador BackEnd* - [SantiagoAponte](https://github.com/SantiagoAponte)
-* **Fernando Jose Martinez Velez** - *Desarrollador frontend* - [FernandoMartinez](fernando.martinez@uao.edu.co)
+* **Fernando Jose Martinez Velez** - *Desarrollador frontend* - [FernandoMartinez](https://github.com/fernando1120)
 
 ## Licencia 📄
 
