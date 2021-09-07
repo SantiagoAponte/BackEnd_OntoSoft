@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webapi\\WebApi.csproj": {}
+    "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webApi\\WebApi.csproj": {}
   },
   "projects": {
     "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\Aplication\\Aplication.csproj": {
@@ -283,14 +283,14 @@
         }
       }
     },
-    "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webapi\\WebApi.csproj": {
+    "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webapi\\WebApi.csproj",
+        "projectUniqueName": "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webapi\\WebApi.csproj",
+        "projectPath": "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webApi\\WebApi.csproj",
         "packagesPath": "C:\\Users\\Santiago Aponte\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webapi\\obj\\",
+        "outputPath": "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

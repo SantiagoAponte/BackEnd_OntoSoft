@@ -42,17 +42,19 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("corsApp", builder => {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
 
             services.AddDbContext<OntoSoftContext>(opt => {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             // services.AddMediatR(typeof().Assembly);
             services.AddMediatR(typeof(UserRegister.Manager).Assembly);
-            // services.AddScoped<IUserSesion, UserSesion>();
             services.AddControllers();
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
-            // services.AddScoped<IUserSesion, UserSesion>();
+            services.AddScoped<IUserSesion, UserSesion>();
             services.AddScoped<IForgetPassword, ForgetService>();
             var builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
@@ -78,6 +80,7 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("corsApp");
             app.UseMiddleware<ManagerErrorMiddleware>();
             if (env.IsDevelopment())
             {

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Aplication.Interfaces.Contracts;
 using Aplication.ManagerExcepcion;
 using Domine;
-using Dominio;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -18,18 +17,19 @@ namespace Aplication.Security
 {
     public class UserPut
     {
-        public class Ejecuta : IRequest<UserData>
+        public class Execute : IRequest<UserData>
         {
             // public string fullname { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
             public string Username { get; set; }
-            public ImagenPerfil ImagenPerfil { get; set; }
+            public string fullname {get;set;}
+            public ImagenPerfil imagenPerfil { get; set; }
         }
 
-        public class EjecutaValidador : AbstractValidator<Ejecuta>
+        public class ExecuteValidator : AbstractValidator<Execute>
         {
-            public EjecutaValidador()
+            public ExecuteValidator()
             {
                 // RuleFor(x => x.fullname).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().WithMessage("El campo no debe estar vacio");
@@ -38,7 +38,7 @@ namespace Aplication.Security
             }
         }
 
-        public class Manejador : IRequestHandler<Ejecuta, UserData>
+        public class Manager : IRequestHandler<Execute, UserData>
         {
             private readonly    OntoSoftContext _context;
             private readonly UserManager<User> _userManager;
@@ -46,7 +46,7 @@ namespace Aplication.Security
 
             private readonly IPasswordHasher<User> _passwordHasher;
 
-            public Manejador(OntoSoftContext context, UserManager<User> userManager, IJwtGenerator jwtGenerator, IPasswordHasher<User> passwordHasher)
+            public Manager(OntoSoftContext context, UserManager<User> userManager, IJwtGenerator jwtGenerator, IPasswordHasher<User> passwordHasher)
             {
                 _context = context;
                 _userManager = userManager;
@@ -54,80 +54,80 @@ namespace Aplication.Security
                 _passwordHasher = passwordHasher;
             }
 
-            public async Task<UserData> Handle(Ejecuta request, CancellationToken cancellationToken)
+            public async Task<UserData> Handle(Execute request, CancellationToken cancellationToken)
             {
-                var usuarioIden = await _userManager.FindByNameAsync(request.Username);
-                if (usuarioIden == null)
+                var userIden = await _userManager.FindByNameAsync(request.Username);
+                if (userIden == null)
                 {
                     throw new ManagerError(HttpStatusCode.NotFound, new { mensaje = "No existe un usuario con este username" });
                 }
 
-                var resultado = await _context.Users.Where(x => x.Email == request.Email && x.UserName != request.Username).AnyAsync();
-                if (resultado)
+                var result = await _context.Users.Where(x => x.Email == request.Email && x.UserName != request.Username).AnyAsync();
+                if (result)
                 {
                     throw new ManagerError(HttpStatusCode.InternalServerError, new { mensaje = "Este email pertenece a otro usuario" });
                 }
 
-                // if (request.ImagenPerfil != null)
-                // {
+                if (request.imagenPerfil != null)
+                {
                     
-                //         var resultadoImagen = await _context.Galleries.Where(x => x.ObjectReference == new Guid(usuarioIden.Id)).FirstOrDefaultAsync();
-                //         if (resultadoImagen == null)
-                //         {
-                //             var imagen = new Galleries
-                //             {
-                //                 Contain = System.Convert.FromBase64String(request.ImagenPerfil.Data),
-                //                 Name = request.ImagenPerfil.Name,
-                //                 Extension = request.ImagenPerfil.Extension,
-                //                 ObjectReference = new Guid(usuarioIden.Id),
-                //                 Id = Guid.NewGuid(),
-                //                 dateCreate = DateTime.UtcNow
-                //             };
-                //             _context.Galleries.Add(imagen);
-                //         }
-                //         else
-                //         {
-                //             resultadoImagen.Contenido = System.Convert.FromBase64String(request.ImagenPerfil.Data);
-                //             resultadoImagen.Nombre = request.ImagenPerfil.Name;
-                //             resultadoImagen.Extension = request.ImagenPerfil.Extension;
-                //         }
+                        var resultadoImagen = await _context.Galleries.Where(x => x.ObjectReference == new Guid(userIden.Id)).FirstOrDefaultAsync();
+                        if (resultadoImagen == null)
+                        {
+                            var imagen = new Galleries
+                            {
+                                Contain = System.Convert.FromBase64String(request.imagenPerfil.Data),
+                                Name = request.imagenPerfil.Name,
+                                Extension = request.imagenPerfil.Extension,
+                                ObjectReference = new Guid(userIden.Id),
+                                Id = Guid.NewGuid(),
+                                dateCreate = DateTime.UtcNow
+                            };
+                            _context.Galleries.Add(imagen);
+                        }
+                        else
+                        {
+                            resultadoImagen.Contain = System.Convert.FromBase64String(request.imagenPerfil.Data);
+                            resultadoImagen.Name = request.imagenPerfil.Name;
+                            resultadoImagen.Extension = request.imagenPerfil.Extension;
+                        }
                     
 
-                // }
+                }
 
 
 
-                // usuarioIden.fullName = request.fullname;
-                usuarioIden.PasswordHash = _passwordHasher.HashPassword(usuarioIden, request.Password);
-                usuarioIden.Email = request.Email;
+                userIden.fullName = request.fullname;
+                userIden.PasswordHash = _passwordHasher.HashPassword(userIden, request.Password);
+                userIden.Email = request.Email;
 
-                var resultadoUpdate = await _userManager.UpdateAsync(usuarioIden);
+                var resultadoUpdate = await _userManager.UpdateAsync(userIden);
 
-                var resultadoRoles = await _userManager.GetRolesAsync(usuarioIden);
+                var resultadoRoles = await _userManager.GetRolesAsync(userIden);
                 var listRoles = new List<string>(resultadoRoles);
 
-                // var imagenPerfil = await _context.Galleries.Where(x => x.ObjetoReferencia == new Guid(usuarioIden.Id)).FirstAsync();
-                // ImagenPerfil imagenGeneral = null;
-                // if (imagenPerfil != null)
-                // {
-                //     imagenGeneral = new ImagenPerfil
-                //     {
-                //         Data = Convert.ToBase64String(imagenPerfil.Contenido),
-                //         Name = imagenPerfil.Name,
-                //         Extension = imagenPerfil.Extension
-                //     };
-                // }
+                var imagenPerfil = await _context.Galleries.Where(x => x.ObjectReference == new Guid(userIden.Id)).FirstAsync();
+                ImagenPerfil imagenProfile = null;
+                if (imagenPerfil != null)
+                {
+                    imagenProfile = new ImagenPerfil
+                    {
+                        Data = Convert.ToBase64String(imagenPerfil.Contain),
+                        Name = imagenPerfil.Name,
+                        Extension = imagenPerfil.Extension
+                    };
+                }
 
 
                 if (resultadoUpdate.Succeeded)
                 {
                     return new UserData
                     {
-                        // fullname = usuarioIden.fullName,
-                        Username = usuarioIden.UserName,
-                        Email = usuarioIden.Email,
-                        Token = _jwtGenerator.CreateToken(usuarioIden, listRoles),
-                        // Imagen = imagenPerfil
+                        fullName = userIden.fullName,
+                        Username = userIden.UserName,
+                        Email = userIden.Email,
+                        Token = _jwtGenerator.CreateToken(userIden, listRoles),
+                        imagenPerfil = imagenProfile
                     };
                 }
 

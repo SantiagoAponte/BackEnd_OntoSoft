@@ -11,8 +11,7 @@ namespace Aplication.Security
         public string fullName {get;set;}
         public string Token {get;set;}
         public string Username {get;set;}
-        public string Imagen {get;set;}
 
-        public ImagenPerfil imagenGeneral {get;set;}
+        public ImagenPerfil imagenPerfil {get;set;}
     }
 }

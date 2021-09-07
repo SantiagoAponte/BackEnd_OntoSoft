@@ -17,6 +17,7 @@ namespace Aplication.Security
         public string Email {get;set;}
         public string Username {get;set;}
         public string Password {get;set;}
+        public string fullName {get;set;}
         // public string Image {get;set;}
         }
     public class ExecuteValidator : AbstractValidator<Execute>{
@@ -53,6 +54,7 @@ namespace Aplication.Security
                     Email = request.Email,
                     UserName = request.Username,
                     PasswordHash = request.Password,
+                    fullName = request.fullName
                     // Image = request.Image
                 };
 

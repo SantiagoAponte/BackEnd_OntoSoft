@@ -15,5 +15,6 @@ namespace persistence
         }
 
         public DbSet<User> User {get;set;}
+        public DbSet<Galleries> Galleries {get;set;}
     }
 }

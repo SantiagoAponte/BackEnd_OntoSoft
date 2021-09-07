@@ -1,14 +1,13 @@
 using System;
 
-namespace Domine
+namespace Aplication.GalleriesArchive
 {
-    public class Galleries
+    public class galleriesDto
     {
         public Guid Id {get;set;}
         public Guid ObjectReference {get;set;}
         public string Name {get;set;}
         public string Extension {get;set;}
-        public byte[] Contain {get;set;}
-        public DateTime dateCreate {get;set;}
+        public string Data {get;set;}
     }
 }
