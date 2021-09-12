@@ -19,10 +19,11 @@ C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Dom
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\persistence.dll
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Domine.pdb
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\persistence.pdb
-C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csprojAssemblyReference.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.AssemblyInfoInputs.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.AssemblyInfo.cs
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.CoreCompileInputs.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.CopyComplete
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.dll
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.pdb
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.AssemblyReference.cache
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.GeneratedMSBuildEditorConfig.editorconfig

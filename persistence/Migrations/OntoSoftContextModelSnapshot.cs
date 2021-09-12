@@ -19,6 +19,55 @@ namespace persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Domine.Appoinments", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateFinal")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("dateInit")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Appoinments");
+                });
+
+            modelBuilder.Entity("Domine.Galleries", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Contain")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Extension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ObjectReference")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("dateCreate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Galleries");
+                });
+
             modelBuilder.Entity("Domine.User", b =>
                 {
                     b.Property<string>("Id")
@@ -87,30 +136,25 @@ namespace persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Dominio.Galleries", b =>
+            modelBuilder.Entity("Domine.UserAppoinments", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte[]>("Contain")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Extension")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ObjectReference")
+                    b.Property<Guid>("AppoinmentsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("dateCreate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Galleries");
+                    b.HasIndex("AppoinmentsId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAppoinments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -242,6 +286,19 @@ namespace persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Domine.UserAppoinments", b =>
+                {
+                    b.HasOne("Domine.Appoinments", "Appoinments")
+                        .WithMany("userLink")
+                        .HasForeignKey("AppoinmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domine.User", "User")
+                        .WithMany("appoinmentsLink")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

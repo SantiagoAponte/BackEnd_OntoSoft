@@ -86,7 +86,6 @@ C:\Users\Santiago Aponte\pruebaGoogleAuth\WebApi\bin\Debug\netcoreapp3.1\SendGri
 C:\Users\Santiago Aponte\pruebaGoogleAuth\WebApi\bin\Debug\netcoreapp3.1\StarkbankEcdsa.dll
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\appsettings.json
-C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\WebApi.exe
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\WebApi.deps.json
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\WebApi.runtimeconfig.json
@@ -157,7 +156,6 @@ C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\Aplicat
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\Security.pdb
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\Domine.pdb
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\persistence.pdb
-C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.csprojAssemblyReference.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.AssemblyInfoInputs.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.AssemblyInfo.cs
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.csproj.CoreCompileInputs.cache
@@ -170,3 +168,11 @@ C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\staticw
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.dll
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.pdb
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.genruntimeconfig.cache
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.csproj.AssemblyReference.cache
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\scopedcss\bundle\WebApi.styles.css
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\webapi\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\webapi\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\webapi\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll

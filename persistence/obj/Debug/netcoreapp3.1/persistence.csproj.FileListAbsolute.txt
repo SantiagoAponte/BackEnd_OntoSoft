@@ -20,7 +20,6 @@ C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\bin\Debug\netcoreapp3.1\pe
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\bin\Debug\netcoreapp3.1\persistence.pdb
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\bin\Debug\netcoreapp3.1\Domine.dll
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\bin\Debug\netcoreapp3.1\Domine.pdb
-C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\persistence.csprojAssemblyReference.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\persistence.AssemblyInfoInputs.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\persistence.AssemblyInfo.cs
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\persistence.csproj.CoreCompileInputs.cache
@@ -28,3 +27,5 @@ C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\pe
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\persistence.dll
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\persistence.pdb
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\persistence.genruntimeconfig.cache
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\persistence.csproj.AssemblyReference.cache
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\Persistence\obj\Debug\netcoreapp3.1\persistence.GeneratedMSBuildEditorConfig.editorconfig

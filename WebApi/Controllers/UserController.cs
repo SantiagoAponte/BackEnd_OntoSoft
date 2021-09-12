@@ -61,10 +61,10 @@ namespace WebApi.Controllers
 
         //https://localhost:5000/api/User/
         [HttpGet]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Paciente")]
-        [Authorize (Roles = "Recepcionista")]
-        [Authorize (Roles = "Doctor")]
+        // [Authorize (Roles = "SuperAdmin")]
+        // [Authorize (Roles = "Paciente")]
+        // [Authorize (Roles = "Recepcionista")]
+        // [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<UserData>> ObtainUser (){
             return await mediator.Send(new UserActually.Execute());
         }

@@ -10,9 +10,10 @@ C:\Users\Santiago Aponte\pruebaGoogleAuth\Domine\obj\Debug\netcoreapp3.1\Domine.
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\bin\Debug\netcoreapp3.1\Domine.deps.json
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\bin\Debug\netcoreapp3.1\Domine.dll
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\bin\Debug\netcoreapp3.1\Domine.pdb
-C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.csprojAssemblyReference.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.AssemblyInfoInputs.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.AssemblyInfo.cs
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.csproj.CoreCompileInputs.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.dll
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.pdb
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.csproj.AssemblyReference.cache
+C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.GeneratedMSBuildEditorConfig.editorconfig

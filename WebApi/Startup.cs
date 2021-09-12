@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Aplication.AppoinmentsApp;
 using Aplication.Interfaces;
 using Aplication.Interfaces.Contracts;
 using Aplication.Security;
+using AutoMapper;
 using Domine;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -49,13 +51,13 @@ namespace WebApi
             services.AddDbContext<OntoSoftContext>(opt => {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            // services.AddMediatR(typeof().Assembly);
-            services.AddMediatR(typeof(UserRegister.Manager).Assembly);
+
+
             services.AddControllers();
-            services.AddTransient<IMailService, SendGridMailService>();
-            services.AddScoped<IJwtGenerator, JwtGenerator>();
-            services.AddScoped<IUserSesion, UserSesion>();
-            services.AddScoped<IForgetPassword, ForgetService>();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+            
             var builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddRoles<IdentityRole>();
@@ -75,6 +77,14 @@ namespace WebApi
                     ValidateIssuer = false
                 };
             });
+
+            
+            services.AddAutoMapper(typeof(GetAppoinment.Manager));
+            services.AddMediatR(typeof(UserRegister.Manager).Assembly);
+            services.AddTransient<IMailService, SendGridMailService>();
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddScoped<IUserSesion, UserSesion>();
+            services.AddScoped<IForgetPassword, ForgetService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,10 +99,12 @@ namespace WebApi
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
