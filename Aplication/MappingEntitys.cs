@@ -1,4 +1,5 @@
 using Aplication.AppoinmentsApp;
+using Aplication.OdontogramApp.Dtos;
 using Aplication.Security;
 using AutoMapper;
 using Domine;
@@ -17,6 +18,11 @@ namespace Aplication
             /*Mapeo de las citas para encontrarlas por el ID de usuario, es decir unicamente las citas de un usuario */
             CreateMap<User, UserDto>()
             .ForMember(x => x.Appoinments, y => y.MapFrom(z => z.appoinmentsLink.Select(a => a.Appoinments).ToList()));
+
+            /*Mapeo de todos los dientes con sus caracteristicas para cargarlos al ontograma */
+            CreateMap<Odontogram, odontogramDto>()
+            .ForMember(x => x.typeProcesses, y => y.MapFrom(z => z.typeProcessesList))
+            .ForMember(x => x.tooths, y => y.MapFrom(z => z.toothList));
         }
     }
 }
