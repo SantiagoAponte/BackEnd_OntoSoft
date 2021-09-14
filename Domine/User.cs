@@ -10,6 +10,7 @@ namespace Domine
 
         //falta añadirle la demas info del user, cuando guañarita acepte.
         public ICollection<UserAppoinments> appoinmentsLink {get;set;}
+        public ICollection<userOdontogram> odontogramLink {get;set;}
 
         
     }

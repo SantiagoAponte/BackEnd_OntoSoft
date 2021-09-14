@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Domine
 {
@@ -6,7 +7,7 @@ namespace Domine
     {
         public Guid Id {get;set;}
         public string name {get;set;}
-        public Odontogram odontogram {get;set;}
+        public ICollection<typeProcessOdontogram> odontogramLink {get;set;}
 
     }
 }

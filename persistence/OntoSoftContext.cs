@@ -19,8 +19,14 @@ namespace persistence
         public DbSet<Appoinments> Appoinments {get;set;}
         public DbSet<UserAppoinments> UserAppoinments {get;set;}
         public DbSet<typeProcess> typeProcess {get;set;}
-        public DbSet<state_tooth> stateTooth {get;set;}
         public DbSet<tooth> tooth {get;set;}
         public DbSet<Odontogram> Odontogram {get;set;}
+
+        public DbSet<toothsOdontogram> toothsOdontogram {get;set;}
+        public DbSet<typeProcessOdontogram> typeProcessOdontogram {get;set;}
+        public DbSet<userOdontogram> userOdontogram {get;set;}
+        
+
+        
     }
 }
