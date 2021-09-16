@@ -1,6 +1,7 @@
 using Aplication.AppoinmentsApp;
 using Aplication.OdontoApp.Dtos;
 using Aplication.Security;
+using Aplication.Security.Users.Dtos;
 using AutoMapper;
 using Domine;
 using System.Linq;
@@ -21,9 +22,13 @@ namespace Aplication
 
             /*Mapeo de todos los dientes con sus caracteristicas para cargarlos al odontograma */
             CreateMap<Odontogram, odontogramDto>()
-            .ForMember(x => x.Users, y => y.MapFrom(z => z.userLink.Select(a => a.User).ToList()))
-            .ForMember(x => x.typeProcesses, y => y.MapFrom(z => z.typeProcessesLink.Select(a => a.typeProcess).ToList()))
+            // .ForMember(x => x.Users, y => y.MapFrom(z => z.userLink.Select(a => a.User).ToList()))
+            .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()) )
+            .ForMember(x => x.UserId, y => y.MapFrom(z => z.User));
+            // .ForMember(x => x.typeProcesses, y => y.MapFrom(z => z.typeProcessesLink.Select(a => a.typeProcess).ToList()))
+            CreateMap<typeProcess, typeProcessDto>()
             .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()) );
+            // .ForMember(x => x.typeProcessId, y => y.MapFrom(y => y.typeProcess));
         }
     }
 }

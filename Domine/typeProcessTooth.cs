@@ -2,15 +2,16 @@ using System;
 
 namespace Domine
 {
-    public class typeProcessOdontogram
+    public class typeProcessTooth
     {
         public Guid Id {get;set;}
-        public Guid OdontogramId {get;set;}
+        public Guid ToothId {get;set;}
 
-        public Odontogram Odontogram {get;set;}
+        public tooth Tooth {get;set;}
 
         public Guid typeProcessId {get;set;}
 
         public typeProcess typeProcess {get;set;}
+        
     }
 }

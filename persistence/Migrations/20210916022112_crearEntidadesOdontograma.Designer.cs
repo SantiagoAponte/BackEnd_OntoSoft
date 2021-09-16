@@ -10,7 +10,7 @@ using persistence;
 namespace persistence.Migrations
 {
     [DbContext(typeof(OntoSoftContext))]
-    [Migration("20210914025743_crearEntidadesOdontograma")]
+    [Migration("20210916022112_crearEntidadesOdontograma")]
     partial class crearEntidadesOdontograma
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,9 @@ namespace persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("date_register")
                         .HasColumnType("datetime2");
 
@@ -83,6 +86,10 @@ namespace persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Odontogram");
                 });
@@ -228,13 +235,13 @@ namespace persistence.Migrations
                     b.ToTable("typeProcess");
                 });
 
-            modelBuilder.Entity("Domine.typeProcessOdontogram", b =>
+            modelBuilder.Entity("Domine.typeProcessTooth", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("OdontogramId")
+                    b.Property<Guid>("ToothId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("typeProcessId")
@@ -242,32 +249,11 @@ namespace persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OdontogramId");
+                    b.HasIndex("ToothId");
 
                     b.HasIndex("typeProcessId");
 
-                    b.ToTable("typeProcessOdontogram");
-                });
-
-            modelBuilder.Entity("Domine.userOdontogram", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("OdontogramId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OdontogramId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("userOdontogram");
+                    b.ToTable("typeProcessTooth");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -401,6 +387,13 @@ namespace persistence.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domine.Odontogram", b =>
+                {
+                    b.HasOne("Domine.User", "User")
+                        .WithOne("odontogram")
+                        .HasForeignKey("Domine.Odontogram", "UserId");
+                });
+
             modelBuilder.Entity("Domine.UserAppoinments", b =>
                 {
                     b.HasOne("Domine.Appoinments", "Appoinments")
@@ -429,32 +422,19 @@ namespace persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domine.typeProcessOdontogram", b =>
+            modelBuilder.Entity("Domine.typeProcessTooth", b =>
                 {
-                    b.HasOne("Domine.Odontogram", "Odontogram")
-                        .WithMany("typeProcessesLink")
-                        .HasForeignKey("OdontogramId")
+                    b.HasOne("Domine.tooth", "Tooth")
+                        .WithMany("typeProcessLink")
+                        .HasForeignKey("ToothId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domine.typeProcess", "typeProcess")
-                        .WithMany("odontogramLink")
+                        .WithMany("toothLink")
                         .HasForeignKey("typeProcessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domine.userOdontogram", b =>
-                {
-                    b.HasOne("Domine.Odontogram", "Odontogram")
-                        .WithMany("userLink")
-                        .HasForeignKey("OdontogramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domine.User", "User")
-                        .WithMany("odontogramLink")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

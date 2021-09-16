@@ -7,7 +7,10 @@ namespace Domine
     {
         public Guid Id {get;set;}
         public string name {get;set;}
-        public ICollection<typeProcessOdontogram> odontogramLink {get;set;}
+        public ICollection<typeProcessTooth> toothLink {get;set;}
+
+
+
 
     }
 }

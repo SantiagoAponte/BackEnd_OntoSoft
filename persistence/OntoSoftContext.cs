@@ -23,8 +23,9 @@ namespace persistence
         public DbSet<Odontogram> Odontogram {get;set;}
 
         public DbSet<toothsOdontogram> toothsOdontogram {get;set;}
-        public DbSet<typeProcessOdontogram> typeProcessOdontogram {get;set;}
-        public DbSet<userOdontogram> userOdontogram {get;set;}
+        public DbSet<typeProcessTooth> typeProcessTooth {get;set;}
+        // public DbSet<typeProcessOdontogram> typeProcessOdontogram {get;set;}
+        // public DbSet<userOdontogram> userOdontogram {get;set;}
         
 
         

@@ -15,9 +15,9 @@ namespace Aplication.AppoinmentsApp
         public Guid? Id {get;set;}
         public DateTime date_register {get;set;}
         public string observation {get;set;}
-        public List<Guid> ListTypeProcess {get;set;}
-        public List<Guid> ListTooths {get;set;}
-        public List<string> ListUsers {get;set;} 
+        public List<Guid> TypeProcess {get;set;}
+        public List<Guid> Tooths {get;set;}
+        public string UserId {get;set;} 
         }
 
         public class ExecuteValidator : AbstractValidator<Execute>{
@@ -46,12 +46,13 @@ namespace Aplication.AppoinmentsApp
                    Id = odontogramId,
                    date_register = DateTime.UtcNow,
                    observation = request.observation,
+                   UserId = request.UserId
                };
             
                 _context.Odontogram.Add(odontogram);
 
-                if(request.ListTooths!=null){
-                    foreach(var _id in request.ListTooths){
+                if(request.Tooths!=null){
+                    foreach(var _id in request.Tooths){
                         var toothsOdontogram = new toothsOdontogram{
                             ToothId = _id,
                             OdontogramId = odontogramId
@@ -60,26 +61,20 @@ namespace Aplication.AppoinmentsApp
                     }
                 }
 
-                if(request.ListTypeProcess!=null){
-                    foreach(var _id in request.ListTypeProcess){
-                        var typeProcessOdontogram = new typeProcessOdontogram{
+                //Relación entre proceso y diente registrado, asi se mapea que procedimiento se le realizo al diente.
+                 if(request.TypeProcess!=null){
+                    foreach(var _id in request.TypeProcess){
+                        foreach(var _id2 in request.Tooths){
+                        var typeProcessTooth = new typeProcessTooth{
                             typeProcessId = _id,
-                            OdontogramId = odontogramId
+                            ToothId =  _id2
                         };
-                        _context.typeProcessOdontogram.Add(typeProcessOdontogram);
+                        _context.typeProcessTooth.Add(typeProcessTooth);
                     }
                 }
 
-                 if(request.ListUsers!=null){
-                    foreach(var _id in request.ListUsers){
-                        var userOdontogram = new userOdontogram{
-                            UserId = _id,
-                            OdontogramId = odontogramId
-                        };
-                        _context.userOdontogram.Add(userOdontogram);
-                    }
                 }
-                         var valor = await _context.SaveChangesAsync();
+                 var valor = await _context.SaveChangesAsync();
                         if(valor>0){
                         return Unit.Value;
                         }

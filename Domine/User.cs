@@ -6,11 +6,14 @@ namespace Domine
 {
     public class User : IdentityUser
     {
+        public override string Id {get;set;}
         public string fullName {get;set;}
 
         //falta añadirle la demas info del user, cuando guañarita acepte.
         public ICollection<UserAppoinments> appoinmentsLink {get;set;}
-        public ICollection<userOdontogram> odontogramLink {get;set;}
+        public Odontogram odontogram {get;set;}
+      
+        // public ICollection<userOdontogram> odontogramLink {get;set;}
 
         
     }

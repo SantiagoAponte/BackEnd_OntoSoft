@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SDsdwbxLpbDrN4MaPiH8EfUwSw1RSrLXmZKW6czyn9sUPFJqIeq5AU78ERQFwUBjVGejr0bBw9SqdfacRqyIhA==",
+  "dgSpecHash": "nk7f+Nm1BJnBH6e1QOgVGrc86R3kYExplM/sQ7/wcOGlwfbaY2z8NvWlYXXVCPZUzBdt0vY1ay04cmaOqX2vnw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\webapi\\WebApi.csproj",
+  "projectFilePath": "C:\\Users\\Santiago Aponte\\BackEnd_OntoSoft\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Santiago Aponte\\.nuget\\packages\\automapper\\8.1.1\\automapper.8.1.1.nupkg.sha512",
     "C:\\Users\\Santiago Aponte\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\6.1.1\\automapper.extensions.microsoft.dependencyinjection.6.1.1.nupkg.sha512",
