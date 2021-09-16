@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Aplication.AppoinmentsApp;
@@ -31,7 +32,22 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<odontogramDto>>> GetResultAsync(){
 
-            return await mediator.Send(new GetOdontogram.ListOdontongram());
+            return await mediator.Send(new GetOdontogram.ListTooth());
+        }
+        [HttpGet("users/{id}")]
+        public async Task<ActionResult<odontogramDto>> ObtainOneOdontogramWithUser(string id){
+            return await mediator.Send(new GetOdontogramWithUser.OneOdontogramUser{Id = id});
+        }
+
+        [HttpPut("edit/{id}")]
+        public async Task<ActionResult<Unit>> putOdontogram(Guid id, putOdontogram.Execute data){
+            data.Id = id;
+            return await mediator.Send(data);
+        }
+
+        [HttpDelete("delete")]
+        public async Task<ActionResult<Unit>> deleteAppoinment(deleteOdontogram.Execute data){
+            return await mediator.Send(data);
         }
     }
 }

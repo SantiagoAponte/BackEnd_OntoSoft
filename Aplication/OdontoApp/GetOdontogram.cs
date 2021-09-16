@@ -12,9 +12,9 @@ namespace Aplication.OdontoApp
 {
     public class GetOdontogram
     {
-        public class ListOdontongram : IRequest<List<odontogramDto>> {}
+        public class ListTooth : IRequest<List<odontogramDto>> {}
 
-        public class Manager : IRequestHandler<ListOdontongram, List<odontogramDto>>
+        public class Manager : IRequestHandler<ListTooth, List<odontogramDto>>
         {
             private readonly OntoSoftContext _context;
             private readonly IMapper _mapper;
@@ -23,16 +23,18 @@ namespace Aplication.OdontoApp
                 _mapper = mapper;
             }
             
-            public async Task<List<odontogramDto>> Handle(ListOdontongram request, CancellationToken cancellationToken)
+            public async Task<List<odontogramDto>> Handle(ListTooth request, CancellationToken cancellationToken)
             {
-               var appoinments = await _context.Odontogram
-               .Include(x=>x.UserId)
-               .Include(x=>x.toothLink)
-               .ThenInclude(x => x.Tooth).ToListAsync();
+               var tooths = await _context.Odontogram
+                .Include(x=>x.User)
+                .Include(x=>x.toothLink)
+                .ThenInclude(x=>x.Tooth)
+                .ThenInclude(x=>x.typeProcessLink)
+                .ThenInclude(x=>x.typeProcess).ToListAsync();
                
-               var appoinmentsDto = _mapper.Map<List<Odontogram>, List<odontogramDto>>(appoinments);
+               var toothsDto = _mapper.Map<List<Odontogram>, List<odontogramDto>>(tooths);
 
-               return appoinmentsDto;
+               return toothsDto;
             }
         }
     }

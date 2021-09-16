@@ -15,7 +15,7 @@ namespace Aplication.AppoinmentsApp
         public Guid? Id {get;set;}
         public DateTime date_register {get;set;}
         public string observation {get;set;}
-        public List<Guid> TypeProcess {get;set;}
+        public List<Guid> typeProcess {get;set;}
         public List<Guid> Tooths {get;set;}
         public string UserId {get;set;} 
         }
@@ -62,8 +62,8 @@ namespace Aplication.AppoinmentsApp
                 }
 
                 //Relación entre proceso y diente registrado, asi se mapea que procedimiento se le realizo al diente.
-                 if(request.TypeProcess!=null){
-                    foreach(var _id in request.TypeProcess){
+                 if(request.typeProcess!=null){
+                    foreach(var _id in request.typeProcess){
                         foreach(var _id2 in request.Tooths){
                         var typeProcessTooth = new typeProcessTooth{
                             typeProcessId = _id,

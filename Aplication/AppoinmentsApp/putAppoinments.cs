@@ -44,7 +44,7 @@ namespace Aplication.AppoinmentsApp
                 var appoinment = await _context.Appoinments.FindAsync(request.Id);
                   if(
                       appoinment==null){
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro el curso"});
+                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la cita"});
                 }
                 /*actualizar unicamente la información de la cita*/
                 appoinment.dateInit = DateTime.UtcNow;

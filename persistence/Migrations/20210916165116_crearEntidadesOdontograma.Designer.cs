@@ -10,7 +10,7 @@ using persistence;
 namespace persistence.Migrations
 {
     [DbContext(typeof(OntoSoftContext))]
-    [Migration("20210916022112_crearEntidadesOdontograma")]
+    [Migration("20210916165116_crearEntidadesOdontograma")]
     partial class crearEntidadesOdontograma
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

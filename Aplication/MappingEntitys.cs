@@ -22,13 +22,18 @@ namespace Aplication
 
             /*Mapeo de todos los dientes con sus caracteristicas para cargarlos al odontograma */
             CreateMap<Odontogram, odontogramDto>()
-            // .ForMember(x => x.Users, y => y.MapFrom(z => z.userLink.Select(a => a.User).ToList()))
-            .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()) )
-            .ForMember(x => x.UserId, y => y.MapFrom(z => z.User));
-            // .ForMember(x => x.typeProcesses, y => y.MapFrom(z => z.typeProcessesLink.Select(a => a.typeProcess).ToList()))
-            CreateMap<typeProcess, typeProcessDto>()
-            .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()) );
-            // .ForMember(x => x.typeProcessId, y => y.MapFrom(y => y.typeProcess));
+            .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()));
+            
+            // CreateMap<typeProcess, typeProcessDto>()
+            // .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()) );
+          
+
+            // CreateMap<tooth, toothDto>()
+            // .ForMember(x => x.odontograms, y => y.MapFrom( z => z.odontogramLink.Select( a => a.Odontogram).ToList()) )
+            // .ForMember(x => x.typeProcesses, y => y.MapFrom( z => z.typeProcessLink.Select( a => a.typeProcess).ToList()) );
+
+            
+            
         }
     }
 }
