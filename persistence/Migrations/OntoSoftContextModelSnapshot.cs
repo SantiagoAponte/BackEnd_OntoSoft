@@ -144,7 +144,53 @@ namespace persistence.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<string>("addresContact")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("bloodType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("centerEmergency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("city")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("contactEmergency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("document")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eps")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("fullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("height")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phoneEmergency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rh")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("typeDocumentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("weight")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -156,6 +202,10 @@ namespace persistence.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("typeDocumentId")
+                        .IsUnique()
+                        .HasFilter("[typeDocumentId] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -217,6 +267,19 @@ namespace persistence.Migrations
                     b.HasIndex("ToothId");
 
                     b.ToTable("toothsOdontogram");
+                });
+
+            modelBuilder.Entity("Domine.typeDocument", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("typeDocument");
                 });
 
             modelBuilder.Entity("Domine.typeProcess", b =>
@@ -390,6 +453,13 @@ namespace persistence.Migrations
                     b.HasOne("Domine.User", "User")
                         .WithOne("odontogram")
                         .HasForeignKey("Domine.Odontogram", "UserId");
+                });
+
+            modelBuilder.Entity("Domine.User", b =>
+                {
+                    b.HasOne("Domine.typeDocument", "typeDocument")
+                        .WithOne("user")
+                        .HasForeignKey("Domine.User", "typeDocumentId");
                 });
 
             modelBuilder.Entity("Domine.UserAppoinments", b =>

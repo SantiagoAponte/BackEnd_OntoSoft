@@ -17,3 +17,12 @@ C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.pdb
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.csproj.AssemblyReference.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.GeneratedMSBuildEditorConfig.editorconfig
+D:\BackEnd_OntoSoft\Domine\bin\Debug\netcoreapp3.1\Domine.deps.json
+D:\BackEnd_OntoSoft\Domine\bin\Debug\netcoreapp3.1\Domine.dll
+D:\BackEnd_OntoSoft\Domine\bin\Debug\netcoreapp3.1\Domine.pdb
+D:\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.csprojAssemblyReference.cache
+D:\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.AssemblyInfoInputs.cache
+D:\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.AssemblyInfo.cs
+D:\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.csproj.CoreCompileInputs.cache
+D:\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.dll
+D:\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.pdb

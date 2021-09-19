@@ -27,3 +27,17 @@ C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Apl
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.pdb
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.AssemblyReference.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.GeneratedMSBuildEditorConfig.editorconfig
+D:\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Aplication.deps.json
+D:\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Aplication.dll
+D:\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Aplication.pdb
+D:\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Domine.dll
+D:\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\persistence.dll
+D:\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Domine.pdb
+D:\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\persistence.pdb
+D:\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csprojAssemblyReference.cache
+D:\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.AssemblyInfoInputs.cache
+D:\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.AssemblyInfo.cs
+D:\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.CoreCompileInputs.cache
+D:\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.CopyComplete
+D:\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.dll
+D:\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.pdb

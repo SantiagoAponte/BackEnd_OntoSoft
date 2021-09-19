@@ -56,7 +56,23 @@ namespace Aplication.Security
                         Username = user.UserName,
                         Token = _jwtGenerator.CreateToken(user, listRoles),
                         Email = user.Email,
-                        imagenPerfil = imagenUser
+                        imagenPerfil = imagenUser,
+                        PhoneNumber = user.PhoneNumber,
+                        phoneEmergency = user.phoneEmergency,
+                        contactEmergency = user.contactEmergency,
+                        addresContact = user.addresContact,
+                        centerEmergency = user.centerEmergency,
+                        eps = user.eps,
+                        dateBirth = user.dateBirth,
+                        city = user.city,
+                        address = user.address,
+                        gender = user.gender,
+                        document = user.document,
+                        height = user.height,
+                        weight = user.weight,
+                        rh = user.rh,
+                        bloodType = user.bloodType,
+                        typeDocumentId = user.typeDocumentId
                     };
                 }
                 else
@@ -66,7 +82,23 @@ namespace Aplication.Security
                         fullName = user.fullName,
                         Username = user.UserName,
                         Token = _jwtGenerator.CreateToken(user, listRoles),
-                        Email = user.Email
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        phoneEmergency = user.phoneEmergency,
+                        contactEmergency = user.contactEmergency,
+                        addresContact = user.addresContact,
+                        centerEmergency = user.centerEmergency,
+                        eps = user.eps,
+                        dateBirth = user.dateBirth,
+                        city = user.city,
+                        address = user.address,
+                        gender = user.gender,
+                        document = user.document,
+                        height = user.height,
+                        weight = user.weight,
+                        rh = user.rh,
+                        bloodType = user.bloodType,
+                        typeDocumentId = user.typeDocumentId
                     };
                 }
             }

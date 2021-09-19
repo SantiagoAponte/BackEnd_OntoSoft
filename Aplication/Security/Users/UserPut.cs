@@ -21,9 +21,25 @@ namespace Aplication.Security
         {
             // public string fullname { get; set; }
             public string Email { get; set; }
-            public string Password { get; set; }
+            public string PasswordHash { get; set; }
             public string Username { get; set; }
             public string fullname {get;set;}
+             public string PhoneNumber {get;set;}
+            public string phoneEmergency {get;set;}
+            public string contactEmergency {get;set;}
+            public string addresContact {get;set;}
+            public string centerEmergency {get;set;}
+            public string eps {get;set;}
+            public DateTime dateBirth {get;set;}
+            public string city {get;set;}
+            public string address {get;set;}
+            public string gender {get;set;}
+            public string document {get;set;}
+            public string height {get;set;}
+            public string weight {get;set;}
+            public char rh {get;set;}
+            public string bloodType {get;set;}
+            public string typeDocumentId {get;set;}
             public ImagenPerfil imagenPerfil { get; set; }
         }
 
@@ -33,7 +49,7 @@ namespace Aplication.Security
             {
                 // RuleFor(x => x.fullname).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor(x => x.Password).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor(x => x.PasswordHash).NotEmpty().WithMessage("El campo no debe estar vacio");
                 RuleFor(x => x.Username).NotEmpty().WithMessage("El campo no debe estar vacio");
             }
         }
@@ -98,8 +114,24 @@ namespace Aplication.Security
 
 
                 userIden.fullName = request.fullname;
-                userIden.PasswordHash = _passwordHasher.HashPassword(userIden, request.Password);
+                userIden.PasswordHash = _passwordHasher.HashPassword(userIden, request.PasswordHash);
                 userIden.Email = request.Email;
+                userIden.PhoneNumber = request.PhoneNumber;
+                userIden.phoneEmergency = request.phoneEmergency;
+                userIden.contactEmergency = request.contactEmergency;
+                userIden.addresContact = request.addresContact;
+                userIden.centerEmergency = request.centerEmergency;
+                userIden.eps = request.eps;
+                userIden.dateBirth = request.dateBirth;
+                userIden.city = request.city;
+                userIden.address = request.address;
+                userIden.gender = request.gender;
+                userIden.document = request.document;
+                userIden.height = request.height;
+                userIden.weight = request.weight;
+                userIden.rh = request.rh;
+                userIden.bloodType = request.bloodType;
+                userIden.typeDocumentId = request.typeDocumentId;
 
                 var resultadoUpdate = await _userManager.UpdateAsync(userIden);
 
@@ -127,7 +159,23 @@ namespace Aplication.Security
                         Username = userIden.UserName,
                         Email = userIden.Email,
                         Token = _jwtGenerator.CreateToken(userIden, listRoles),
-                        imagenPerfil = imagenProfile
+                        imagenPerfil = imagenProfile,
+                        PhoneNumber = userIden.PhoneNumber,
+                        phoneEmergency = userIden.phoneEmergency,
+                        contactEmergency = userIden.contactEmergency,
+                        addresContact = userIden.addresContact,
+                        centerEmergency = userIden.centerEmergency,
+                        eps = userIden.eps,
+                        dateBirth = userIden.dateBirth,
+                        city = userIden.city,
+                        address = userIden.address,
+                        gender = userIden.gender,
+                        document = userIden.document,
+                        height = userIden.height,
+                        weight = userIden.weight,
+                        rh = userIden.rh,
+                        bloodType = userIden.bloodType,
+                        typeDocumentId = userIden.typeDocumentId
                     };
                 }
 

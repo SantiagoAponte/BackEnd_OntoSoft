@@ -31,3 +31,19 @@ C:\Users\Santiago Aponte\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Secur
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.pdb
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.AssemblyReference.cache
 C:\Users\Santiago Aponte\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.GeneratedMSBuildEditorConfig.editorconfig
+D:\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Security.deps.json
+D:\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Security.dll
+D:\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Security.pdb
+D:\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Aplication.dll
+D:\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Domine.dll
+D:\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\persistence.dll
+D:\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Aplication.pdb
+D:\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Domine.pdb
+D:\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\persistence.pdb
+D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csprojAssemblyReference.cache
+D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.AssemblyInfoInputs.cache
+D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.AssemblyInfo.cs
+D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.CoreCompileInputs.cache
+D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.CopyComplete
+D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.dll
+D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.pdb

@@ -23,6 +23,8 @@ namespace Aplication
             /*Mapeo de todos los dientes con sus caracteristicas para cargarlos al odontograma */
             CreateMap<Odontogram, odontogramDto>()
             .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()));
+
+            CreateMap<User, UserPrueba>();
             
             // CreateMap<typeProcess, typeProcessDto>()
             // .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()) );
