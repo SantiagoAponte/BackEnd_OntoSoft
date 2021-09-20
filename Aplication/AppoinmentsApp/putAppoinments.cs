@@ -47,8 +47,8 @@ namespace Aplication.AppoinmentsApp
                     throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la cita"});
                 }
                 /*actualizar unicamente la información de la cita*/
-                appoinment.dateInit = DateTime.UtcNow;
-                appoinment.dateFinal = DateTime.UtcNow;
+                appoinment.dateInit = request.dateInit;
+                appoinment.dateFinal = request.dateFinal;
                 appoinment.Title = request.Title ?? appoinment.Title;
                 appoinment.Text = request.Text ?? appoinment.Text;
 

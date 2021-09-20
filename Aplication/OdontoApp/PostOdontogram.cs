@@ -11,13 +11,14 @@ namespace Aplication.AppoinmentsApp
 {
     public class PostOdontogram
     {
-         public class Execute : IRequest {
+        public class Execute : IRequest {
         public Guid? Id {get;set;}
         public DateTime date_register {get;set;}
         public string observation {get;set;}
         public List<Guid> typeProcess {get;set;}
         public List<Guid> Tooths {get;set;}
         public string UserId {get;set;} 
+        public Guid clinicHistoryId{get;set;}
         }
 
         public class ExecuteValidator : AbstractValidator<Execute>{
@@ -46,7 +47,8 @@ namespace Aplication.AppoinmentsApp
                    Id = odontogramId,
                    date_register = DateTime.UtcNow,
                    observation = request.observation,
-                   UserId = request.UserId
+                   UserId = request.UserId,
+                   clinicHistoryId = request.clinicHistoryId
                };
             
                 _context.Odontogram.Add(odontogram);

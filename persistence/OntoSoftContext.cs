@@ -24,8 +24,17 @@ namespace persistence
 
         public DbSet<toothsOdontogram> toothsOdontogram {get;set;}
         public DbSet<typeProcessTooth> typeProcessTooth {get;set;}
-        // public DbSet<typeProcessOdontogram> typeProcessOdontogram {get;set;}
-        // public DbSet<userOdontogram> userOdontogram {get;set;}
+        public DbSet<typeDocument> typeDocument {get;set;}
+        public DbSet<BackgroundMedical> backgroundMedicals {get;set;}
+        public DbSet<BackgroundOral> backgroundOrals {get;set;}
+        public DbSet<OralRadiography> oralRadiography {get;set;}
+
+        public DbSet<PatientEvolution> patientEvolution {get;set;}
+        public DbSet<TreamentPlan> treamentPlan {get;set;}
+        public DbSet<ClinicHistory> clinicHistories {get;set;}
+        public DbSet<backgroundMedicalClinicHistory> backgroundMedicalClinicHistories {get;set;}
+        public DbSet<backgroundOralClinicHistory> backgroundOralClinicHistories {get;set;}
+
         
 
         

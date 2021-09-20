@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Aplication.Security.Users;
 using Aplication.Security.Users.Dtos;
+using Domine;
 
 namespace WebApi.Controllers
 {
@@ -80,6 +81,13 @@ namespace WebApi.Controllers
         [HttpGet("AllUsers")]
         public async Task<ActionResult<List<UserPrueba>>> Get(){
             return await mediator.Send(new getAllUsers.ListUsers());
+        }
+
+        // https://localhost:5000/api/user/typeDocument
+        [HttpGet("typeDocument")]
+        public async Task<ActionResult<List<typeDocument>>> GetResult(){
+
+            return await mediator.Send(new getTypeDocument.ListTypeDocument());
         }
 
     }

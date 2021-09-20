@@ -23,15 +23,11 @@ namespace Domine
         public string weight {get;set;}
         public char rh {get;set;}
         public string bloodType {get;set;}
-
-
-
-
-        //falta añadirle la demas info del user, cuando guañarita acepte.
         public ICollection<UserAppoinments> appoinmentsLink {get;set;}
         public string typeDocumentId {get;set;}
         public Odontogram odontogram {get;set;}
         public typeDocument typeDocument {get;set;}
+        public ClinicHistory clinicHistory {get;}
       
 
 

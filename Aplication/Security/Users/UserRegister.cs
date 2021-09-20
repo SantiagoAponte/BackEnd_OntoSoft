@@ -60,7 +60,7 @@ namespace Aplication.Security
                     // Id = request.Id,
                     Email = request.Email,
                     UserName = request.Username,
-                    PasswordHash = request.Password,
+                    // PasswordHash = request.Password,
                     fullName = request.fullName
                     // Image = request.Image
                 };
@@ -71,7 +71,7 @@ namespace Aplication.Security
                     return new UserData {
                     Username = user.UserName,
                     Email = user.Email,
-                    PasswordHash = request.Password
+                    // PasswordHash = request.Password
                     };
                 }
                 throw new Exception("No se pudo agregar al nuevo usuario, verifique que su contraseña tenga al menos una mayuscula, numeros y un caracter especial");

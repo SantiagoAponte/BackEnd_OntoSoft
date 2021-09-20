@@ -36,7 +36,7 @@ namespace Aplication.AppoinmentsApp
 
                 if(appoinment==null){
                 //throw new Exception("No se puede eliminar curso");
-                throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro el curso"});
+                throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la cita"});
                 }
 
                 var appoinmentDto = _mapper.Map<Appoinments,AppoinmentsDto>(appoinment);

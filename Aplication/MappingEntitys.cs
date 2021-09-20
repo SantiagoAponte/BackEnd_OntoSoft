@@ -1,4 +1,5 @@
 using Aplication.AppoinmentsApp;
+using Aplication.ClinicHistoryApp.Dtos;
 using Aplication.OdontoApp.Dtos;
 using Aplication.Security;
 using Aplication.Security.Users.Dtos;
@@ -25,14 +26,27 @@ namespace Aplication
             .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()));
 
             CreateMap<User, UserPrueba>();
-            
-            // CreateMap<typeProcess, typeProcessDto>()
-            // .ForMember(x => x.tooths, y => y.MapFrom( z => z.toothLink.Select( a => a.Tooth).ToList()) );
-          
 
-            // CreateMap<tooth, toothDto>()
-            // .ForMember(x => x.odontograms, y => y.MapFrom( z => z.odontogramLink.Select( a => a.Odontogram).ToList()) )
-            // .ForMember(x => x.typeProcesses, y => y.MapFrom( z => z.typeProcessLink.Select( a => a.typeProcess).ToList()) );
+            /*Mapeo de todas las entidades que permiten construir en su totalidad la historia clinica*/
+            CreateMap<ClinicHistory, clinicHistoryDto>();
+            // .ForMember(x => x.BackgroundMedicals, y => y.MapFrom( z => z.BackgroundMedicalsLink.Select( a => a.BackgroundMedicals).ToList()) )
+            // .ForMember(x => x.BackgroundOrals, y => y.MapFrom( z => z.BackgroundOralsLink.Select( a => a.BackgroundOrals).ToList()) )
+            // .ForMember(x => x.patientEvolutions, y => y.MapFrom(z => z.patientEvolutionList))
+            // .ForMember(x => x.oralRadiographies, y => y.MapFrom(z => z.oralRadiographyList))
+            // .ForMember(x => x.treamentPlans, y => y.MapFrom(z => z.treamentPlanList))
+            // .ForMember(x => x.Odontograms, y => y.MapFrom(z => z.Odontogram));
+
+            CreateMap<BackgroundMedical, backgroundMedicalDto>();
+            CreateMap<BackgroundOral, backgroundOralDto>();
+            CreateMap<PatientEvolution, patientEvolutionDto>();
+            CreateMap<OralRadiography, oralRadiographyDto>();
+            CreateMap<TreamentPlan, treamentPlanDto>();
+
+            CreateMap<typeProcess, typeProcessDto>();
+
+            CreateMap<tooth, toothDto>()
+            // .ForMember(x => x.odontograms, y => y.MapFrom( z => z.odontogramLink.Select( a => a.Odontogram).ToList()) );
+            .ForMember(x => x.typeProcesses, y => y.MapFrom( z => z.typeProcessLink.Select( a => a.typeProcess).ToList()) );
 
             
             

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Aplication.AppoinmentsApp;
+using Aplication.ClinicHistoryApp;
 using Aplication.Interfaces;
 using Aplication.Interfaces.Contracts;
 using Aplication.Security;
@@ -80,6 +81,7 @@ namespace WebApi
 
             
             services.AddAutoMapper(typeof(GetAppoinment.Manager));
+            services.AddAutoMapper(typeof(getClinicHistoryWithUser.Manager));
             services.AddMediatR(typeof(UserRegister.Manager).Assembly);
             services.AddTransient<IMailService, SendGridMailService>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();

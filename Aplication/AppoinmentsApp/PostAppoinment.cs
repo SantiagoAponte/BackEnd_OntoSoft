@@ -24,6 +24,8 @@ namespace Aplication.AppoinmentsApp
             public ExecuteValidator(){
                 RuleFor( x => x.Title).NotEmpty().WithMessage("El campo no debe estar vacio");
                 RuleFor( x => x.Text).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.dateInit).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.dateFinal).NotEmpty().WithMessage("El campo no debe estar vacio");
             }
         }
 
@@ -44,8 +46,8 @@ namespace Aplication.AppoinmentsApp
 
                var appoinment = new Appoinments {
                    Id = appoinmentId,
-                   dateInit = DateTime.UtcNow,
-                   dateFinal = DateTime.UtcNow,
+                   dateInit = request.dateInit,
+                   dateFinal = request.dateFinal,
                    Title = request.Title,
                    Text = request.Text
                };

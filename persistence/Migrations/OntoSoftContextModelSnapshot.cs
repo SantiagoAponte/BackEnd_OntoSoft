@@ -42,6 +42,67 @@ namespace persistence.Migrations
                     b.ToTable("Appoinments");
                 });
 
+            modelBuilder.Entity("Domine.BackgroundMedical", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("backgroundMedicals");
+                });
+
+            modelBuilder.Entity("Domine.BackgroundOral", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("backgroundOrals");
+                });
+
+            modelBuilder.Entity("Domine.ClinicHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("backgroundMedical")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("backgroundOral")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("dateRegister")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("nameCompanion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phoneCompanion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("clinicHistories");
+                });
+
             modelBuilder.Entity("Domine.Galleries", b =>
                 {
                     b.Property<Guid>("Id")
@@ -77,6 +138,9 @@ namespace persistence.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid>("clinicHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("date_register")
                         .HasColumnType("datetime2");
 
@@ -89,7 +153,75 @@ namespace persistence.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
+                    b.HasIndex("clinicHistoryId");
+
                     b.ToTable("Odontogram");
+                });
+
+            modelBuilder.Entity("Domine.OralRadiography", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("clinicHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("dateRegister")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("observation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("clinicHistoryId");
+
+                    b.ToTable("oralRadiography");
+                });
+
+            modelBuilder.Entity("Domine.PatientEvolution", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("clinicHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("dateCreate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("observation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("clinicHistoryId");
+
+                    b.ToTable("patientEvolution");
+                });
+
+            modelBuilder.Entity("Domine.TreamentPlan", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("clinicHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("observation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("clinicHistoryId");
+
+                    b.ToTable("treamentPlan");
                 });
 
             modelBuilder.Entity("Domine.User", b =>
@@ -229,6 +361,48 @@ namespace persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserAppoinments");
+                });
+
+            modelBuilder.Entity("Domine.backgroundMedicalClinicHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BackgroundMedicalsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("clinicHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BackgroundMedicalsId");
+
+                    b.HasIndex("clinicHistoryId");
+
+                    b.ToTable("backgroundMedicalClinicHistories");
+                });
+
+            modelBuilder.Entity("Domine.backgroundOralClinicHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BackgroundOralsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("clinicHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BackgroundOralsId");
+
+                    b.HasIndex("clinicHistoryId");
+
+                    b.ToTable("backgroundOralClinicHistories");
                 });
 
             modelBuilder.Entity("Domine.tooth", b =>
@@ -448,11 +622,51 @@ namespace persistence.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domine.ClinicHistory", b =>
+                {
+                    b.HasOne("Domine.User", "user")
+                        .WithOne("clinicHistory")
+                        .HasForeignKey("Domine.ClinicHistory", "UserId");
+                });
+
             modelBuilder.Entity("Domine.Odontogram", b =>
                 {
                     b.HasOne("Domine.User", "User")
                         .WithOne("odontogram")
                         .HasForeignKey("Domine.Odontogram", "UserId");
+
+                    b.HasOne("Domine.ClinicHistory", "clinicHistory")
+                        .WithMany("Odontogram")
+                        .HasForeignKey("clinicHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domine.OralRadiography", b =>
+                {
+                    b.HasOne("Domine.ClinicHistory", "clinicHistory")
+                        .WithMany("oralRadiographyList")
+                        .HasForeignKey("clinicHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domine.PatientEvolution", b =>
+                {
+                    b.HasOne("Domine.ClinicHistory", "clinicHistory")
+                        .WithMany("patientEvolutionList")
+                        .HasForeignKey("clinicHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domine.TreamentPlan", b =>
+                {
+                    b.HasOne("Domine.ClinicHistory", "clinicHistory")
+                        .WithMany("treamentPlanList")
+                        .HasForeignKey("clinicHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domine.User", b =>
@@ -473,6 +687,36 @@ namespace persistence.Migrations
                     b.HasOne("Domine.User", "User")
                         .WithMany("appoinmentsLink")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Domine.backgroundMedicalClinicHistory", b =>
+                {
+                    b.HasOne("Domine.BackgroundMedical", "BackgroundMedicals")
+                        .WithMany("clinicHistoryLink")
+                        .HasForeignKey("BackgroundMedicalsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domine.ClinicHistory", "clinicHistory")
+                        .WithMany("BackgroundMedicalsLink")
+                        .HasForeignKey("clinicHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domine.backgroundOralClinicHistory", b =>
+                {
+                    b.HasOne("Domine.BackgroundOral", "BackgroundOrals")
+                        .WithMany("clinicHistoryLink")
+                        .HasForeignKey("BackgroundOralsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domine.ClinicHistory", "clinicHistory")
+                        .WithMany("BackgroundOralsLink")
+                        .HasForeignKey("clinicHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domine.toothsOdontogram", b =>
