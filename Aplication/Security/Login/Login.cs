@@ -13,12 +13,13 @@ using Aplication.ManagerExcepcion;
 using Domine;
 using persistence;
 using Aplication.Interfaces.Contracts;
+using Aplication.Security.Users.Dtos;
 
 namespace Aplication.Security
 {
     public class Login
     {
-        public class Execute : IRequest<UserData>
+        public class Execute : IRequest<userLoginDto>
         {
             public string Email { get; set; }
             public string Password { get; set; }
@@ -33,7 +34,7 @@ namespace Aplication.Security
             }
         }
 
-        public class Manager : IRequestHandler<Execute, UserData>
+        public class Manager : IRequestHandler<Execute, userLoginDto>
         {
 
             private readonly UserManager<User> _userManager;
@@ -48,7 +49,7 @@ namespace Aplication.Security
                 _jwtGenerator = jwtGenerator;
                 _context = context;
             }
-            public async Task<UserData> Handle(Execute request, CancellationToken cancellationToken)
+            public async Task<userLoginDto> Handle(Execute request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByEmailAsync(request.Email);
                 if (user == null)
@@ -72,56 +73,59 @@ namespace Aplication.Security
                             Extension = imagenPerfil.Extension,
                             Name = imagenPerfil.Name
                         };
-                        return new UserData
+                        return new userLoginDto
                         {
-                            fullName = user.fullName,
+                            // fullName = user.fullName,
+                            Message = "Login exitoso!",
                             Token = _jwtGenerator.CreateToken(user, listRoles),
-                            Username = user.UserName,
-                            Email = user.Email,
-                            PhoneNumber = user.PhoneNumber,
-                            phoneEmergency = user.phoneEmergency,
-                            contactEmergency = user.contactEmergency,
-                            addresContact = user.addresContact,
-                            centerEmergency = user.centerEmergency,
-                            eps = user.eps,
-                            dateBirth = user.dateBirth,
-                            city = user.city,
-                            address = user.address,
-                            gender = user.gender,
-                            document = user.document,
-                            height = user.height,
-                            weight = user.weight,
-                            rh = user.rh,
-                            bloodType = user.bloodType,
-                            typeDocumentId = user.typeDocumentId,
+                            
+                            // Username = user.UserName,
+                            // Email = user.Email,
+                            // PhoneNumber = user.PhoneNumber,
+                            // phoneEmergency = user.phoneEmergency,
+                            // contactEmergency = user.contactEmergency,
+                            // addresContact = user.addresContact,
+                            // centerEmergency = user.centerEmergency,
+                            // eps = user.eps,
+                            // dateBirth = user.dateBirth,
+                            // city = user.city,
+                            // address = user.address,
+                            // gender = user.gender,
+                            // document = user.document,
+                            // height = user.height,
+                            // weight = user.weight,
+                            // rh = user.rh,
+                            // bloodType = user.bloodType,
+                            // typeDocumentId = user.typeDocumentId,
                             imagenPerfil = imagenProfile
                         };
                     }
                     else
                     {
-                        return new UserData
+                        return new userLoginDto
                         {
-                            fullName = user.fullName,
-                            Token = _jwtGenerator.CreateToken(user, listRoles),
-                            Username = user.UserName,
-                            Email = user.Email,
-                            imagenPerfil = null,
-                            PhoneNumber = user.PhoneNumber,
-                            phoneEmergency = user.phoneEmergency,
-                            contactEmergency = user.contactEmergency,
-                            addresContact = user.addresContact,
-                            centerEmergency = user.centerEmergency,
-                            eps = user.eps,
-                            dateBirth = user.dateBirth,
-                            city = user.city,
-                            address = user.address,
-                            gender = user.gender,
-                            document = user.document,
-                            height = user.height,
-                            weight = user.weight,
-                            rh = user.rh,
-                            bloodType = user.bloodType,
-                            typeDocumentId = user.typeDocumentId
+                            // fullName = user.fullName,
+                            Message = "Login exitoso!",
+                            Token = _jwtGenerator.CreateToken(user, listRoles)
+                            // Username = user.UserName,
+                            // Email = user.Email,
+                            // imagenPerfil = null,
+                            // PhoneNumber = user.PhoneNumber,
+                            // phoneEmergency = user.phoneEmergency,
+                            // contactEmergency = user.contactEmergency,
+                            // addresContact = user.addresContact,
+                            // centerEmergency = user.centerEmergency,
+                            // eps = user.eps,
+                            // dateBirth = user.dateBirth,
+                            // city = user.city,
+                            // address = user.address,
+                            // gender = user.gender,
+                            // document = user.document,
+                            // height = user.height,
+                            // weight = user.weight,
+                            // rh = user.rh,
+                            // bloodType = user.bloodType,
+                            // typeDocumentId = user.typeDocumentId
                         };
                     }
                 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Domine
 {
@@ -6,6 +7,6 @@ namespace Domine
     {
         public string Id {get;set;}
         public string description {get;set;}
-        public User user {get;set;}
+        public ICollection<User> userLista {get;set;}
     }
 }

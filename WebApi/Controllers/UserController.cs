@@ -28,13 +28,13 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public async Task<ActionResult<UserData>> Login(Login.Execute data){
+        public async Task<ActionResult<userLoginDto>> Login(Login.Execute data){
             return await mediator.Send(data);
         }
         // https://localhost:5000/api/user/register
         [AllowAnonymous]
         [HttpPost("Register")] 
-        public async Task<ActionResult<UserData>> Register(UserRegister.Execute data){
+        public async Task<ActionResult<userRegisterDto>> Register(UserRegister.Execute data){
             return await mediator.Send(data);
         }
 

@@ -13,8 +13,8 @@ namespace Security.Token
         }
         public string ObtainUserSesion()
         {
-            var userName = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type==ClaimTypes.NameIdentifier)?.Value;
-            return userName;
+            var email = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type==ClaimTypes.Email)?.Value;
+            return email;
         }
     }
 }

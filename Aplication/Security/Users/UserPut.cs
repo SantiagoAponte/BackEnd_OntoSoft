@@ -39,7 +39,7 @@ namespace Aplication.Security
             public string weight {get;set;}
             public char rh {get;set;}
             public string bloodType {get;set;}
-            public string typeDocumentId {get;set;}
+            public List<string> typeDocumentId {get;set;}
             public ImagenPerfil imagenPerfil { get; set; }
         }
 
@@ -111,8 +111,6 @@ namespace Aplication.Security
 
                 }
 
-
-
                 userIden.fullName = request.fullname;
                 userIden.PasswordHash = _passwordHasher.HashPassword(userIden, request.PasswordHash);
                 userIden.Email = request.Email;
@@ -131,7 +129,11 @@ namespace Aplication.Security
                 userIden.weight = request.weight;
                 userIden.rh = request.rh;
                 userIden.bloodType = request.bloodType;
-                userIden.typeDocumentId = request.typeDocumentId;
+
+                userIden.typeDocumentId = "default";
+               foreach(var _id in request.typeDocumentId){
+                 userIden.typeDocumentId = _id;
+               } 
 
                 var resultadoUpdate = await _userManager.UpdateAsync(userIden);
 

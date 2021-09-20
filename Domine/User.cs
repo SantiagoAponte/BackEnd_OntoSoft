@@ -8,23 +8,23 @@ namespace Domine
     {
         public override string Id {get;set;}
         public string fullName {get;set;}
-        public override string PhoneNumber {get;set;}
-        public string phoneEmergency {get;set;}
-        public string contactEmergency {get;set;}
-        public string addresContact {get;set;}
-        public string centerEmergency {get;set;}
-        public string eps {get;set;}
-        public DateTime dateBirth {get;set;}
-        public string city {get;set;}
-        public string address {get;set;}
-        public string gender {get;set;}
-        public string document {get;set;}
-        public string height {get;set;}
-        public string weight {get;set;}
-        public char rh {get;set;}
-        public string bloodType {get;set;}
+        public override string PhoneNumber {get;set;} = "default";
+        public string phoneEmergency {get;set;} = "default";
+        public string contactEmergency {get;set;} = "default";
+        public string addresContact {get;set;} = "default";
+        public string centerEmergency {get;set;} = "default";
+        public string eps {get;set;} = "default";
+        public DateTime dateBirth {get;set;} = DateTime.UtcNow;
+        public string city {get;set;} = "default";
+        public string address {get;set;} = "default";
+        public string gender {get;set;} = "default";
+        public string document {get;set;} = "default";
+        public string height {get;set;} = "default";
+        public string weight {get;set;} = "default";
+        public char rh {get;set;} = 'x';
+        public string bloodType {get;set;} = "default";
         public ICollection<UserAppoinments> appoinmentsLink {get;set;}
-        public string typeDocumentId {get;set;}
+        public string typeDocumentId {get;set;}  = "default";
         public Odontogram odontogram {get;set;}
         public typeDocument typeDocument {get;set;}
         public ClinicHistory clinicHistory {get;}

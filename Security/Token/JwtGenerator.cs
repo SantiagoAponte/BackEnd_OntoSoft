@@ -14,12 +14,31 @@ namespace Security.Token
         public string CreateToken(User usuario, List<string> roles)
         {
             var claims = new List<Claim>{
-                new Claim(JwtRegisteredClaimNames.NameId, usuario.UserName)
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Id),
+                new Claim(JwtRegisteredClaimNames.NameId, usuario.UserName),
+                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
             };
 
             if(roles != null){
                 foreach(var rol  in roles){
                     claims.Add(new Claim(ClaimTypes.Role, rol ));
+                    claims.Add(new Claim("fullName", usuario.fullName));
+                    claims.Add(new Claim("PhoneNumber", usuario.PhoneNumber));
+                    // claims.Add(new Claim("phoneEmergency", usuario.phoneEmergency));
+                    // claims.Add(new Claim("contactEmergency", usuario.contactEmergency));
+                    // claims.Add(new Claim("addressContact", usuario.addresContact));
+                    // claims.Add(new Claim("centerEmergency", usuario.centerEmergency));
+                    // claims.Add(new Claim("eps", usuario.eps));
+                    // claims.Add(new Claim("dateBirth", usuario.dateBirth.Date.ToString()));
+                    // claims.Add(new Claim("city", usuario.city));
+                    // claims.Add(new Claim("address", usuario.address));
+                    // claims.Add(new Claim("gender", usuario.gender));
+                    // claims.Add(new Claim("document", usuario.document));
+                    // claims.Add(new Claim("height", usuario.height));
+                    // claims.Add(new Claim("weigth", usuario.weight));
+                    // claims.Add(new Claim("rh", usuario.rh.ToString()));
+                    // claims.Add(new Claim("bloodType", usuario.bloodType));
+                    // claims.Add(new Claim("typeDocument", usuario.typeDocument.ToString()));
                 }
             }
 
