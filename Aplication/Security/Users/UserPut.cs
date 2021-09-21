@@ -81,7 +81,7 @@ namespace Aplication.Security
                 var result = await _context.Users.Where(x => x.Email == request.Email && x.UserName != request.Username).AnyAsync();
                 if (result)
                 {
-                    throw new ManagerError(HttpStatusCode.InternalServerError, new { mensaje = "Este email pertenece a otro usuario" });
+                    throw new ManagerError(HttpStatusCode.InternalServerError, new { mensaje = "Este email o username pertenece a otro usuario" });
                 }
 
                 if (request.imagenPerfil != null)

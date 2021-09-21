@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Aplication.ClinicHistoryApp;
 using Aplication.ClinicHistoryApp.BackgroundMedicalApp;
@@ -18,7 +19,7 @@ namespace WebApi.Controllers
     {
         
         [HttpGet("users/{id}")]
-        public async Task<ActionResult<clinicHistoryDto>> GetActionAsync(string id){
+        public async Task<ActionResult<clinicHistoryDto>> GetActionResultAsync(string id){
             return await mediator.Send(new getClinicHistoryWithUser.OneClinicHistoryUser{Id = id});
         }
 
@@ -28,9 +29,13 @@ namespace WebApi.Controllers
             return await mediator.Send(new getAllBackgroundOral.ListbackgroundOral());
         }
         [HttpGet("backgroundMedical")]
-        public async Task<ActionResult<List<BackgroundMedical>>> GetTask(){
+        public async Task<ActionResult<List<BackgroundMedical>>> GetResultAsync(){
 
             return await mediator.Send(new getAllBackgroundMedical.ListbackgroundMedical());
+        }
+          [HttpGet("exportPdf/{id}")]
+         public async Task<ActionResult<Stream>> GetTask(string id){
+             return await mediator.Send(new ExportPdf.getClinicHistoryInPdf(id));
         }
 
         [HttpPost("addClinicHistory")]
@@ -65,6 +70,5 @@ namespace WebApi.Controllers
             return await mediator.Send(data);
         }
 
-        
     }
 }

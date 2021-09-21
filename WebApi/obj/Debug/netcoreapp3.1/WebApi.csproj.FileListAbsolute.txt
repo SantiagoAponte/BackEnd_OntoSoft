@@ -267,3 +267,5 @@ D:\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\staticwebassets\WebApi.Static
 D:\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.dll
 D:\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.pdb
 D:\BackEnd_OntoSoft\WebApi\obj\Debug\netcoreapp3.1\WebApi.genruntimeconfig.cache
+D:\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\iTextSharp.LGPLv2.Core.dll
+D:\BackEnd_OntoSoft\WebApi\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll

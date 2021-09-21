@@ -24,10 +24,10 @@ namespace Domine
         public char rh {get;set;} = 'x';
         public string bloodType {get;set;} = "default";
         public ICollection<UserAppoinments> appoinmentsLink {get;set;}
-        public string typeDocumentId {get;set;}  = "default";
+        public string typeDocumentId {get;set;}  = "CAC8B6D5-7D79-4455-B903-9F2B3DBC5293";
         public Odontogram odontogram {get;set;}
-        public typeDocument typeDocument {get;set;}
-        public ClinicHistory clinicHistory {get;}
+        public typeDocument typeDocument {get;set;} 
+        public ClinicHistory clinicHistory {get;set;}
       
 
 

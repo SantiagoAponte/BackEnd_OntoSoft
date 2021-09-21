@@ -73,6 +73,7 @@ namespace Aplication.Security
                     Username = user.UserName,
                     Token = _jwtGenerator.CreateToken(user, null),
                     Email = user.Email,
+                    fullName = request.fullName
                     };
                 }
                 throw new Exception("No se pudo agregar al nuevo usuario, verifique que su contraseña tenga al menos una mayuscula, numeros y un caracter especial");

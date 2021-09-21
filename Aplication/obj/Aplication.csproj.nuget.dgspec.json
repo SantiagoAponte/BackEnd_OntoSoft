@@ -66,6 +66,10 @@
             "System.Linq": {
               "target": "Package",
               "version": "[4.3.0, )"
+            },
+            "iTextSharp.LGPLv2.Core": {
+              "target": "Package",
+              "version": "[1.6.7, )"
             }
           },
           "imports": [
