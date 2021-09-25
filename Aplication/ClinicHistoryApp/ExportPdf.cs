@@ -42,8 +42,10 @@ namespace Aplication.ClinicHistoryApp
             public async Task<Stream> Handle(getClinicHistoryInPdf request, CancellationToken cancellationToken)
             {
                 Font fontTitle = new Font(Font.HELVETICA, 20f, Font.BOLD, BaseColor.Black);
-                Font fontHeader = new Font(Font.HELVETICA, 8f, Font.BOLD, BaseColor.Black);
+                Font fontHeader = new Font(Font.HELVETICA, 9f, Font.BOLD, BaseColor.Black);
                 Font fontData = new Font(Font.HELVETICA, 8f, Font.NORMAL, BaseColor.DarkGray);
+                 Font fontTitleAntecedent = new Font(Font.HELVETICA, 9f, Font.BOLD, BaseColor.Black);
+                Font fontDataAntecedent = new Font(Font.HELVETICA, 9f, Font.NORMAL, BaseColor.Black);
                 
                 
               var clinicHistory = await _context.clinicHistories.Where(a => a.UserId == request.Id)
@@ -93,10 +95,11 @@ namespace Aplication.ClinicHistoryApp
                 /*Logica para marcar los antecedentes orales que tiene el paciente*/
                 var idTableBackgroundOrals = _context.backgroundOrals.ToList();  
                 /*Logica para marcar los tratamientos del paciente*/
-
+                var treamentData = _context.treamentPlan.ToList();
                 /*Logica para marcar las radiografias del paciente*/
-
+                var radiographyData = _context.oralRadiography.ToList();
                 /*Logica para marcar las evoluciones del paciente*/
+                var patientEvolutionData = _context.patientEvolution.ToList();
                        
                 //AQUI ES DONDE INICIA LA CONSTRUCCION DE LOS ESTILOS DEL PDF.
                 document.Open();
@@ -125,6 +128,7 @@ namespace Aplication.ClinicHistoryApp
                 infoGeneral.WidthPercentage = 90f;
                 PdfPCell cellinfoGeneral = new PdfPCell(new Phrase("1. INFORMACIÓN GENERAL", fontHeader )) ;
                 cellinfoGeneral.Border = Rectangle.NO_BORDER;
+                infoGeneral.SpacingAfter = 3;
                 infoGeneral.AddCell(cellinfoGeneral);
                 document.Add(infoGeneral);
 
@@ -138,7 +142,7 @@ namespace Aplication.ClinicHistoryApp
 
                 PdfPCell cellHeaderHCnum = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
                 Phrase = new Phrase(
-                    "Historia Clinica No.                                                                                         " //espacio necesario para situar el texto (no permitio por estilos)
+                    "Historia Clinica No.                                                                       " //espacio necesario para situar el texto (no permitio por estilos)
                     + atribute.Id.ToString(), fontHeader)};
 
                 tablenumHc.AddCell(cellHeaderHCnum);
@@ -153,7 +157,7 @@ namespace Aplication.ClinicHistoryApp
                 foreach (var atribute in clinicHistory){
 
                 PdfPCell cellDateCreate = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Fecha de Elaboración                                                                                                                            " //espacio necesario para situar el texto (no permitio por estilos)
+                Phrase = new Phrase("Fecha de Elaboración                                                                                                       " //espacio necesario para situar el texto (no permitio por estilos)
                 + atribute.dateRegister.ToShortDateString(),fontHeader )};
 
                 tabledateCreate.AddCell(cellDateCreate);
@@ -167,6 +171,7 @@ namespace Aplication.ClinicHistoryApp
                 infoGeneralUser.WidthPercentage = 90f;
                 PdfPCell cellinfoGeneralUser = new PdfPCell(new Phrase("2. INFORMACIÓN GENERAL DEL PACIENTE", fontHeader )) ;
                 cellinfoGeneralUser.Border = Rectangle.NO_BORDER;
+                infoGeneralUser.SpacingAfter = 3;
                 infoGeneralUser.AddCell(cellinfoGeneralUser);
                 document.Add(infoGeneralUser);
 
@@ -209,7 +214,7 @@ namespace Aplication.ClinicHistoryApp
 
                 /* SECCION DONDE INGRESA SU INFO COMO TIPO DE SANGRE, PESO,  ETC*/
                  PdfPTable tableInfo = new PdfPTable(6);
-                float[] widths4 = new float[] { 40f, 60f, 40f, 40f, 40f,40f};
+                float[] widths4 = new float[] { 60f, 35f, 60f, 60f, 60f, 40f};
                 tableInfo.SetWidthPercentage(widths4, rect);
 
                 PdfPCell cellheaderGender = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -270,7 +275,7 @@ namespace Aplication.ClinicHistoryApp
 
                 /*Tabla que incluye datos como direccion propios y de contacto de emergencia*/
                  PdfPTable tableInfoSummary = new PdfPTable(7);
-                float[] widths5 = new float[] { 40f, 60f, 40f, 40f, 40f, 40f, 40f};
+                float[] widths5 = new float[] { 60f, 45f, 60f, 60f, 60f, 40f, 60f};
                 tableInfoSummary.SetWidthPercentage(widths5, rect);
 
                 PdfPCell cellheaderAddress = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -345,27 +350,101 @@ namespace Aplication.ClinicHistoryApp
                 PdfPCell cellInfoAntecedentMedical = new PdfPCell(new Phrase("3. ANTECEDENTES MEDICOS Y ODONTOLOGICOS GENERALES", fontHeader )) ;
                 cellInfoAntecedentMedical.Border = Rectangle.NO_BORDER;
                 infoAntecedentMedical.AddCell(cellInfoAntecedentMedical);
+                infoAntecedentMedical.SpacingAfter = 5;
                 document.Add(infoAntecedentMedical);
 
+                /*Tabla que contiene las dos tablas de antecedentes, medicos y orales*/
+                PdfPTable mtable = new PdfPTable(2);
+                mtable.WidthPercentage = 90;
+                mtable.SpacingAfter = -3;
+                mtable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m2table = new PdfPTable(2);
+                m2table.WidthPercentage = 90;
+                m2table.SpacingAfter = -3;
+                m2table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m3table = new PdfPTable(2);
+                m3table.WidthPercentage = 90;
+                m3table.SpacingAfter = -3;
+                m3table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m4table = new PdfPTable(2);
+                m4table.WidthPercentage = 90;
+                m4table.SpacingAfter = -3;
+                m4table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m5table = new PdfPTable(2);
+                m5table.WidthPercentage = 90;
+                m5table.SpacingAfter = -3;
+                m5table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m6table = new PdfPTable(2);
+                m6table.WidthPercentage = 90;
+                m6table.SpacingAfter = -3;
+                m6table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m7table = new PdfPTable(2);
+                m7table.WidthPercentage = 90;
+                m7table.SpacingAfter = -3;
+                m7table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m8table = new PdfPTable(2);
+                m8table.WidthPercentage = 90;
+                m8table.SpacingAfter = -3;
+                m8table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m9table = new PdfPTable(2);
+                m9table.WidthPercentage = 90;
+                m9table.SpacingAfter = -3;
+                m9table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m10table = new PdfPTable(2);
+                m10table.WidthPercentage = 90;
+                m10table.SpacingAfter = -3;
+                m10table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m11table = new PdfPTable(2);
+                m11table.WidthPercentage = 90;
+                m11table.SpacingAfter = -3;
+                m11table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m12table = new PdfPTable(2);
+                m12table.WidthPercentage = 90;
+                m12table.SpacingAfter = -3;
+                m12table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m13table = new PdfPTable(2);
+                m13table.WidthPercentage = 90;
+                m13table.SpacingAfter = -3;
+                m13table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m14table = new PdfPTable(2);
+                m14table.WidthPercentage = 90;
+                m14table.SpacingAfter = -3;
+                m14table.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable m15table = new PdfPTable(2);
+                m15table.WidthPercentage = 90;
+                m15table.SpacingAfter = -3;
+                m15table.DefaultCell.Border = Rectangle.NO_BORDER;
+
                 PdfPTable tableAntecedentMedical = new PdfPTable(3);
-                // tableAntecedentMedical.HorizontalAlignment = 1;
-                tableAntecedentMedical.TotalWidth = 50f;
                 PdfPCell cellTypeAntecedent = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Tipo de Antecedente" , fontHeader )};
+                Phrase = new Phrase("Nombre Antecedente" , fontTitleAntecedent )};
 
                 PdfPCell cellBackgroundObtainTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Si" , fontHeader )};
+                Phrase = new Phrase("Si" , fontTitleAntecedent )};
 
                  PdfPCell cellBackgroundObtainFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("No" , fontHeader )};
+                Phrase = new Phrase("No" , fontTitleAntecedent )};
                 tableAntecedentMedical.AddCell(cellTypeAntecedent);
                 tableAntecedentMedical.AddCell(cellBackgroundObtainTrue);
                 tableAntecedentMedical.AddCell(cellBackgroundObtainFalse);
 
-                PdfPTable tableBackgrounds = new PdfPTable(3);
-                tableBackgrounds.HorizontalAlignment = 1;
-                tableBackgrounds.TotalWidth = 175f;
 
+                PdfPTable tableBackgrounds = new PdfPTable(3);
+                tableBackgrounds.TotalWidth = 50f;
                 foreach (var atribute in clinicHistory)
                 { 
                 var backgroundInTrue = "";
@@ -380,7 +459,7 @@ namespace Aplication.ClinicHistoryApp
                     }  
                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[0].description, fontHeader )};
+                Phrase = new Phrase( "1. "+idTableBackgroundMedicals[0].description, fontDataAntecedent )};
                 tableBackgrounds.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -394,8 +473,6 @@ namespace Aplication.ClinicHistoryApp
                 }
 
                  PdfPTable tableBackgrounds2 = new PdfPTable(3);
-                tableBackgrounds2.HorizontalAlignment = 1;
-                tableBackgrounds2.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -411,7 +488,7 @@ namespace Aplication.ClinicHistoryApp
                     }  
                     
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[1].description, fontHeader )};
+                Phrase = new Phrase( "2. "+idTableBackgroundMedicals[1].description, fontDataAntecedent )};
                 tableBackgrounds2.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -424,8 +501,6 @@ namespace Aplication.ClinicHistoryApp
         
                 }
                 PdfPTable tableBackgrounds3 = new PdfPTable(3);
-                tableBackgrounds2.HorizontalAlignment = 1;
-                tableBackgrounds2.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -441,7 +516,7 @@ namespace Aplication.ClinicHistoryApp
                     }   
                     
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[2].description, fontHeader )};
+                Phrase = new Phrase("3. "+ idTableBackgroundMedicals[2].description, fontDataAntecedent )};
                 tableBackgrounds3.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -454,8 +529,6 @@ namespace Aplication.ClinicHistoryApp
             
                 }
                 PdfPTable tableBackgrounds4 = new PdfPTable(3);
-                tableBackgrounds4.HorizontalAlignment = 1;
-                tableBackgrounds4.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -471,7 +544,7 @@ namespace Aplication.ClinicHistoryApp
                     }   
                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(idTableBackgroundMedicals[3].description, fontHeader )};
+                Phrase = new Phrase("4. "+idTableBackgroundMedicals[3].description, fontDataAntecedent )};
                 tableBackgrounds4.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -484,8 +557,6 @@ namespace Aplication.ClinicHistoryApp
                
                 }
                 PdfPTable tableBackgrounds5 = new PdfPTable(3);
-                tableBackgrounds5.HorizontalAlignment = 1;
-                tableBackgrounds5.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -500,7 +571,7 @@ namespace Aplication.ClinicHistoryApp
                         backgroundInFalse = backgroundObtainFalse;
                     }  
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[4].description, fontHeader )};
+                Phrase = new Phrase( "5. "+idTableBackgroundMedicals[4].description, fontDataAntecedent )};
                 tableBackgrounds5.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -513,8 +584,6 @@ namespace Aplication.ClinicHistoryApp
                 }
 
                 PdfPTable tableBackgrounds6 = new PdfPTable(3);
-                tableBackgrounds5.HorizontalAlignment = 1;
-                tableBackgrounds5.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -529,7 +598,7 @@ namespace Aplication.ClinicHistoryApp
                         backgroundInFalse = backgroundObtainFalse;
                     }  
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[5].description, fontHeader )};
+                Phrase = new Phrase( "6. "+idTableBackgroundMedicals[5].description, fontDataAntecedent )};
                 tableBackgrounds6.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -541,8 +610,7 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds6.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds7 = new PdfPTable(3);
-                tableBackgrounds7.HorizontalAlignment = 1;
-                tableBackgrounds7.TotalWidth = 175f;
+                tableBackgrounds7.TotalWidth = 50f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -559,7 +627,7 @@ namespace Aplication.ClinicHistoryApp
                 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[6].description, fontHeader )};
+                Phrase = new Phrase( "7. "+idTableBackgroundMedicals[6].description, fontDataAntecedent )};
                 tableBackgrounds7.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -571,8 +639,6 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds7.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds8 = new PdfPTable(3);
-                tableBackgrounds8.HorizontalAlignment = 1;
-                tableBackgrounds8.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -588,7 +654,7 @@ namespace Aplication.ClinicHistoryApp
                     } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[7].description, fontHeader )};
+                Phrase = new Phrase( "8. "+idTableBackgroundMedicals[7].description, fontDataAntecedent )};
                 tableBackgrounds8.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -600,8 +666,6 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds8.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds9 = new PdfPTable(3);
-                tableBackgrounds9.HorizontalAlignment = 1;
-                tableBackgrounds9.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -617,7 +681,7 @@ namespace Aplication.ClinicHistoryApp
                     } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[8].description, fontHeader )};
+                Phrase = new Phrase( "9. "+idTableBackgroundMedicals[8].description, fontDataAntecedent )};
                 tableBackgrounds9.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -629,8 +693,6 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds9.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds10 = new PdfPTable(3);
-                tableBackgrounds10.HorizontalAlignment = 1;
-                tableBackgrounds10.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -646,7 +708,7 @@ namespace Aplication.ClinicHistoryApp
                     } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[9].description, fontHeader )};
+                Phrase = new Phrase( "10. "+idTableBackgroundMedicals[9].description, fontDataAntecedent )};
                 tableBackgrounds10.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -658,8 +720,6 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds10.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds11 = new PdfPTable(3);
-                tableBackgrounds11.HorizontalAlignment = 1;
-                tableBackgrounds11.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -675,7 +735,7 @@ namespace Aplication.ClinicHistoryApp
                     } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[10].description, fontHeader )};
+                Phrase = new Phrase( "11. "+idTableBackgroundMedicals[10].description, fontDataAntecedent )};
                 tableBackgrounds11.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -687,8 +747,6 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds11.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds12 = new PdfPTable(3);
-                tableBackgrounds12.HorizontalAlignment = 1;
-                tableBackgrounds12.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -704,7 +762,7 @@ namespace Aplication.ClinicHistoryApp
                     } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[11].description, fontHeader )};
+                Phrase = new Phrase( "12. "+idTableBackgroundMedicals[11].description, fontDataAntecedent )};
                 tableBackgrounds12.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -716,8 +774,6 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds12.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds13 = new PdfPTable(3);
-                tableBackgrounds13.HorizontalAlignment = 1;
-                tableBackgrounds13.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -733,7 +789,7 @@ namespace Aplication.ClinicHistoryApp
                     } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[12].description, fontHeader )};
+                Phrase = new Phrase( "13. "+idTableBackgroundMedicals[12].description, fontDataAntecedent )};
                 tableBackgrounds13.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -745,8 +801,6 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds13.AddCell(cellBackgroundFalse);
                 }
                  PdfPTable tableBackgrounds14 = new PdfPTable(3);
-                tableBackgrounds14.HorizontalAlignment = 1;
-                tableBackgrounds14.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 {
@@ -762,7 +816,7 @@ namespace Aplication.ClinicHistoryApp
                     } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundMedicals[13].description, fontHeader )};
+                Phrase = new Phrase( "14. "+idTableBackgroundMedicals[13].description, fontDataAntecedent )};
                 tableBackgrounds14.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -790,6 +844,7 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds13.HorizontalAlignment = Element.ALIGN_LEFT;
                 tableBackgrounds14.HorizontalAlignment = Element.ALIGN_LEFT;
 
+
                 float[] widths8 = new float[] { 120f, 50f, 50f};
                 tableAntecedentMedical.SetWidthPercentage(widths8, rect);
                 tableBackgrounds.SetWidthPercentage(widths8, rect);
@@ -807,42 +862,27 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds13.SetWidthPercentage(widths8, rect);
                 tableBackgrounds14.SetWidthPercentage(widths8, rect);
 
+                           
 
-                /*CONSTRUCCION DE LAS TABLAS PARA LOS ANTECEDENTES MEDICOS*/     
-                document.Add(tableAntecedentMedical);
-                document.Add(tableBackgrounds);
-                document.Add(tableBackgrounds2);
-                document.Add(tableBackgrounds3);
-                document.Add(tableBackgrounds4);
-                document.Add(tableBackgrounds5);
-                document.Add(tableBackgrounds6);
-                document.Add(tableBackgrounds7);
-                document.Add(tableBackgrounds8);
-                document.Add(tableBackgrounds9);
-                document.Add(tableBackgrounds10);
-                document.Add(tableBackgrounds11);
-                document.Add(tableBackgrounds12);
-                document.Add(tableBackgrounds13);
-                document.Add(tableBackgrounds14);
 
+                /*CONSTRUCCION DE LAS TABLAS PARA LOS ANTECEDENTES MEDICOS*/   
+                
                 PdfPTable tableAntecedentOral = new PdfPTable(3);
-                // tableAntecedentMedical.HorizontalAlignment = 1;
                 tableAntecedentOral.TotalWidth = 50f;
                 PdfPCell cellTypeAntecedentOral = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Tipo de Antecedente" , fontHeader )};
+                Phrase = new Phrase("Nombre Antecedente" , fontTitleAntecedent )};
 
                 PdfPCell cellBackgroundObtainTrueOral = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Si" , fontHeader )};
+                Phrase = new Phrase("Si" , fontTitleAntecedent )};
 
                  PdfPCell cellBackgroundObtainFalseOral = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("No" , fontHeader )};
+                Phrase = new Phrase("No" , fontTitleAntecedent )};
                 tableAntecedentOral.AddCell(cellTypeAntecedentOral);
                 tableAntecedentOral.AddCell(cellBackgroundObtainTrueOral);
                 tableAntecedentOral.AddCell(cellBackgroundObtainFalseOral);
 
                 PdfPTable tableBackgroundsOral = new PdfPTable(3);
-                tableBackgroundsOral.HorizontalAlignment = 1;
-                tableBackgroundsOral.TotalWidth = 175f;
+                tableBackgroundsOral.TotalWidth = 50f;
 
                 foreach (var atribute in clinicHistory)
                 { 
@@ -858,7 +898,7 @@ namespace Aplication.ClinicHistoryApp
                     }  
                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundOrals[0].description, fontHeader )};
+                Phrase = new Phrase( "1. " + idTableBackgroundOrals[0].description, fontDataAntecedent )};
                 tableBackgroundsOral.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -872,8 +912,7 @@ namespace Aplication.ClinicHistoryApp
                 }
 
                 PdfPTable tableBackgroundsOral2 = new PdfPTable(3);
-                tableBackgroundsOral2.HorizontalAlignment = 1;
-                tableBackgroundsOral2.TotalWidth = 175f;
+                tableBackgroundsOral2.TotalWidth = 50f;
 
                 foreach (var atribute in clinicHistory)
                 { 
@@ -889,7 +928,7 @@ namespace Aplication.ClinicHistoryApp
                     }  
                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundOrals[1].description, fontHeader )};
+                Phrase = new Phrase( "2. "+ idTableBackgroundOrals[1].description, fontDataAntecedent )};
                 tableBackgroundsOral2.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -903,8 +942,7 @@ namespace Aplication.ClinicHistoryApp
                 }
 
                 PdfPTable tableBackgroundsOral3 = new PdfPTable(3);
-                tableBackgroundsOral3.HorizontalAlignment = 1;
-                tableBackgroundsOral3.TotalWidth = 175f;
+                tableBackgroundsOral3.TotalWidth = 50f;
 
                 foreach (var atribute in clinicHistory)
                 { 
@@ -920,7 +958,7 @@ namespace Aplication.ClinicHistoryApp
                     }  
                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundOrals[2].description, fontHeader )};
+                Phrase = new Phrase("3. "+ idTableBackgroundOrals[2].description, fontDataAntecedent )};
                 tableBackgroundsOral3.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -934,8 +972,7 @@ namespace Aplication.ClinicHistoryApp
                 }
 
                 PdfPTable tableBackgroundsOral4 = new PdfPTable(3);
-                tableBackgroundsOral4.HorizontalAlignment = 1;
-                tableBackgroundsOral4.TotalWidth = 175f;
+                tableBackgroundsOral4.TotalWidth = 50f;
 
                 foreach (var atribute in clinicHistory)
                 { 
@@ -951,7 +988,7 @@ namespace Aplication.ClinicHistoryApp
                     }  
                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundOrals[3].description, fontHeader )};
+                Phrase = new Phrase( "4. "+idTableBackgroundOrals[3].description, fontDataAntecedent )};
                 tableBackgroundsOral4.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -965,8 +1002,6 @@ namespace Aplication.ClinicHistoryApp
                 }
 
                 PdfPTable tableBackgroundsOral5 = new PdfPTable(3);
-                tableBackgroundsOral5.HorizontalAlignment = 1;
-                tableBackgroundsOral5.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
                 { 
@@ -982,7 +1017,7 @@ namespace Aplication.ClinicHistoryApp
                     }  
                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundOrals[4].description, fontHeader )};
+                Phrase = new Phrase( "5. "+idTableBackgroundOrals[4].description, fontDataAntecedent )};
                 tableBackgroundsOral5.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -996,8 +1031,7 @@ namespace Aplication.ClinicHistoryApp
                 }
 
                 PdfPTable tableBackgroundsOral6 = new PdfPTable(3);
-                tableBackgroundsOral6.HorizontalAlignment = 1;
-                tableBackgroundsOral6.TotalWidth = 175f;
+                tableBackgroundsOral6.TotalWidth = 50f;
 
                 foreach (var atribute in clinicHistory)
                 { 
@@ -1013,7 +1047,7 @@ namespace Aplication.ClinicHistoryApp
                     }  
                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( idTableBackgroundOrals[5].description, fontHeader )};
+                Phrase = new Phrase("6. "+ idTableBackgroundOrals[5].description, fontDataAntecedent )};
                 tableBackgroundsOral6.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -1025,6 +1059,247 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgroundsOral6.AddCell(cellBackgroundFalse);
                
                 }
+
+                PdfPTable tableBackgroundsOral7 = new PdfPTable(3);
+                tableBackgroundsOral7.TotalWidth = 50f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                // var backgroundInTrue = "";
+                // var backgroundInFalse = "";
+                //     var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[5].Id).Any();
+                //     if(exist){
+                //     var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                //     backgroundInTrue = backgroundObtainTrue;
+                //    }else {
+                //         var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                //         backgroundInFalse = backgroundObtainFalse;
+                //     }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontDataAntecedent )};
+                tableBackgroundsOral7.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral7.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral7.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral8 = new PdfPTable(3);
+                tableBackgroundsOral8.TotalWidth = 50f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                // var backgroundInTrue = "";
+                // var backgroundInFalse = "";
+                //     var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[5].Id).Any();
+                //     if(exist){
+                //     var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                //     backgroundInTrue = backgroundObtainTrue;
+                //    }else {
+                //         var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                //         backgroundInFalse = backgroundObtainFalse;
+                //     }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontDataAntecedent )};
+                tableBackgroundsOral8.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral8.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral8.AddCell(cellBackgroundFalse);
+               
+                }
+                
+                PdfPTable tableBackgroundsOral9 = new PdfPTable(3);
+                tableBackgroundsOral9.TotalWidth = 50f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                // var backgroundInTrue = "";
+                // var backgroundInFalse = "";
+                //     var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[5].Id).Any();
+                //     if(exist){
+                //     var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                //     backgroundInTrue = backgroundObtainTrue;
+                //    }else {
+                //         var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                //         backgroundInFalse = backgroundObtainFalse;
+                //     }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontDataAntecedent )};
+                tableBackgroundsOral9.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral9.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral9.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral10 = new PdfPTable(3);
+                tableBackgroundsOral10.TotalWidth = 50f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                // var backgroundInTrue = "";
+                // var backgroundInFalse = "";
+                //     var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[5].Id).Any();
+                //     if(exist){
+                //     var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                //     backgroundInTrue = backgroundObtainTrue;
+                //    }else {
+                //         var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                //         backgroundInFalse = backgroundObtainFalse;
+                //     }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontDataAntecedent )};
+                tableBackgroundsOral10.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral10.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral10.AddCell(cellBackgroundFalse);
+               
+                }
+
+                 PdfPTable tableBackgroundsOral11 = new PdfPTable(3);
+                tableBackgroundsOral11.TotalWidth = 50f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                // var backgroundInTrue = "";
+                // var backgroundInFalse = "";
+                //     var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[5].Id).Any();
+                //     if(exist){
+                //     var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                //     backgroundInTrue = backgroundObtainTrue;
+                //    }else {
+                //         var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                //         backgroundInFalse = backgroundObtainFalse;
+                //     }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontDataAntecedent )};
+                tableBackgroundsOral11.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral11.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral11.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral12 = new PdfPTable(3);
+                tableBackgroundsOral12.TotalWidth = 50f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                // var backgroundInTrue = "";
+                // var backgroundInFalse = "";
+                //     var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[5].Id).Any();
+                //     if(exist){
+                //     var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                //     backgroundInTrue = backgroundObtainTrue;
+                //    }else {
+                //         var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                //         backgroundInFalse = backgroundObtainFalse;
+                //     }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontDataAntecedent )};
+                tableBackgroundsOral12.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral12.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral12.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral13 = new PdfPTable(3);
+                tableBackgroundsOral13.TotalWidth = 50f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                // var backgroundInTrue = "";
+                // var backgroundInFalse = "";
+                //     var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[5].Id).Any();
+                //     if(exist){
+                //     var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                //     backgroundInTrue = backgroundObtainTrue;
+                //    }else {
+                //         var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                //         backgroundInFalse = backgroundObtainFalse;
+                //     }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontDataAntecedent )};
+                tableBackgroundsOral13.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral13.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral13.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral14 = new PdfPTable(3);
+                tableBackgroundsOral14.TotalWidth = 50f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                // var backgroundInTrue = "";
+                // var backgroundInFalse = "";
+                //     var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[5].Id).Any();
+                //     if(exist){
+                //     var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                //     backgroundInTrue = backgroundObtainTrue;
+                //    }else {
+                //         var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                //         backgroundInFalse = backgroundObtainFalse;
+                //     }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontDataAntecedent )};
+                tableBackgroundsOral14.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral14.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontHeader )};
+                tableBackgroundsOral14.AddCell(cellBackgroundFalse);
+               
+                }
+                
                 /*Alineaciòn de tablas de antecedentes orales*/
                 tableAntecedentOral.HorizontalAlignment = Element.ALIGN_RIGHT;
                 tableBackgroundsOral.HorizontalAlignment = Element.ALIGN_RIGHT;
@@ -1033,15 +1308,14 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgroundsOral4.HorizontalAlignment = Element.ALIGN_RIGHT;
                 tableBackgroundsOral5.HorizontalAlignment = Element.ALIGN_RIGHT;
                 tableBackgroundsOral6.HorizontalAlignment = Element.ALIGN_RIGHT;
-
-                tableAntecedentOral.HorizontalAlignment = Element.ALIGN_TOP;
-                tableBackgroundsOral.HorizontalAlignment = Element.ALIGN_BASELINE;
-                tableBackgroundsOral2.HorizontalAlignment = Element.ALIGN_BASELINE;
-                tableBackgroundsOral3.HorizontalAlignment = Element.ALIGN_BASELINE;
-                tableBackgroundsOral4.HorizontalAlignment = Element.ALIGN_BASELINE;
-                tableBackgroundsOral5.HorizontalAlignment = Element.ALIGN_BASELINE;
-                tableBackgroundsOral6.HorizontalAlignment = Element.ALIGN_BASELINE;
-                
+                tableBackgroundsOral7.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral8.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral9.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral10.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral11.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral12.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral13.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral14.HorizontalAlignment = Element.ALIGN_RIGHT;
 
                 float[] widths9 = new float[] { 120f, 50f, 50f};
                 tableAntecedentOral.SetWidthPercentage(widths9, rect);
@@ -1051,15 +1325,289 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgroundsOral4.SetWidthPercentage(widths9, rect);
                 tableBackgroundsOral5.SetWidthPercentage(widths9, rect);
                 tableBackgroundsOral6.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral7.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral8.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral9.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral10.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral11.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral12.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral13.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral14.SetWidthPercentage(widths9, rect);
 
-                /*CONSTRUCCION DE LAS TABLAS PARA LOS ANTECEDENTES MEDICOS*/     
-                document.Add(tableAntecedentOral);
-                document.Add(tableBackgroundsOral);
-                document.Add(tableBackgroundsOral2);
-                document.Add(tableBackgroundsOral3);
-                document.Add(tableBackgroundsOral4);
-                document.Add(tableBackgroundsOral5);
-                document.Add(tableBackgroundsOral6);
+                /*Se añaden por creaciones de tablas 2x2 para agregar las tablas ya creadas como celda y poderlas meter en una mismo contenedor*/
+                mtable.AddCell(tableAntecedentMedical);
+                mtable.AddCell(tableAntecedentOral);
+
+                m2table.AddCell(tableBackgrounds);
+                m2table.AddCell(tableBackgroundsOral);
+
+                m3table.AddCell(tableBackgrounds2);
+                m3table.AddCell(tableBackgroundsOral2);
+
+                m4table.AddCell(tableBackgrounds3);
+                m4table.AddCell(tableBackgroundsOral3);
+
+                m5table.AddCell(tableBackgrounds4);
+                m5table.AddCell(tableBackgroundsOral4);
+
+                m6table.AddCell(tableBackgrounds5);
+                m6table.AddCell(tableBackgroundsOral5);
+
+                m7table.AddCell(tableBackgrounds6);
+                m7table.AddCell(tableBackgroundsOral6);
+
+                m8table.AddCell(tableBackgrounds7);
+                m8table.AddCell(tableBackgroundsOral7); 
+            
+                m9table.AddCell(tableBackgrounds8);
+                m9table.AddCell(tableBackgroundsOral8);
+
+                m10table.AddCell(tableBackgrounds9);
+                m10table.AddCell(tableBackgroundsOral9);
+
+                m11table.AddCell(tableBackgrounds10);
+                m11table.AddCell(tableBackgroundsOral10);
+
+                m12table.AddCell(tableBackgrounds11);
+                m12table.AddCell(tableBackgroundsOral11);
+
+                m13table.AddCell(tableBackgrounds12);
+                m13table.AddCell(tableBackgroundsOral12);
+
+                m14table.AddCell(tableBackgrounds13);
+                m14table.AddCell(tableBackgroundsOral13);
+
+                m15table.AddCell(tableBackgrounds14);
+                m15table.AddCell(tableBackgroundsOral14);
+
+                m15table.SpacingAfter = 5;
+                
+                /*CONSTRUCCION DE LAS TABLAS PARA LOS ANTECEDENTES MEDICOS*/
+                document.Add(mtable);
+                document.Add(m2table);    
+                document.Add(m3table); 
+                document.Add(m4table); 
+                document.Add(m5table);
+                document.Add(m6table);
+                document.Add(m7table);
+                document.Add(m8table); 
+                document.Add(m9table); 
+                document.Add(m10table); 
+                document.Add(m11table); 
+                document.Add(m12table); 
+                document.Add(m13table);
+                document.Add(m14table);
+                document.Add(m15table);  
+
+                PdfPTable ObservationsAntecedents = new PdfPTable(1);
+                ObservationsAntecedents.WidthPercentage = 90f;
+                PdfPCell cellObservationsAntecedents = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("OBSERVACIONES (Segùn numero de antecedente)", fontHeader )};
+                cellObservationsAntecedents.Border = Rectangle.NO_BORDER;
+                ObservationsAntecedents.AddCell(cellObservationsAntecedents);
+
+                PdfPTable ObservationsAntecedentsText = new PdfPTable(1);
+                ObservationsAntecedentsText.WidthPercentage = 90f;
+                PdfPCell cellObservationsAntecedentsText = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 43,
+                Phrase = new Phrase("", fontHeader )};
+                cellObservationsAntecedents.Border = Rectangle.NO_BORDER;
+                ObservationsAntecedentsText.AddCell(cellObservationsAntecedentsText);
+
+                document.Add(ObservationsAntecedents);
+                document.Add(ObservationsAntecedentsText);
+
+                PdfPTable tableoralRadiograhies = new PdfPTable(1);
+                tableoralRadiograhies.WidthPercentage = 90f;
+                PdfPCell celloralRadiographies = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("4. RADIOGRAFIAS", fontHeader )};
+                tableoralRadiograhies.SpacingAfter = 3;
+                celloralRadiographies.Border = Rectangle.NO_BORDER;
+                tableoralRadiograhies.AddCell(celloralRadiographies);
+
+                document.Add(tableoralRadiograhies);
+
+                  PdfPTable tableInfoRadiographies = new PdfPTable(3);
+                float[] widths11 = new float[] {60f, 60f, 60f};
+                tableInfoRadiographies.SetWidthPercentage(widths11, rect);
+
+                PdfPCell cellheaderIdRadiographies = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Radiografia no." , fontHeader )};
+                tableInfoRadiographies.AddCell(cellheaderIdRadiographies);
+
+                PdfPCell cellheaderdateRegister = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Fecha de revisiòn" , fontHeader )};
+                tableInfoRadiographies.AddCell(cellheaderdateRegister);
+
+                PdfPCell cellheaderObservation = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Observaciòn" , fontHeader )};
+                tableInfoRadiographies.AddCell(cellheaderObservation);
+            
+                tableInfoRadiographies.WidthPercentage = 90;
+
+                PdfPTable tableRadiographiesText = new PdfPTable(3);
+                float[] widths12 = new float[] {60f, 60f, 60f};
+                tableRadiographiesText.SetWidthPercentage(widths12, rect);
+
+               
+               for(int i = 0; i < radiographyData.Count; i++){
+                foreach (var atribute in clinicHistory)
+                {
+                var name = atribute.oralRadiographyList.ToList();
+                
+                PdfPCell cellId = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( atribute.oralRadiographyList.ToList()[i].Id.ToString() , fontData )};
+                tableRadiographiesText.AddCell(cellId);
+
+                PdfPCell celldateRegister = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.oralRadiographyList.ToList()[i].dateRegister.ToShortDateString().ToString(), fontData )};
+                tableRadiographiesText.AddCell(celldateRegister);
+
+                PdfPCell cellObservation = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.oralRadiographyList.ToList()[i].observation.ToString(), fontData )};
+                tableRadiographiesText.AddCell(cellObservation);
+                }
+               }
+                tableRadiographiesText.WidthPercentage = 90;
+
+                tableRadiographiesText.SpacingAfter = 10;
+
+                document.Add(tableInfoRadiographies);
+                document.Add(tableRadiographiesText);
+
+                PdfPTable tabletreamentPlan = new PdfPTable(1);
+                tabletreamentPlan.WidthPercentage = 90f;
+                PdfPCell celltreamentPlan = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("5. PLAN DE TRATAMIENTOS REALIZADOS", fontHeader )};
+                tabletreamentPlan.SpacingAfter = 3;
+                celltreamentPlan.Border = Rectangle.NO_BORDER;
+                tabletreamentPlan.AddCell(celltreamentPlan);
+
+                document.Add(tabletreamentPlan);
+
+                  PdfPTable tableInfotreamentPlan = new PdfPTable(3);
+                float[] widths13 = new float[] {60f, 60f, 60f};
+                tableInfotreamentPlan.SetWidthPercentage(widths13, rect);
+
+                PdfPCell cellheaderIdPlan = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Tratamiento no." , fontHeader )};
+                tableInfotreamentPlan.AddCell(cellheaderIdPlan);
+
+                PdfPCell cellheaderName = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Nombre del Plan" , fontHeader )};
+                tableInfotreamentPlan.AddCell(cellheaderName);
+
+                PdfPCell cellheaderObservationPlan = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Observaciòn" , fontHeader )};
+                tableInfotreamentPlan.AddCell(cellheaderObservationPlan);
+            
+                tableInfotreamentPlan.WidthPercentage = 90;
+
+                PdfPTable tabletramentPlanText = new PdfPTable(3);
+                float[] widths14 = new float[] {60f, 60f, 60f};
+                tabletramentPlanText.SetWidthPercentage(widths14, rect);
+
+               
+               for(int i = 0; i < treamentData.Count; i++){
+                foreach (var atribute in clinicHistory)
+                {
+                var name = atribute.treamentPlanList.ToList();
+                
+                PdfPCell cellId = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( atribute.treamentPlanList.ToList()[i].Id.ToString() , fontData )};
+                tabletramentPlanText.AddCell(cellId);
+
+                PdfPCell cellNamePlan = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.treamentPlanList.ToList()[i].Name, fontData )};
+                tabletramentPlanText.AddCell(cellNamePlan);
+
+                PdfPCell cellObservation = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.treamentPlanList.ToList()[i].observation.ToString(), fontData )};
+                tabletramentPlanText.AddCell(cellObservation);
+                }
+               }
+                tabletramentPlanText.WidthPercentage = 90;
+
+                tabletramentPlanText.SpacingAfter = 10;
+
+                document.Add(tableInfotreamentPlan);
+                document.Add(tabletramentPlanText);
+
+                /*ESPACIO PARA TRABAJAR EL ODONTOGRAMA*/
+
+                 PdfPTable tableOdontogram = new PdfPTable(1);
+                tableOdontogram.WidthPercentage = 90f;
+                PdfPCell cellOdontogram = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("6. DIAGNOSTICO ODONTOGRAMA", fontHeader )};
+                tableOdontogram.SpacingAfter = 3;
+                cellOdontogram.Border = Rectangle.NO_BORDER;
+                tableOdontogram.AddCell(cellOdontogram);
+
+                 document.Add(tableOdontogram);
+
+                /*CONSTRUCCIÒN DE LOGICA Y TABLA, CELDAS PARA ODONTOGRAMA*/
+
+                /*AQUI ACABA LA CONFIGURACIÒN PARA EL ODONTOGRAMA*/
+                 PdfPTable tablepatienteEvolution = new PdfPTable(1);
+                tablepatienteEvolution.WidthPercentage = 90f;
+                PdfPCell cellpatientEvolution = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("7. EVOLUCIÒN DEL TRATAMIENTO", fontHeader )};
+                tablepatienteEvolution.SpacingAfter = 3;
+                cellpatientEvolution.Border = Rectangle.NO_BORDER;
+                tablepatienteEvolution.AddCell(cellpatientEvolution);
+
+                document.Add(tablepatienteEvolution);
+
+                  PdfPTable tableInfopatientEvolution = new PdfPTable(4);
+                float[] widths15 = new float[] {60f, 60f, 60f, 60f};
+                tableInfopatientEvolution.SetWidthPercentage(widths15, rect);
+
+                PdfPCell cellheaderIdpatientEvolution = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Evoluciòn no." , fontHeader )};
+                tableInfopatientEvolution.AddCell(cellheaderIdpatientEvolution);
+
+                PdfPCell cellheaderFecha = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Fecha" , fontHeader )};
+                tableInfopatientEvolution.AddCell(cellheaderFecha);
+
+                PdfPCell cellheaderEvolution = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Evoluciòn" , fontHeader )};
+                tableInfopatientEvolution.AddCell(cellheaderEvolution);
+
+                PdfPCell cellheaderSignature = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Firma del Paciente" , fontHeader )};
+                tableInfopatientEvolution.AddCell(cellheaderSignature);
+            
+                tableInfopatientEvolution.WidthPercentage = 90;
+
+                PdfPTable tablepatientEvolutionText = new PdfPTable(4);
+                float[] widths16 = new float[] {60f, 60f, 60f, 60f};
+                tablepatientEvolutionText.SetWidthPercentage(widths16, rect);
+
+               
+               for(int i = 0; i < patientEvolutionData.Count; i++){
+                foreach (var atribute in clinicHistory)
+                {       
+                PdfPCell cellId = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( atribute.patientEvolutionList.ToList()[i].Id.ToString() , fontData )};
+                tablepatientEvolutionText.AddCell(cellId);
+
+                PdfPCell cellDate = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.patientEvolutionList.ToList()[i].dateCreate.ToShortDateString().ToString(), fontData )};
+                tablepatientEvolutionText.AddCell(cellDate);
+
+                PdfPCell cellEvolution = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.patientEvolutionList.ToList()[i].observation.ToString(), fontData )};
+                tablepatientEvolutionText.AddCell(cellEvolution);
+
+                PdfPCell cellSignature = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("", fontData )};
+                tablepatientEvolutionText.AddCell(cellSignature);
+                }
+               }
+                tablepatientEvolutionText.WidthPercentage = 90;
+
+                document.Add(tableInfopatientEvolution);
+                document.Add(tablepatientEvolutionText);
 
                 // AQUI ES DONDE SE ACABA EL DISEÑO DEL PDF, NO TOCAR
                 document.Close();
