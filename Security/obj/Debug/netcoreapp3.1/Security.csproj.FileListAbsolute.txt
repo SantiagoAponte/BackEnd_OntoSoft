@@ -47,3 +47,19 @@ D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.CoreCompile
 D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.CopyComplete
 D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.dll
 D:\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.pdb
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Security.deps.json
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Security.dll
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Security.pdb
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Aplication.dll
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Domine.dll
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\persistence.dll
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Aplication.pdb
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Domine.pdb
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\persistence.pdb
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csprojAssemblyReference.cache
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.AssemblyInfoInputs.cache
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.AssemblyInfo.cs
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.CoreCompileInputs.cache
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.CopyComplete
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.dll
+C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.pdb

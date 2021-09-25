@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace Aplication.ClinicHistoryApp
         public class getClinicHistoryInPdf : IRequest<Stream>
         {
             public string Id { get; set; }
+            public  bool canRead {get;set;}
 
             public getClinicHistoryInPdf(string id)
             {
@@ -40,8 +42,8 @@ namespace Aplication.ClinicHistoryApp
             public async Task<Stream> Handle(getClinicHistoryInPdf request, CancellationToken cancellationToken)
             {
                 Font fontTitle = new Font(Font.HELVETICA, 20f, Font.BOLD, BaseColor.Black);
-                Font fontHeader = new Font(Font.HELVETICA, 7f, Font.BOLD, BaseColor.Black);
-                Font fontData = new Font(Font.HELVETICA, 7f, Font.NORMAL, BaseColor.DarkGray);
+                Font fontHeader = new Font(Font.HELVETICA, 8f, Font.BOLD, BaseColor.Black);
+                Font fontData = new Font(Font.HELVETICA, 8f, Font.NORMAL, BaseColor.DarkGray);
                 
                 
               var clinicHistory = await _context.clinicHistories.Where(a => a.UserId == request.Id)
@@ -60,8 +62,7 @@ namespace Aplication.ClinicHistoryApp
                 .Include(x=>x.BackgroundOralsLink)
                 .ThenInclude(x=>x.BackgroundOrals)
                 .ToListAsync();
-
-                Console.WriteLine(clinicHistory);
+                
                 //CONFIGURACIÓN DEL PDF
                 MemoryStream workStream = new MemoryStream();
                 Rectangle rect = new Rectangle(PageSize.A4);
@@ -73,7 +74,7 @@ namespace Aplication.ClinicHistoryApp
 
                 var User = _context.User.FirstOrDefault(x=>x.Id == request.Id);
                  
-                 
+                 /*Logica para calcular la edad por años y meses*/
                 int age = DateTime.Today.AddTicks(-clinicHistory[0].user.dateBirth.Ticks).Year - 1;
                 double ageperMonth = DateTime.Now.Subtract(clinicHistory[0].user.dateBirth).Days / (365 / 12);
                 string message = "";
@@ -86,9 +87,20 @@ namespace Aplication.ClinicHistoryApp
                      message= (ageperMonth + " meses"); 
                 }
 
+                /*Logica para marcar los antecedentes medicos que tiene el paciente*/
+                var idTableBackgroundMedicals = _context.backgroundMedicals.ToList();           
+
+                /*Logica para marcar los antecedentes orales que tiene el paciente*/
+                var idTableBackgroundOrals = _context.backgroundOrals.ToList();  
+                /*Logica para marcar los tratamientos del paciente*/
+
+                /*Logica para marcar las radiografias del paciente*/
+
+                /*Logica para marcar las evoluciones del paciente*/
+                       
                 //AQUI ES DONDE INICIA LA CONSTRUCCION DE LOS ESTILOS DEL PDF.
                 document.Open();
-                iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance("D:\\BackEnd_OntoSoft\\Aplication\\images\\logo.png");
+                Image image = iTextSharp.text.Image.GetInstance("E:\\logo.png");
                 image.BorderWidth = 0;
                 image.Alignment = Element.ALIGN_LEFT;
                 float percentage = 0.0f;
@@ -126,7 +138,7 @@ namespace Aplication.ClinicHistoryApp
 
                 PdfPCell cellHeaderHCnum = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
                 Phrase = new Phrase(
-                    "Historia Clinica No.                                                                                                                         " //espacio necesario para situar el texto (no permitio por estilos)
+                    "Historia Clinica No.                                                                                         " //espacio necesario para situar el texto (no permitio por estilos)
                     + atribute.Id.ToString(), fontHeader)};
 
                 tablenumHc.AddCell(cellHeaderHCnum);
@@ -141,7 +153,7 @@ namespace Aplication.ClinicHistoryApp
                 foreach (var atribute in clinicHistory){
 
                 PdfPCell cellDateCreate = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Fecha de Elaboración                                                                                                                                                " //espacio necesario para situar el texto (no permitio por estilos)
+                Phrase = new Phrase("Fecha de Elaboración                                                                                                                            " //espacio necesario para situar el texto (no permitio por estilos)
                 + atribute.dateRegister.ToShortDateString(),fontHeader )};
 
                 tabledateCreate.AddCell(cellDateCreate);
@@ -330,7 +342,7 @@ namespace Aplication.ClinicHistoryApp
                 PdfPTable infoAntecedentMedical = new PdfPTable(1);
                 infoAntecedentMedical.WidthPercentage = 90f;
 
-                PdfPCell cellInfoAntecedentMedical = new PdfPCell(new Phrase("3. ANTECEDENTES MEDICOS", fontHeader )) ;
+                PdfPCell cellInfoAntecedentMedical = new PdfPCell(new Phrase("3. ANTECEDENTES MEDICOS Y ODONTOLOGICOS GENERALES", fontHeader )) ;
                 cellInfoAntecedentMedical.Border = Rectangle.NO_BORDER;
                 infoAntecedentMedical.AddCell(cellInfoAntecedentMedical);
                 document.Add(infoAntecedentMedical);
@@ -355,21 +367,30 @@ namespace Aplication.ClinicHistoryApp
                 tableBackgrounds.TotalWidth = 175f;
 
                 foreach (var atribute in clinicHistory)
-                {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
-
+                { 
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                    var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[0].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
+                   
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[0].description, fontHeader )};
                 tableBackgrounds.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
                 tableBackgrounds.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse, fontHeader )};
                 tableBackgrounds.AddCell(cellBackgroundFalse);
+               
                 }
 
                  PdfPTable tableBackgrounds2 = new PdfPTable(3);
@@ -378,20 +399,29 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
-
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[1].Id).Any();
+                 if(exist){
+                var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
+                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[1].description, fontHeader )};
                 tableBackgrounds2.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
                 tableBackgrounds2.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse , fontHeader )};
                 tableBackgrounds2.AddCell(cellBackgroundFalse);
+        
                 }
                 PdfPTable tableBackgrounds3 = new PdfPTable(3);
                 tableBackgrounds2.HorizontalAlignment = 1;
@@ -399,20 +429,29 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
-
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[2].Id).Any();
+                 if(exist){
+                var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }   
+                    
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[2].description, fontHeader )};
                 tableBackgrounds3.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
                 tableBackgrounds3.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse , fontHeader )};
                 tableBackgrounds3.AddCell(cellBackgroundFalse);
+            
                 }
                 PdfPTable tableBackgrounds4 = new PdfPTable(3);
                 tableBackgrounds4.HorizontalAlignment = 1;
@@ -420,20 +459,29 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
-
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[3].Id).Any();
+                 if(exist){
+                var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }   
+                   
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase(idTableBackgroundMedicals[3].description, fontHeader )};
                 tableBackgrounds4.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
                 tableBackgrounds4.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse , fontHeader )};
                 tableBackgrounds4.AddCell(cellBackgroundFalse);
+               
                 }
                 PdfPTable tableBackgrounds5 = new PdfPTable(3);
                 tableBackgrounds5.HorizontalAlignment = 1;
@@ -441,19 +489,26 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
-
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[4].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[4].description, fontHeader )};
                 tableBackgrounds5.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
                 tableBackgrounds5.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse , fontHeader )};
                 tableBackgrounds5.AddCell(cellBackgroundFalse);
                 }
 
@@ -463,19 +518,26 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
-
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[5].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[5].description, fontHeader )};
                 tableBackgrounds6.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
                 tableBackgrounds6.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse , fontHeader )};
                 tableBackgrounds6.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds7 = new PdfPTable(3);
@@ -484,19 +546,28 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[6].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    } 
+                
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[6].description, fontHeader )};
                 tableBackgrounds7.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue.ToString() , fontHeader )};
                 tableBackgrounds7.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse.ToString() , fontHeader )};
                 tableBackgrounds7.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds8 = new PdfPTable(3);
@@ -505,19 +576,27 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[7].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[7].description, fontHeader )};
                 tableBackgrounds8.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
                 tableBackgrounds8.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse, fontHeader )};
                 tableBackgrounds8.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds9 = new PdfPTable(3);
@@ -526,19 +605,27 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[8].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[8].description, fontHeader )};
                 tableBackgrounds9.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue.ToString() , fontHeader )};
                 tableBackgrounds9.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse.ToString() , fontHeader )};
                 tableBackgrounds9.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds10 = new PdfPTable(3);
@@ -547,19 +634,27 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[9].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[9].description, fontHeader )};
                 tableBackgrounds10.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue.ToString() , fontHeader )};
                 tableBackgrounds10.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse.ToString() , fontHeader )};
                 tableBackgrounds10.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds11 = new PdfPTable(3);
@@ -568,19 +663,27 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[10].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[10].description, fontHeader )};
                 tableBackgrounds11.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue.ToString() , fontHeader )};
                 tableBackgrounds11.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse.ToString() , fontHeader )};
                 tableBackgrounds11.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds12 = new PdfPTable(3);
@@ -589,19 +692,27 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[11].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[11].description, fontHeader )};
                 tableBackgrounds12.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue.ToString() , fontHeader )};
                 tableBackgrounds12.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse.ToString() , fontHeader )};
                 tableBackgrounds12.AddCell(cellBackgroundFalse);
                 }
                 PdfPTable tableBackgrounds13 = new PdfPTable(3);
@@ -610,19 +721,27 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[12].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[12].description, fontHeader )};
                 tableBackgrounds13.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue.ToString() , fontHeader )};
                 tableBackgrounds13.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse.ToString() , fontHeader )};
                 tableBackgrounds13.AddCell(cellBackgroundFalse);
                 }
                  PdfPTable tableBackgrounds14 = new PdfPTable(3);
@@ -631,49 +750,70 @@ namespace Aplication.ClinicHistoryApp
 
                 foreach (var atribute in clinicHistory)
                 {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                var exist = atribute.BackgroundMedicalsLink.Where( x => x.BackgroundMedicalsId == idTableBackgroundMedicals[13].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    } 
 
                 PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
+                Phrase = new Phrase( idTableBackgroundMedicals[13].description, fontHeader )};
                 tableBackgrounds14.AddCell(cellTypeBackGround);
 
                 PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInTrue.ToString() , fontHeader )};
                 tableBackgrounds14.AddCell(cellBackgroundTrue);
 
                  PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
+                Phrase = new Phrase(backgroundInFalse.ToString() , fontHeader )};
                 tableBackgrounds14.AddCell(cellBackgroundFalse);
                 }
+                /*Alineaciòn de tablas hacia la izquierda*/
+                tableAntecedentMedical.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds2.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds3.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds4.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds5.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds6.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds7.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds8.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds9.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds10.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds11.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds12.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds13.HorizontalAlignment = Element.ALIGN_LEFT;
+                tableBackgrounds14.HorizontalAlignment = Element.ALIGN_LEFT;
 
-                PdfPTable tableBackgrounds15 = new PdfPTable(3);
-                tableBackgrounds15.HorizontalAlignment = 1;
-                tableBackgrounds15.TotalWidth = 175f;
+                float[] widths8 = new float[] { 120f, 50f, 50f};
+                tableAntecedentMedical.SetWidthPercentage(widths8, rect);
+                tableBackgrounds.SetWidthPercentage(widths8, rect);
+                tableBackgrounds2.SetWidthPercentage(widths8, rect);
+                tableBackgrounds3.SetWidthPercentage(widths8, rect);
+                tableBackgrounds4.SetWidthPercentage(widths8, rect);
+                tableBackgrounds5.SetWidthPercentage(widths8, rect);
+                tableBackgrounds6.SetWidthPercentage(widths8, rect);
+                tableBackgrounds7.SetWidthPercentage(widths8, rect);
+                tableBackgrounds8.SetWidthPercentage(widths8, rect);
+                tableBackgrounds9.SetWidthPercentage(widths8, rect);
+                tableBackgrounds10.SetWidthPercentage(widths8, rect);
+                tableBackgrounds11.SetWidthPercentage(widths8, rect);
+                tableBackgrounds12.SetWidthPercentage(widths8, rect);
+                tableBackgrounds13.SetWidthPercentage(widths8, rect);
+                tableBackgrounds14.SetWidthPercentage(widths8, rect);
 
-                foreach (var atribute in clinicHistory)
-                {
-                var backgroundObtainTrue = string.Format("{0:x;0; }", atribute.backgroundMedical.GetHashCode());
-                var backgroundObtainFalse = string.Format("{0: ;0;x}", atribute.backgroundMedical.GetHashCode());
-
-                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( "hola", fontHeader )};
-                tableBackgrounds15.AddCell(cellTypeBackGround);
-
-                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainTrue.ToString() , fontHeader )};
-                tableBackgrounds15.AddCell(cellBackgroundTrue);
-
-                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(backgroundObtainFalse.ToString() , fontHeader )};
-                tableBackgrounds15.AddCell(cellBackgroundFalse);
-                }
 
                 /*CONSTRUCCION DE LAS TABLAS PARA LOS ANTECEDENTES MEDICOS*/     
                 document.Add(tableAntecedentMedical);
                 document.Add(tableBackgrounds);
                 document.Add(tableBackgrounds2);
                 document.Add(tableBackgrounds3);
+                document.Add(tableBackgrounds4);
                 document.Add(tableBackgrounds5);
                 document.Add(tableBackgrounds6);
                 document.Add(tableBackgrounds7);
@@ -684,8 +824,242 @@ namespace Aplication.ClinicHistoryApp
                 document.Add(tableBackgrounds12);
                 document.Add(tableBackgrounds13);
                 document.Add(tableBackgrounds14);
-                document.Add(tableBackgrounds15);
 
+                PdfPTable tableAntecedentOral = new PdfPTable(3);
+                // tableAntecedentMedical.HorizontalAlignment = 1;
+                tableAntecedentOral.TotalWidth = 50f;
+                PdfPCell cellTypeAntecedentOral = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Tipo de Antecedente" , fontHeader )};
+
+                PdfPCell cellBackgroundObtainTrueOral = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Si" , fontHeader )};
+
+                 PdfPCell cellBackgroundObtainFalseOral = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("No" , fontHeader )};
+                tableAntecedentOral.AddCell(cellTypeAntecedentOral);
+                tableAntecedentOral.AddCell(cellBackgroundObtainTrueOral);
+                tableAntecedentOral.AddCell(cellBackgroundObtainFalseOral);
+
+                PdfPTable tableBackgroundsOral = new PdfPTable(3);
+                tableBackgroundsOral.HorizontalAlignment = 1;
+                tableBackgroundsOral.TotalWidth = 175f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                    var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[0].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( idTableBackgroundOrals[0].description, fontHeader )};
+                tableBackgroundsOral.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
+                tableBackgroundsOral.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInFalse, fontHeader )};
+                tableBackgroundsOral.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral2 = new PdfPTable(3);
+                tableBackgroundsOral2.HorizontalAlignment = 1;
+                tableBackgroundsOral2.TotalWidth = 175f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                    var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[1].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( idTableBackgroundOrals[1].description, fontHeader )};
+                tableBackgroundsOral2.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
+                tableBackgroundsOral2.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInFalse, fontHeader )};
+                tableBackgroundsOral2.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral3 = new PdfPTable(3);
+                tableBackgroundsOral3.HorizontalAlignment = 1;
+                tableBackgroundsOral3.TotalWidth = 175f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                    var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[2].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( idTableBackgroundOrals[2].description, fontHeader )};
+                tableBackgroundsOral3.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
+                tableBackgroundsOral3.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInFalse, fontHeader )};
+                tableBackgroundsOral3.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral4 = new PdfPTable(3);
+                tableBackgroundsOral4.HorizontalAlignment = 1;
+                tableBackgroundsOral4.TotalWidth = 175f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                    var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[3].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( idTableBackgroundOrals[3].description, fontHeader )};
+                tableBackgroundsOral4.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
+                tableBackgroundsOral4.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInFalse, fontHeader )};
+                tableBackgroundsOral4.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral5 = new PdfPTable(3);
+                tableBackgroundsOral5.HorizontalAlignment = 1;
+                tableBackgroundsOral5.TotalWidth = 175f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                    var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[4].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( idTableBackgroundOrals[4].description, fontHeader )};
+                tableBackgroundsOral5.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
+                tableBackgroundsOral5.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInFalse, fontHeader )};
+                tableBackgroundsOral5.AddCell(cellBackgroundFalse);
+               
+                }
+
+                PdfPTable tableBackgroundsOral6 = new PdfPTable(3);
+                tableBackgroundsOral6.HorizontalAlignment = 1;
+                tableBackgroundsOral6.TotalWidth = 175f;
+
+                foreach (var atribute in clinicHistory)
+                { 
+                var backgroundInTrue = "";
+                var backgroundInFalse = "";
+                    var exist = atribute.BackgroundOralsLink.Where( x => x.BackgroundOralsId == idTableBackgroundOrals[5].Id).Any();
+                    if(exist){
+                    var backgroundObtainTrue = string.Format("{0:x;0; }", exist.GetHashCode());
+                    backgroundInTrue = backgroundObtainTrue;
+                   }else {
+                        var backgroundObtainFalse = string.Format("{0: ;0;x}", exist.GetHashCode());
+                        backgroundInFalse = backgroundObtainFalse;
+                    }  
+                   
+                PdfPCell cellTypeBackGround = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( idTableBackgroundOrals[5].description, fontHeader )};
+                tableBackgroundsOral6.AddCell(cellTypeBackGround);
+
+                PdfPCell cellBackgroundTrue = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInTrue , fontHeader )};
+                tableBackgroundsOral6.AddCell(cellBackgroundTrue);
+
+                 PdfPCell cellBackgroundFalse = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(backgroundInFalse, fontHeader )};
+                tableBackgroundsOral6.AddCell(cellBackgroundFalse);
+               
+                }
+                /*Alineaciòn de tablas de antecedentes orales*/
+                tableAntecedentOral.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral2.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral3.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral4.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral5.HorizontalAlignment = Element.ALIGN_RIGHT;
+                tableBackgroundsOral6.HorizontalAlignment = Element.ALIGN_RIGHT;
+
+                tableAntecedentOral.HorizontalAlignment = Element.ALIGN_TOP;
+                tableBackgroundsOral.HorizontalAlignment = Element.ALIGN_BASELINE;
+                tableBackgroundsOral2.HorizontalAlignment = Element.ALIGN_BASELINE;
+                tableBackgroundsOral3.HorizontalAlignment = Element.ALIGN_BASELINE;
+                tableBackgroundsOral4.HorizontalAlignment = Element.ALIGN_BASELINE;
+                tableBackgroundsOral5.HorizontalAlignment = Element.ALIGN_BASELINE;
+                tableBackgroundsOral6.HorizontalAlignment = Element.ALIGN_BASELINE;
+                
+
+                float[] widths9 = new float[] { 120f, 50f, 50f};
+                tableAntecedentOral.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral2.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral3.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral4.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral5.SetWidthPercentage(widths9, rect);
+                tableBackgroundsOral6.SetWidthPercentage(widths9, rect);
+
+                /*CONSTRUCCION DE LAS TABLAS PARA LOS ANTECEDENTES MEDICOS*/     
+                document.Add(tableAntecedentOral);
+                document.Add(tableBackgroundsOral);
+                document.Add(tableBackgroundsOral2);
+                document.Add(tableBackgroundsOral3);
+                document.Add(tableBackgroundsOral4);
+                document.Add(tableBackgroundsOral5);
+                document.Add(tableBackgroundsOral6);
 
                 // AQUI ES DONDE SE ACABA EL DISEÑO DEL PDF, NO TOCAR
                 document.Close();
