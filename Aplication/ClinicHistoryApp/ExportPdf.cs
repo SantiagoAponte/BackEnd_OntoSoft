@@ -46,6 +46,7 @@ namespace Aplication.ClinicHistoryApp
                 Font fontData = new Font(Font.HELVETICA, 8f, Font.NORMAL, BaseColor.DarkGray);
                  Font fontTitleAntecedent = new Font(Font.HELVETICA, 9f, Font.BOLD, BaseColor.Black);
                 Font fontDataAntecedent = new Font(Font.HELVETICA, 9f, Font.NORMAL, BaseColor.Black);
+                Font fontDeclaration = new Font(Font.HELVETICA, 9f, Font.NORMAL, BaseColor.Black);
                 
                 
               var clinicHistory = await _context.clinicHistories.Where(a => a.UserId == request.Id)
@@ -100,6 +101,13 @@ namespace Aplication.ClinicHistoryApp
                 var radiographyData = _context.oralRadiography.ToList();
                 /*Logica para marcar las evoluciones del paciente*/
                 var patientEvolutionData = _context.patientEvolution.ToList();
+                /*Logica para traer los odontogramas y relaciones de dientes y tipos de procesos*/
+                var odontogramData = _context.Odontogram.ToList();
+                var toothData = _context.tooth.ToList();
+                var typeProcessData = _context.typeProcess.ToList();
+                /*relaciones*/
+                var toothOdontoData = _context.toothsOdontogram.ToList();
+                var typeProcessToothData = _context.typeProcessTooth.ToList();
                        
                 //AQUI ES DONDE INICIA LA CONSTRUCCION DE LOS ESTILOS DEL PDF.
                 document.Open();
@@ -1545,8 +1553,321 @@ namespace Aplication.ClinicHistoryApp
                  document.Add(tableOdontogram);
 
                 /*CONSTRUCCIÒN DE LOGICA Y TABLA, CELDAS PARA ODONTOGRAMA*/
+                PdfPTable tableInfoOdontogram = new PdfPTable(5);
+                float[] widths20 = new float[] {60f, 60f, 60f, 60f, 60f};
+                tableInfoOdontogram.SetWidthPercentage(widths20, rect);
 
+                PdfPCell cellheaderIdOdontogram = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Odontogram no." , fontHeader )};
+                tableInfoOdontogram.AddCell(cellheaderIdOdontogram);
+
+                PdfPCell cellheaderRegister = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Fecha de revisiòn" , fontHeader )};
+                tableInfoOdontogram.AddCell(cellheaderRegister);
+
+                PdfPCell cellheaderObservationOdontogram = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Observaciòn" , fontHeader )};
+                tableInfoOdontogram.AddCell(cellheaderObservationOdontogram);
+
+                PdfPCell cellheaderTooth= new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Diente Revisado" , fontHeader )};
+                tableInfoOdontogram.AddCell(cellheaderTooth);
+
+                PdfPCell cellheaderTypeProcess= new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("Tipo de proceso" , fontHeader )};
+                tableInfoOdontogram.AddCell(cellheaderTypeProcess);
+            
+                tableInfoOdontogram.WidthPercentage = 90;
+
+                PdfPTable tableOdontogramText = new PdfPTable(5);
+                float[] widths21 = new float[] {60f, 60f, 60f,60f, 60f};
+                tableOdontogramText.SetWidthPercentage(widths21, rect);
+
+               
+               for(int i = 0; i < odontogramData.Count; i++){
+                foreach (var atribute in clinicHistory)
+                {
+                var name = atribute.oralRadiographyList.ToList();
+                
+                PdfPCell cellId = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase( atribute.Odontogram.ToList()[i].Id.ToString() , fontData )};
+                tableOdontogramText.AddCell(cellId);
+
+                PdfPCell celldateRegister = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.Odontogram.ToList()[i].date_register.ToShortDateString().ToString(), fontData )};
+                tableOdontogramText.AddCell(celldateRegister);
+
+                PdfPCell cellObservation = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.Odontogram.ToList()[i].observation.ToString(), fontData )};
+                tableOdontogramText.AddCell(cellObservation);
+
+                PdfPCell cellTooth = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.Odontogram.ToList()[i].toothLink.ToList()[i].Tooth.ubicacion.ToString() + "\n", fontData )};
+                tableOdontogramText.AddCell(cellTooth);
+
+                PdfPCell cellTypeProcess = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase(atribute.Odontogram.ToList()[i].toothLink.ToList()[i].Tooth.typeProcessLink.ToList()[i].typeProcess.name + "\n", fontData )};
+                tableOdontogramText.AddCell(cellTypeProcess);
+                }
+               }
+                tableOdontogramText.WidthPercentage = 90;
+
+                tableOdontogramText.SpacingAfter = 10;
+
+                document.Add(tableInfoOdontogram);
+                document.Add(tableOdontogramText);
                 /*AQUI ACABA LA CONFIGURACIÒN PARA EL ODONTOGRAMA*/
+
+                /*CONSTRUCCIÒN DE FIRMAS LEGALES PARA ACEPTACIÒN*/
+                PdfPTable tableDeclaration = new PdfPTable(1);
+                tableDeclaration.WidthPercentage = 90f;
+                PdfPCell cellDeclaration = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("DECLARACIÒN DE COMPROMISO", fontHeader )};
+                tableDeclaration.SpacingAfter = 3;
+                cellDeclaration.Border = Rectangle.NO_BORDER;
+                tableDeclaration.AddCell(cellDeclaration);
+
+                 document.Add(tableDeclaration);
+
+                PdfPTable tableDeclarationText = new PdfPTable(1);
+                tableDeclarationText.WidthPercentage = 90f;
+                PdfPCell cellDeclarationText = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,HorizontalAlignment = Element.ALIGN_JUSTIFIED,
+                Phrase = new Phrase("Declaro que he leido y estoy de acuerdo con las aclaraciones anteriores. Entiendo igualmente que debe cancelar  a la Clinica o al prestador de servicios " +
+                "odontològicos los costos que puedan derivarse de los planes de tratamiento, costos expresados por presupuestos, por tipos de operaciones y en forma global."+"\n"+ "\n"+
+                "Conocidas estas condiciones, las acepto y me comprometo a cooperar para que el tratamiento que pueda requerir se desarrolle dentro de este marco conceptual, "+
+                "igualmente me comprometo a asistir puntualmente a las citas que se me asignen.", fontDeclaration )};
+                tableDeclarationText.SpacingAfter = 3;
+                cellDeclaration.Border = Rectangle.NO_BORDER;
+                tableDeclarationText.AddCell(cellDeclarationText);
+
+                 document.Add(tableDeclarationText);
+
+                PdfPTable signaturemainTable = new PdfPTable(2);
+                signaturemainTable.WidthPercentage = 90;
+                signaturemainTable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable tablesignatureText = new PdfPTable(1);
+                tablesignatureText.WidthPercentage = 90f;
+                PdfPCell cellSignatureDeclaration = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,HorizontalAlignment = Element.ALIGN_LEFT,
+                Phrase = new Phrase("__________________________________" + "\n" + "\n" +"FIRMA DEL PACIENTE", fontDeclaration )};
+                tablesignatureText.SpacingAfter = 3;
+                cellSignatureDeclaration.Border = Rectangle.NO_BORDER;
+                tablesignatureText.AddCell(cellSignatureDeclaration);
+
+                PdfPTable tablesignatureTextChild = new PdfPTable(1);
+                tablesignatureTextChild.WidthPercentage = 90f;
+                PdfPCell cellSignatureDeclarationChild = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("________________________________" + "\n" + "\n" + "SI ES MENOR FIRMA DEL RESPONSABLE", fontDeclaration )};
+                tablesignatureTextChild.SpacingAfter = 3;
+                cellSignatureDeclarationChild.Border = Rectangle.NO_BORDER;
+                tablesignatureTextChild.AddCell(cellSignatureDeclarationChild);
+
+                signaturemainTable.AddCell(tablesignatureText);
+                signaturemainTable.AddCell(tablesignatureTextChild);
+                document.Add(signaturemainTable);
+
+                PdfPTable signatureMainHuella = new PdfPTable(2);
+                float[] widths16 = new float[] {435f, 100f};
+                signatureMainHuella.SetWidthPercentage(widths16, rect);
+                
+                signatureMainHuella.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable tableprofesionalText = new PdfPTable(1);
+                PdfPCell cellSignatureProfesional = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("__________________________________" + "\n" + "\n" +"FIRMA DEL PROFESIONAL DE SALUD ORAL", fontDeclaration )};
+                tableprofesionalText.SpacingAfter = 3;
+                cellSignatureProfesional.Border = Rectangle.NO_BORDER;
+                tableprofesionalText.AddCell(cellSignatureProfesional);
+
+                PdfPTable tablesignatureHuella = new PdfPTable(1);
+                PdfPCell text = new PdfPCell( ) {Border = PdfPCell.NO_BORDER,
+                Phrase = new Phrase("Huella del paciente o Acudiente", fontDeclaration )};
+                PdfPCell cellSignatureHuella = new PdfPCell() {CellEvent = roundRectangle,Border = PdfPCell.NO_BORDER, Padding = 40, 
+                Phrase = new Phrase("" + "\n"+ "\n" + text, fontDeclaration )};
+                tablesignatureHuella.SpacingAfter = 3;
+                cellSignatureHuella.Border = Rectangle.NO_BORDER;
+                tablesignatureHuella.AddCell(cellSignatureHuella);
+                tablesignatureHuella.AddCell(text);
+                
+
+                signatureMainHuella.AddCell(tableprofesionalText);
+                signatureMainHuella.AddCell(tablesignatureHuella);
+                document.Add(signatureMainHuella);
+
+
+                /*AQUI SE FINALIZA LA CONSTRUCCIÒN DE FIRMAS LEGALES PARA ACEPTACIÒN*/
+
+                /*DECLARACIÒN DE CONFORMIDAD*/
+
+                PdfPTable tableDeclarationConfirmated = new PdfPTable(1);
+                tableDeclarationConfirmated.WidthPercentage = 90f;
+                PdfPCell cellDeclarationConfirmated = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("DECLARACIÒN DE CONFORMIDAD", fontHeader )};
+                tableDeclarationConfirmated.SpacingAfter = 3;
+                cellDeclarationConfirmated.Border = Rectangle.NO_BORDER;
+                tableDeclarationConfirmated.AddCell(cellDeclarationConfirmated);
+
+                 document.Add(tableDeclarationConfirmated);
+
+                PdfPTable tableDeclarationConfirmatedText = new PdfPTable(1);
+                tableDeclarationConfirmatedText.WidthPercentage = 90f;
+                PdfPCell cellDeclarationConfirmatedText = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,HorizontalAlignment = Element.ALIGN_JUSTIFIED,
+                Phrase = new Phrase("Por la presente declaro que reconozco que los trabajos que me seran ejecutados de conformidad a los diagnosticos y planes de tratamiento "+
+                "contenidos en este documento, forman parte de las acciones de un odontòlogo profesional y me someto al tratamiento con plenitud de mis capacidades mentales y contractuales."+
+                "\n\n"+"Igualmente que, como padre o tutor del titular de este documento clìnico, menor de edad o incapacitado para tomar desiciones, autorizo a los profesionales de odontologia " + 
+                "de OntoSoft a realizar los procedimientos clinicos y de ayudas diagnosticas necesarias para el establecimiento de un adecuado diagnòstico, pronòstico consecuente "+
+                "y el plan de tratamientos que de ellos se deriven. (Declaracion en corcondancia con el Articulo 19 de la Ley 35 de 1989 ò Codigo de Etica del Odontologo Colombiano)" + "\n\n"+
+                "Tambìen declaro que al firmar este documento clinico el presupuesto total estipulado, sin perjuicio de que se pueda modificar en concordancia con la evoluciòn y que me comprometo a cancearlo "+
+                "en su totalidad de acuerdo a las normas establecidas por OntoSoft. En concordancia con el Còdigo de Comercio.", fontDeclaration )};
+                tableDeclarationConfirmatedText.SpacingAfter = 3;
+                cellDeclarationConfirmatedText.Border = Rectangle.NO_BORDER;
+                tableDeclarationConfirmatedText.AddCell(cellDeclarationConfirmatedText);
+
+                 document.Add(tableDeclarationConfirmatedText);
+
+                PdfPTable mainConfirmatedTable = new PdfPTable(2);
+                mainConfirmatedTable.WidthPercentage = 90;
+                mainConfirmatedTable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable tablesignatureConfirmatedText = new PdfPTable(1);
+                tablesignatureConfirmatedText.WidthPercentage = 90f;
+                PdfPCell cellSignatureConfirmated = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,HorizontalAlignment = Element.ALIGN_LEFT,
+                Phrase = new Phrase("__________________________________" + "\n" + "\n" +"FIRMA DEL PACIENTE", fontDeclaration )};
+                tablesignatureConfirmatedText.SpacingAfter = 3;
+                cellSignatureConfirmated.Border = Rectangle.NO_BORDER;
+                tablesignatureConfirmatedText.AddCell(cellSignatureConfirmated);
+
+                PdfPTable tablesignatureConfirmatedTextChild = new PdfPTable(1);
+                tablesignatureConfirmatedTextChild.WidthPercentage = 90f;
+                PdfPCell cellSignatureConfirmatedDeclarationChild = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("________________________________" + "\n" + "\n" + "SI ES MENOR FIRMA DEL RESPONSABLE", fontDeclaration )};
+                tablesignatureConfirmatedTextChild.SpacingAfter = 3;
+                cellSignatureConfirmatedDeclarationChild.Border = Rectangle.NO_BORDER;
+                tablesignatureConfirmatedTextChild.AddCell(cellSignatureConfirmatedDeclarationChild);
+
+                mainConfirmatedTable.AddCell(tablesignatureConfirmatedText);
+                mainConfirmatedTable.AddCell(tablesignatureConfirmatedTextChild);
+                document.Add(mainConfirmatedTable);
+
+                PdfPTable signatureConfirmatedMainHuella = new PdfPTable(2);
+                float[] widths18 = new float[] {435f, 100f};
+                signatureConfirmatedMainHuella.SetWidthPercentage(widths18, rect);
+                
+                signatureConfirmatedMainHuella.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable tableConfirmatedprofesionalText = new PdfPTable(1);
+                PdfPCell cellSignatureConfirmatedProfesional = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("__________________________________" + "\n" + "\n" +"FIRMA DEL PROFESIONAL DE SALUD ORAL", fontDeclaration )};
+                tableConfirmatedprofesionalText.SpacingAfter = 3;
+                cellSignatureConfirmatedProfesional.Border = Rectangle.NO_BORDER;
+                tableConfirmatedprofesionalText.AddCell(cellSignatureConfirmatedProfesional);
+
+                PdfPTable tablesignatureConfirmatedHuella = new PdfPTable(1);
+                PdfPCell text2 = new PdfPCell( ) {Border = PdfPCell.NO_BORDER,
+                Phrase = new Phrase("Huella del paciente o Acudiente", fontDeclaration )};
+                PdfPCell cellSignatureConfirmatedHuella = new PdfPCell() {CellEvent = roundRectangle,Border = PdfPCell.NO_BORDER, Padding = 40, 
+                Phrase = new Phrase("" + "\n"+ "\n" + text, fontDeclaration )};
+                tablesignatureConfirmatedHuella.SpacingAfter = 3;
+                cellSignatureHuella.Border = Rectangle.NO_BORDER;
+                tablesignatureConfirmatedHuella.AddCell(cellSignatureConfirmatedHuella);
+                tablesignatureConfirmatedHuella.AddCell(text2);
+                
+
+                signatureConfirmatedMainHuella.AddCell(tableConfirmatedprofesionalText);
+                signatureConfirmatedMainHuella.AddCell(tablesignatureConfirmatedHuella);
+                document.Add(signatureConfirmatedMainHuella);
+
+                /*AQUI SE FINALIZA LA DECLARACIÒN DE CONFORMIDAD */
+
+                /*AQUI SE INICIA LAS ACLARACIONES LEGALES*/
+                PdfPTable tableAclaration = new PdfPTable(1);
+                tableAclaration.WidthPercentage = 90f;
+                PdfPCell cellAclaration = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("ACLARACIONES", fontHeader )};
+                tableAclaration.SpacingAfter = 3;
+                cellAclaration.Border = Rectangle.NO_BORDER;
+                tableAclaration.AddCell(cellAclaration);
+
+                 document.Add(tableAclaration);
+
+                PdfPTable tableAclarationText = new PdfPTable(1);
+                tableAclarationText.WidthPercentage = 90f;
+                PdfPCell cellAclarationText = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,HorizontalAlignment = Element.ALIGN_JUSTIFIED,
+                Phrase = new Phrase("OntoSoft es una organizaciòn que ofrece servicios odontologicos, brindandole a todos sus pacientes una atenciòn de excelente calidad y profesionalismo, "+
+                "integrando las diferentes àreas de la odontologìa se logra un diagnostico, pronostico y tratamiento ideal. Por lo tanto, todas las actividades que en ella se ejecutan son realizadas por dontològos "+
+                "graduados y con su registro consignado en la Gobernaciòn del Valle."+"\n\n"+"Antes de que cualquier tratamiento se pueda iniciar (a excepciòn de una atenciòn de emergencias) "+
+                "se requiere un diagnòstico completo que puede incluir la utilizaciòn de distintas ayudas diagnòsticas como un estudio radiogràfico completo, un estudio de fotografia clinica, "+
+                "un estudio basado en otras tècnicas imagenològicas, un estudio de modelos, exàmenes de laboratorio clìnico y a veces, un examen de laboratorio de patologìa."+"\n\n"+
+                "Muchas de estas ayudas diagnosticas pueden ser ejecutadas en la propia clinica, algunas de ellas deben ser desarrolladas en laboratorios externos y aportadas por ustedes "+
+                "como pacientes en todos los casos el odontologo expide la correspondiente orden que refrenda con su registro y su firma."+"\n\n"+
+                "Una vez establecidos los diagnosticos presuntivos (provisionales) y mientras se obtienen los resultados de las ayudas diagnòsticas ordenadas, todo tratamiento formal se inicia "+
+                "con la realizaciòn de una profilaxis oral completa (fase 1 del tratamiento periodontal que quizas pueda modificar algùn diagnòstico presuntivo."+"\n\n"+
+                "Despues de establecidos los diagnòsticos definitivos se elaborarà un plan de tratamientos segun las necesidades de aplicas distintas tecnologìas clìnicas para resolver las diferentes"+
+                "necesidades que usted presente y una serie de presupuestos que se relacionan directamente con dichos planes y tecnologìas."+"\n\n"+
+                "Sobre estas bases se establece el plan de tratamiento global y tambièn un presupuesto global. Tanto la historia clinica como los resultados  de los examenes complementarios constituyen"+
+                "parte del documento Clinico individual identificada con su nombre y numero de cedula de ciudadania para ser admitido en la lista de pacientes para un tratamiento integral."+"\n\n"+
+                "Por lo tanto, las radiografìas y sus interpretaciones, las fotografìas, los anàlisis de los estudios sobre modelos y en fin, todas las formas recibidas para aclarar o confirmar los diagnosticos presuntivos "+
+                "pertenecen a OntoSoft y al paciente.", fontDeclaration )};
+                tableAclarationText.SpacingAfter = 3;
+                cellAclarationText.Border = Rectangle.NO_BORDER;
+                tableAclarationText.AddCell(cellAclarationText);
+
+                 document.Add(tableAclarationText);
+
+                PdfPTable mainAclarationTable = new PdfPTable(2);
+                mainAclarationTable.WidthPercentage = 90;
+                mainAclarationTable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable tablesignatureAclarationText = new PdfPTable(1);
+                tablesignatureAclarationText.WidthPercentage = 90f;
+                PdfPCell cellSignatureAclaration = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,HorizontalAlignment = Element.ALIGN_LEFT,
+                Phrase = new Phrase("__________________________________" + "\n" + "\n" +"FIRMA DEL PACIENTE", fontDeclaration )};
+                tablesignatureAclarationText.SpacingAfter = 3;
+                cellSignatureConfirmated.Border = Rectangle.NO_BORDER;
+                tablesignatureAclarationText.AddCell(cellSignatureConfirmated);
+
+                PdfPTable tablesignatureAclarationTextChild = new PdfPTable(1);
+                tablesignatureAclarationTextChild.WidthPercentage = 90f;
+                PdfPCell cellSignatureAclarationChild = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("________________________________" + "\n" + "\n" + "SI ES MENOR FIRMA DEL RESPONSABLE", fontDeclaration )};
+                tablesignatureAclarationTextChild.SpacingAfter = 3;
+                cellSignatureAclarationChild.Border = Rectangle.NO_BORDER;
+                tablesignatureAclarationTextChild.AddCell(cellSignatureAclarationChild);
+
+                mainAclarationTable.AddCell(tablesignatureAclarationText);
+                mainAclarationTable.AddCell(tablesignatureAclarationTextChild);
+                document.Add(mainAclarationTable);
+
+                PdfPTable signatureAclarationMainHuella = new PdfPTable(2);
+                float[] widths19 = new float[] {435f, 100f};
+                signatureAclarationMainHuella.SetWidthPercentage(widths19, rect);
+                
+                signatureAclarationMainHuella.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                PdfPTable tableAclarationprofesionalText = new PdfPTable(1);
+                PdfPCell cellSignatureAclarationProfesional = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+                Phrase = new Phrase("__________________________________" + "\n" + "\n" +"FIRMA DEL PROFESIONAL DE SALUD ORAL", fontDeclaration )};
+                tableAclarationprofesionalText.SpacingAfter = 3;
+                cellSignatureAclarationProfesional.Border = Rectangle.NO_BORDER;
+                tableAclarationprofesionalText.AddCell(cellSignatureAclarationProfesional);
+
+                PdfPTable tablesignatureAclarationHuella = new PdfPTable(1);
+                PdfPCell text3 = new PdfPCell( ) {Border = PdfPCell.NO_BORDER,
+                Phrase = new Phrase("Huella del paciente o Acudiente", fontDeclaration )};
+                PdfPCell cellSignatureAclarationHuella = new PdfPCell() {CellEvent = roundRectangle,Border = PdfPCell.NO_BORDER, Padding = 40, 
+                Phrase = new Phrase("" + "\n"+ "\n" + text, fontDeclaration )};
+                tablesignatureAclarationHuella.SpacingAfter = 3;
+                cellSignatureAclarationHuella.Border = Rectangle.NO_BORDER;
+                tablesignatureAclarationHuella.AddCell(cellSignatureAclarationHuella);
+                tablesignatureAclarationHuella.AddCell(text3);
+                
+
+                signatureAclarationMainHuella.AddCell(tableAclarationprofesionalText);
+                signatureAclarationMainHuella.AddCell(tablesignatureAclarationHuella);
+                document.Add(signatureAclarationMainHuella);
+
+                /*AQUI SE FINALIZA LAS ACLARACIONES LEGALES*/
+
                  PdfPTable tablepatienteEvolution = new PdfPTable(1);
                 tablepatienteEvolution.WidthPercentage = 90f;
                 PdfPCell cellpatientEvolution = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -1580,8 +1901,8 @@ namespace Aplication.ClinicHistoryApp
                 tableInfopatientEvolution.WidthPercentage = 90;
 
                 PdfPTable tablepatientEvolutionText = new PdfPTable(4);
-                float[] widths16 = new float[] {60f, 60f, 60f, 60f};
-                tablepatientEvolutionText.SetWidthPercentage(widths16, rect);
+                float[] widths17 = new float[] {60f, 60f, 60f, 60f};
+                tablepatientEvolutionText.SetWidthPercentage(widths17, rect);
 
                
                for(int i = 0; i < patientEvolutionData.Count; i++){
