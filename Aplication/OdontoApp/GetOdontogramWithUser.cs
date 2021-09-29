@@ -31,10 +31,12 @@ namespace Aplication.OdontoApp
             public async Task<odontogramDto> Handle(OneOdontogramUser request, CancellationToken cancellationToken)
             {
                var user = await _context.Odontogram
-               .Include(x=>x.toothLink)
+               .Include(x=>x.toothTypeProcessLink)
                .ThenInclude(x=>x.Tooth)
                .ThenInclude(x=>x.typeProcessLink)
                .ThenInclude(x=>x.typeProcess)
+               .ThenInclude(x=>x.toothLink)
+               .ThenInclude(x=>x.faceTooth)
                .FirstOrDefaultAsync(a => a.UserId == request.Id);
 
                 if(user==null){

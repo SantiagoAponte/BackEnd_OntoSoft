@@ -27,10 +27,12 @@ namespace Aplication.OdontoApp
             {
                var tooths = await _context.Odontogram
                 .Include(x=>x.User)
-                .Include(x=>x.toothLink)
+                .Include(x=>x.toothTypeProcessLink)
                 .ThenInclude(x=>x.Tooth)
                 .ThenInclude(x=>x.typeProcessLink)
-                .ThenInclude(x=>x.typeProcess).ToListAsync();
+                .ThenInclude(x=>x.typeProcess)
+                .ThenInclude(x=>x.toothLink)
+                .ThenInclude(x=>x.faceTooth).ToListAsync();
                
                var toothsDto = _mapper.Map<List<Odontogram>, List<odontogramDto>>(tooths);
 

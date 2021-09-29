@@ -13,7 +13,6 @@ namespace Aplication.OdontoApp
     {
          public class Execute : IRequest {
             public Guid Id {get;set;}
-            public Guid IdtypeProcessTooth {get;set;}
         }
 
         public class Manager : IRequestHandler<Execute>
@@ -25,19 +24,19 @@ namespace Aplication.OdontoApp
             public async Task<Unit> Handle(Execute request, CancellationToken cancellationToken)
             {
                 /* Elimina todos los usuarios que contiene esa cita*/
-                var odontogramBD = _context.toothsOdontogram.Where(x=> x.OdontogramId == request.Id);
-                foreach(var odontogram in odontogramBD){
-                    _context.toothsOdontogram.Remove(odontogram);
-                }
+                // var odontogramBD = _context.toothsOdontogram.Where(x=> x.OdontogramId == request.Id);
+                // foreach(var odontogram in odontogramBD){
+                //     _context.toothsOdontogram.Remove(odontogram);
+                // }
                 
                 var odonto = await _context.Odontogram.FindAsync(request.Id);
                 if(odonto==null){
                     //throw new Exception("No se puede eliminar curso");
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la cita"});
+                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro el Odontograma"});
                 }
                 _context.Remove(odonto);
 
-                var processToothBD = _context.typeProcessTooth.Where(x=> x.Id == request.IdtypeProcessTooth);
+                var processToothBD = _context.typeProcessTooth.Where(x=> x.OdontogramId == request.Id);
                 foreach(var processTooth in processToothBD){
                     _context.typeProcessTooth.Remove(processTooth);
                 }

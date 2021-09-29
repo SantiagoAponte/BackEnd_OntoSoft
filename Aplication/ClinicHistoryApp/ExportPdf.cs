@@ -56,10 +56,12 @@ namespace Aplication.ClinicHistoryApp
                 .Include(x=>x.oralRadiographyList)
                 .Include(x=>x.treamentPlanList)
                 .Include(x=>x.Odontogram)
-                .ThenInclude(x=>x.toothLink)
+                .ThenInclude(x=>x.toothTypeProcessLink)
                 .ThenInclude(x=>x.Tooth)
                 .ThenInclude(x=>x.typeProcessLink)
                 .ThenInclude(x=>x.typeProcess)
+                .ThenInclude(x=>x.toothLink)
+                .ThenInclude(x=>x.faceTooth)
                 .Include(x=>x.BackgroundMedicalsLink)
                 .ThenInclude(x=>x.BackgroundMedicals)
                 .Include(x=>x.BackgroundOralsLink)
@@ -82,7 +84,7 @@ namespace Aplication.ClinicHistoryApp
                 double ageperMonth = DateTime.Now.Subtract(clinicHistory[0].user.dateBirth).Days / (365 / 12);
                 string message = "";
 
-                if(age > ageperMonth){
+                if(ageperMonth > age){
                     message = (age + " años");
                     
                 }
@@ -106,7 +108,7 @@ namespace Aplication.ClinicHistoryApp
                 var toothData = _context.tooth.ToList();
                 var typeProcessData = _context.typeProcess.ToList();
                 /*relaciones*/
-                var toothOdontoData = _context.toothsOdontogram.ToList();
+                // var toothOdontoData = _context.toothsOdontogram.ToList();
                 var typeProcessToothData = _context.typeProcessTooth.ToList();
                        
                 //AQUI ES DONDE INICIA LA CONSTRUCCION DE LOS ESTILOS DEL PDF.
@@ -1570,7 +1572,7 @@ namespace Aplication.ClinicHistoryApp
                 tableInfoOdontogram.AddCell(cellheaderObservationOdontogram);
 
                 PdfPCell cellheaderTooth= new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Diente Revisado" , fontHeader )};
+                Phrase = new Phrase("Diente y Cara Revisada" , fontHeader )};
                 tableInfoOdontogram.AddCell(cellheaderTooth);
 
                 PdfPCell cellheaderTypeProcess= new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
@@ -1602,11 +1604,13 @@ namespace Aplication.ClinicHistoryApp
                 tableOdontogramText.AddCell(cellObservation);
 
                 PdfPCell cellTooth = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(atribute.Odontogram.ToList()[i].toothLink.ToList()[i].Tooth.ubicacion.ToString() + "\n", fontData )};
+                Phrase = new Phrase("Diente: " + atribute.Odontogram.ToList()[i].toothTypeProcessLink.ToList()[i].Tooth.ubicacion 
+                + " Cara: " + atribute.Odontogram.ToList()[i].toothTypeProcessLink.ToList()[i].faceTooth.description 
+                + "\n", fontData )};
                 tableOdontogramText.AddCell(cellTooth);
 
                 PdfPCell cellTypeProcess = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(atribute.Odontogram.ToList()[i].toothLink.ToList()[i].Tooth.typeProcessLink.ToList()[i].typeProcess.name + "\n", fontData )};
+                Phrase = new Phrase(atribute.Odontogram.ToList()[i].toothTypeProcessLink.ToList()[i].Tooth.typeProcessLink.ToList()[i].typeProcess.name + "\n", fontData )};
                 tableOdontogramText.AddCell(cellTypeProcess);
                 }
                }

@@ -19,10 +19,5 @@ namespace Domine
         public ICollection<OralRadiography> oralRadiographyList {get;set;}
         public ICollection<TreamentPlan> treamentPlanList {get;set;}
         public ICollection<PatientEvolution> patientEvolutionList {get;set;}
-
-        public object Select(object p)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

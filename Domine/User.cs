@@ -25,7 +25,7 @@ namespace Domine
         public string bloodType {get;set;} = "default";
         public ICollection<UserAppoinments> appoinmentsLink {get;set;}
         public string typeDocumentId {get;set;}  = "CAC8B6D5-7D79-4455-B903-9F2B3DBC5293";
-        public Odontogram odontogram {get;set;}
+        public ICollection<Odontogram> odontogram {get;set;}
         public typeDocument typeDocument {get;set;} 
         public ClinicHistory clinicHistory {get;set;}
       

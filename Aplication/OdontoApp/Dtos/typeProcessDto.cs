@@ -6,6 +6,6 @@ namespace Aplication.OdontoApp.Dtos
 {
     public class typeProcessDto
     {
-        // public ICollection<tooth> tooths {get;set;}
+        //  public ICollection<typeProcess> typeProcesses {get;set;}
     }
 }

@@ -10,7 +10,9 @@ namespace Aplication.OdontoApp.Dtos
         // public int num {get;set;}
         // public string ubicacion {get;set;}
         // public ICollection<Odontogram> odontograms {get;set;}
-        public ICollection<typeProcess> typeProcesses {get;set;}
+        // public ICollection<tooth> tooths {get;set;}
+        //  public ICollection<typeProcess> typeProcesses {get;set;}
+        //   public ICollection<FaceTooth> faceTooths {get;set;}
         // public Guid typeProcessId {get;set;}
     }
 }

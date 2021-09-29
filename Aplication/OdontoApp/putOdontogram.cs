@@ -17,11 +17,10 @@ namespace Aplication.OdontoApp
          public class Execute : IRequest
         {
             public Guid Id {get;set;}
-            public Guid IdtypeProcessTooth {get;set;}
             public DateTime date_register {get;set;}
             public string observation {get;set;}
-            public List<Guid> typeProcess {get;set;}
-            public List<Guid> Tooths {get;set;}
+            public List<typeProcessTooth> typeProcessTooth {get;set;}
+            public Guid ToothId {get;set;}
         }
 
          public class ExecuteValidator : AbstractValidator<Execute>{
@@ -49,47 +48,47 @@ namespace Aplication.OdontoApp
                 /*actualizar unicamente la información de la cita*/
                 odontogram.date_register = DateTime.UtcNow;
                 odontogram.observation = request.observation ?? odontogram.observation;
+                odontogram.toothTypeProcessLink = request.typeProcessTooth;
 
-                if(request.Tooths!=null){
-                    if(request.Tooths.Count>0){
-                        /*Eliminar los usuarios actuales del curso en la base de datos*/
-                        var toothsBD = _context.toothsOdontogram.Where(x => x.OdontogramId == request.Id);
-                        foreach(var odontogramDelete in toothsBD){
-                            _context.toothsOdontogram.Remove(odontogramDelete);
-                        }
+                // if(request.Tooths!=null){
+                //     if(request.Tooths.Count>0){
+                //         /*Eliminar los usuarios actuales del curso en la base de datos*/
+                //         var toothsBD = _context.toothsOdontogram.Where(x => x.OdontogramId == request.Id);
+                //         foreach(var odontogramDelete in toothsBD){
+                //             _context.toothsOdontogram.Remove(odontogramDelete);
+                //         }
 
-                         foreach(var id in request.Tooths){
-                            var toothsOdontogram = new toothsOdontogram {
-                                OdontogramId = request.Id,
-                                ToothId = id
-                            };
-                            _context.toothsOdontogram.Add(toothsOdontogram);
-                        }
-                     } /*Fin del procedimiento para  la relación entre el odontograma y dientes*/
-                }
-                    if(request.Tooths!=null){   
-                    if(request.Tooths.Count>0){
+                //          foreach(var id in request.Tooths){
+                //             var toothsOdontogram = new toothsOdontogram {
+                //                 OdontogramId = request.Id,
+                //                 ToothId = id
+                //             };
+                //             _context.toothsOdontogram.Add(toothsOdontogram);
+                //         }
+                //      } /*Fin del procedimiento para  la relación entre el odontograma y dientes*/
+                // }
+                //     if(request.ToothId!=null){   
+                //     if(request.typeProcess.Count>0){
                 
-                        /*Eliminar los usuarios actuales del curso en la base de datos*/
-                        var toothBD = _context.typeProcessTooth.Where(x => x.Id == request.IdtypeProcessTooth);
-                        foreach(var relationDelete in toothBD){
+                //         /*Eliminar los usuarios actuales del curso en la base de datos*/
+                //         var toothTypeProcessBD = _context.typeProcessTooth.Where(x => x.OdontogramId == request.Id);
+                //         foreach(var relationDelete in toothTypeProcessBD){
                              
-                            _context.typeProcessTooth.Remove(relationDelete);
-                        }
-                        /*Procedimiento para agregar odontogramas que provienen del doctor que lo edita*/
-                        if(request.typeProcess!=null){
-                        foreach(var _id in request.typeProcess){
-                        foreach(var _id2 in request.Tooths){
-                        var typeProcessTooth = new typeProcessTooth{
-                            typeProcessId = _id,
-                            ToothId =  _id2
-                        };
-                        _context.typeProcessTooth.Add(typeProcessTooth);
-                    }
-                }
-                       } 
-                    }
-                }/*Fin del procedimiento*/
+                //             _context.typeProcessTooth.Remove(relationDelete);
+                //         }
+                //         /*Procedimiento para agregar odontogramas que provienen del doctor que lo edita*/
+                //         if(request.typeProcess!=null){
+                //         foreach(var _id in request.typeProcess){
+                //         var toothTypeProcessLink = new typeProcessTooth{
+                //             ToothId =  request.ToothId,
+                //             typeProcessId = _id,
+                //             OdontogramId = request.Id
+                //         };
+                //         _context.typeProcessTooth.Add(toothTypeProcessLink); 
+                // }
+                //        } 
+                //     }
+                // }/*Fin del procedimiento*/
                 var result = await _context.SaveChangesAsync();
 
                 if (result > 0)

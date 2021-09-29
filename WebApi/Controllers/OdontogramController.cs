@@ -13,15 +13,21 @@ namespace WebApi.Controllers
     public class OdontogramController : myControllerBase
     {
         [HttpGet("tooths")]
-        public async Task<ActionResult<List<tooth>>> Get(){
+        public async Task<ActionResult<List<tooth>>> GetTooths(){
 
             return await mediator.Send(new GetTooth.ListTooths());
         }
 
         [HttpGet("typeProcess")]
-        public async Task<ActionResult<List<typeProcess>>> GetResult(){
+        public async Task<ActionResult<List<typeProcess>>> GetTypeProcess(){
 
             return await mediator.Send(new GetTypeProcess.ListTypeProcess());
+        }
+
+        [HttpGet("faceTooths")]
+        public async Task<ActionResult<List<FaceTooth>>> GetfaceTooths(){
+
+            return await mediator.Send(new GetFaceTooth.ListfaceTooths());
         }
 
         [HttpPost("addOdontogram")]

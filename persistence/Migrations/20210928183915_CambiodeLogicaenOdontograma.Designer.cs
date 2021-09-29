@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using persistence;
 
 namespace persistence.Migrations
 {
     [DbContext(typeof(OntoSoftContext))]
-    partial class OntoSoftContextModelSnapshot : ModelSnapshot
+    [Migration("20210928183915_CambiodeLogicaenOdontograma")]
+    partial class CambiodeLogicaenOdontograma
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,20 +103,6 @@ namespace persistence.Migrations
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("clinicHistories");
-                });
-
-            modelBuilder.Entity("Domine.FaceTooth", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("faceTooth");
                 });
 
             modelBuilder.Entity("Domine.Galleries", b =>
@@ -471,9 +459,6 @@ namespace persistence.Migrations
                     b.Property<Guid>("ToothId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("faceToothId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("typeProcessId")
                         .HasColumnType("uniqueidentifier");
 
@@ -482,8 +467,6 @@ namespace persistence.Migrations
                     b.HasIndex("OdontogramId");
 
                     b.HasIndex("ToothId");
-
-                    b.HasIndex("faceToothId");
 
                     b.HasIndex("typeProcessId");
 
@@ -729,12 +712,6 @@ namespace persistence.Migrations
                     b.HasOne("Domine.tooth", "Tooth")
                         .WithMany("typeProcessLink")
                         .HasForeignKey("ToothId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domine.FaceTooth", "faceTooth")
-                        .WithMany("typeProcessToothLink")
-                        .HasForeignKey("faceToothId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

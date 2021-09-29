@@ -6,5 +6,6 @@ namespace Aplication.OdontoApp.Dtos
     {
         public Guid typeProcessId {get;set;}
         public Guid ToothId {get;set;}
+        public Guid faceToothId {get;set;}
     }
 }
