@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Domine;
 
@@ -5,6 +6,7 @@ namespace Aplication.OdontoApp.Dtos
 {
     public class faceToothDto
     {
-        // public ICollection<FaceTooth> faceTooths {get;set;}
+       public Guid Id {get;set;}
+       public string description {get;set;}
     }
 }

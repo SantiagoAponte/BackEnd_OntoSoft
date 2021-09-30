@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Aplication.Security.Users.Dtos;
+using Domine;
 
 namespace Aplication.OdontoApp.Dtos
 {
@@ -8,6 +10,21 @@ namespace Aplication.OdontoApp.Dtos
         public string Email {get;set;}
         public string fullName {get;set;}
         public string UserName {get;set;}
-        public ICollection<odontogramDto> Odontograms {get;set;}
+        public string PhoneNumber {get;set;}
+        public string phoneEmergency {get;set;}
+        public string contactEmergency {get;set;}
+        public string addresContact {get;set;}
+        public string centerEmergency {get;set;}
+        public string eps {get;set;}
+        public DateTime dateBirth {get;set;}
+        public string city {get;set;}
+        public string address {get;set;}
+        public string gender {get;set;}
+        public string document {get;set;}
+        public string height {get;set;}
+        public string weight {get;set;}
+        public char rh {get;set;}
+        public string bloodType {get;set;}
+        public string typeDocumentId {get;set;}
     }
 }

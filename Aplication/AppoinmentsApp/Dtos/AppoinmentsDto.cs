@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Aplication.Security;
+using Aplication.OdontoApp.Dtos;
 
 namespace Aplication.AppoinmentsApp
 {
@@ -11,6 +11,6 @@ namespace Aplication.AppoinmentsApp
         public DateTime dateFinal {get;set;}
         public string Title {get;set;}
         public string Text {get;set;}
-        public ICollection<UserDto> Users {get;set;}
+        public ICollection<userDto> Users {get;set;}
     }
 }

@@ -7,6 +7,6 @@ namespace Domine
     {
         public Guid Id {get;set;}
         public string description {get;set;}
-        public ICollection<typeProcessTooth> typeProcessToothLink {get;set;}
+        public ICollection<typeProcessTooth> faceToothsLink {get;set;}
     }
 }

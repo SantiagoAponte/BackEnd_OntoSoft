@@ -9,7 +9,7 @@ namespace Aplication.Security.Users.Dtos
         public string fullName {get;set;}
         public string Username {get;set;}
 
-        public UserManager<User> Roles {get;set;}
+        public IdentityUserRole<string> RoleId {get;set;}
     
     }
 }
