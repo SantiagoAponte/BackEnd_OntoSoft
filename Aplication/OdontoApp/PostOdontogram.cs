@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using Domine;
 using FluentValidation;
 using MediatR;
-using Newtonsoft.Json;
-using persistence;
+using Persistence;
 
 namespace Aplication.AppoinmentsApp
 {

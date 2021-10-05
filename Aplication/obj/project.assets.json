@@ -6897,11 +6897,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Aplication\\Aplication.csproj",
+      "projectUniqueName": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\Github\\BackEnd_OntoSoft\\Aplication\\Aplication.csproj",
       "projectName": "Aplication",
-      "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Aplication\\Aplication.csproj",
+      "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\Github\\BackEnd_OntoSoft\\Aplication\\Aplication.csproj",
       "packagesPath": "C:\\Users\\Santiago.Aponte\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Aplication\\obj\\",
+      "outputPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\Github\\BackEnd_OntoSoft\\Aplication\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -6922,11 +6922,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Domine\\Domine.csproj": {
-              "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Domine\\Domine.csproj"
+            "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\Github\\BackEnd_OntoSoft\\Domine\\Domine.csproj": {
+              "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\Github\\BackEnd_OntoSoft\\Domine\\Domine.csproj"
             },
-            "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Persistence\\persistence.csproj": {
-              "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Persistence\\persistence.csproj"
+            "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\Github\\BackEnd_OntoSoft\\Persistence\\persistence.csproj": {
+              "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\Github\\BackEnd_OntoSoft\\Persistence\\persistence.csproj"
             }
           }
         }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +7,7 @@ using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
-using persistence;
+using Persistence;
 
 namespace Aplication.OdontoApp
 {

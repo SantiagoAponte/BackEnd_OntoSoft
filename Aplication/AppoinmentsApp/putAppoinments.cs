@@ -8,7 +8,7 @@ using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
-using persistence;
+using Persistence;
 
 namespace Aplication.AppoinmentsApp
 {

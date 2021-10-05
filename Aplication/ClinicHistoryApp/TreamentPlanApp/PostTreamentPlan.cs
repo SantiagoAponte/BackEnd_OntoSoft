@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Domine;
 using FluentValidation;
 using MediatR;
-using persistence;
+using Persistence;
 
 namespace Aplication.ClinicHistoryApp.TreamentPlanApp
 {

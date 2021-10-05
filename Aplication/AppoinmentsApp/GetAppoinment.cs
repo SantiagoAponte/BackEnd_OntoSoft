@@ -5,7 +5,7 @@ using AutoMapper;
 using Domine;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using persistence;
+using Persistence;
 
 namespace Aplication.AppoinmentsApp
 {

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Q02yXHlrj/nfUlMstR/wQyKH7T82QEWyc6cSf+SV2tZFcpieqPJgml5Kv4yf07M0p/vvjARTpJzJ0x29ghLDMQ==",
+  "dgSpecHash": "++Gd0Ao/+nrD3tgCYKQYAlkiAVMnbMl0n5kozhu2sglznn78u2ThGv/DtW8zsxp17WayBPWOU4M+p8Lj0X/EeQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Security\\Security.csproj",
+  "projectFilePath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\Github\\BackEnd_OntoSoft\\Security\\Security.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Santiago.Aponte\\.nuget\\packages\\automapper\\8.1.1\\automapper.8.1.1.nupkg.sha512",
     "C:\\Users\\Santiago.Aponte\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\6.1.1\\automapper.extensions.microsoft.dependencyinjection.6.1.1.nupkg.sha512",

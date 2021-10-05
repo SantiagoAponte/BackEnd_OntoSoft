@@ -11,7 +11,7 @@ using iTextSharp.text.pdf;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using persistence;
+using Persistence;
 
 namespace Aplication.ClinicHistoryApp
 {

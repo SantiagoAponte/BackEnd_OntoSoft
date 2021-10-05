@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Domine;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using persistence;
+using Persistence;
 
 namespace Aplication.ClinicHistoryApp.BackgroundMedicalApp
 {

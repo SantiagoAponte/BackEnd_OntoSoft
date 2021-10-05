@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using persistence;
+using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;

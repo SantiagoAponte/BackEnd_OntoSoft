@@ -11,9 +11,9 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Aplication.ManagerExcepcion;
 using Domine;
-using persistence;
 using Aplication.Interfaces.Contracts;
 using Aplication.Security.Users.Dtos;
+using Persistence;
 
 namespace Aplication.Security
 {

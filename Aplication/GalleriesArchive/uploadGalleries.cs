@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Domine;
 using Microsoft.EntityFrameworkCore;
-using persistence;
+using Persistence;
 
 namespace Aplication.GalleriesArchive
 {
