@@ -9,6 +9,7 @@
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <SolutionDir Condition="$(..\Persistence\persistence.csproj) == '' Or $(..\Persistence\persistence.csproj) == '*persistence*'">..\</SolutionDir>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
