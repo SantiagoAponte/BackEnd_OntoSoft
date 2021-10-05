@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using persistence;
+using Persistence;
 
-namespace persistence.Migrations
+namespace Persistence.Migrations
 {
     [DbContext(typeof(OntoSoftContext))]
     [Migration("20210918233008_crearEntidadTypeDocument")]
