@@ -7,7 +7,7 @@ using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
-using Persistence;
+using persistence;
 
 namespace Aplication.OdontoApp
 {

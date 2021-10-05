@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Persistence
+namespace persistence
 {
     public class OntoSoftContext : IdentityDbContext<User>
     {

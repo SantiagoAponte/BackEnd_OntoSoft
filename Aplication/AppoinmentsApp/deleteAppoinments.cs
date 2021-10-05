@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Aplication.ManagerExcepcion;
 using MediatR;
-using Persistence;
+using persistence;
 
 namespace Aplication.AppoinmentsApp
 {

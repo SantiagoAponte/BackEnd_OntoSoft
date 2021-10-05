@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Aplication.ManagerExcepcion;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
+using persistence;
 
 namespace Aplication.GalleriesArchive
 {

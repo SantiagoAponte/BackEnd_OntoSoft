@@ -7,7 +7,7 @@ using AutoMapper;
 using Domine;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
+using persistence;
 
 namespace Aplication.ClinicHistoryApp
 {
