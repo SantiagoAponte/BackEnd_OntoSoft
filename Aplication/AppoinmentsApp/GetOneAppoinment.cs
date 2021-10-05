@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.AppoinmentsApp.Dtos;
 using Aplication.ManagerExcepcion;
 using AutoMapper;
 using Domine;

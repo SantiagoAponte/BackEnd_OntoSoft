@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Aplication.AppoinmentsApp;
+using Aplication.AppoinmentsApp.Dtos;
 
-namespace Aplication.Security
+namespace Aplication.Security.Users.Dtos
 {
     public class UserDto
     {

@@ -1,4 +1,5 @@
 using Aplication.AppoinmentsApp;
+using Aplication.AppoinmentsApp.Dtos;
 using Aplication.ClinicHistoryApp.Dtos;
 using Aplication.OdontoApp.Dtos;
 using Aplication.Security;

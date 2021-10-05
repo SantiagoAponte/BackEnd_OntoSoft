@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Aplication.OdontoApp.Dtos;
 
-namespace Aplication.AppoinmentsApp
+namespace Aplication.AppoinmentsApp.Dtos
 {
     public class AppoinmentsDto
     {

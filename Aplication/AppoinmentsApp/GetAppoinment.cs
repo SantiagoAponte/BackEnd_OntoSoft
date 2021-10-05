@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.AppoinmentsApp.Dtos;
 using AutoMapper;
 using Domine;
 using MediatR;

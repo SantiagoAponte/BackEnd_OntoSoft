@@ -1,6 +1,6 @@
 using System;
 
-namespace Aplication.AppoinmentsApp
+namespace Aplication.AppoinmentsApp.Dtos
 {
     public class UserAppoinmentsDTO
     {

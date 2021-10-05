@@ -1,6 +1,6 @@
 using System;
 
-namespace Aplication.Security
+namespace Aplication.Security.Users.Dtos
 {
     public class UserData
     {

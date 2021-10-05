@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Aplication.Interfaces.Contracts;
 using Aplication.ManagerExcepcion;
+using Aplication.Security.Users.Dtos;
 using Domine;
 using FluentValidation;
 using MediatR;
