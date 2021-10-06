@@ -113,7 +113,7 @@ namespace Aplication.ClinicHistoryApp
                        
                 //AQUI ES DONDE INICIA LA CONSTRUCCION DE LOS ESTILOS DEL PDF.
                 document.Open();
-                Image image = iTextSharp.text.Image.GetInstance("E:\\logo.png");
+                Image image = iTextSharp.text.Image.GetInstance("Aplication\\images\\logo.png");
                 image.BorderWidth = 0;
                 image.Alignment = Element.ALIGN_LEFT;
                 float percentage = 0.0f;
