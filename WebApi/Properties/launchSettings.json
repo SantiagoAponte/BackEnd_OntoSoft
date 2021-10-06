@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost:4200",
+      "applicationUrl": "http://localhost:4200",
       "sslPort": 44345
     }
   },
@@ -21,7 +21,7 @@
       "commandName": "Project",
       "launchBrowser": false,
       "launchUrl": "",
-      "applicationUrl": "https://obscure-hamlet-84817.herokuapp.com/;",
+      "applicationUrl": "https://localhost:5000;",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
