@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Domine\Domine.csproj" />
-    <ProjectReference Include="..\Persistence\persistence.csproj" />
+    <ProjectReference Include="..\persistence\persistence.csproj" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

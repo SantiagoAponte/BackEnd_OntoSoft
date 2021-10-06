@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ki2qTqVqvMNRtCvXEYvLcIQgbzOWas0dMN2o7ZgbXS/Z49srHTx417QhoIg74sIOasSGqBHmV/8hkhhw/5mnRQ==",
+  "dgSpecHash": "RJROMAiNrpLQBXAM6z6uvFzuXcZtLLeP5TwEZoXo/4F39xkUBdfJqr5d/e/ZS/OL2pbLXPc7JbYoPTpI3Gup9g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\Github\\BackEnd_OntoSoft\\Domine\\Domine.csproj",
+  "projectFilePath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Domine\\Domine.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Santiago.Aponte\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.1\\microsoft.aspnetcore.cryptography.internal.3.1.1.nupkg.sha512",
     "C:\\Users\\Santiago.Aponte\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.1\\microsoft.aspnetcore.cryptography.keyderivation.3.1.1.nupkg.sha512",

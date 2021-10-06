@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Persistence.Migrations
+namespace persistence.Migrations
 {
     public partial class crearEntidadTypeDocument : Migration
     {
