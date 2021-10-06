@@ -3,9 +3,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>1c7211d6-2ada-4fe0-8fef-e55dd8134f0a</UserSecretsId>
   </PropertyGroup>
-  <Target Name="PrePublishTarget" AfterTargets="Publish">
-  <Exec Command="dotnet ef database update" />
-</Target>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.0"/>
     <PackageReference Include="Google.Apis.Auth" Version="1.49.0"/>
