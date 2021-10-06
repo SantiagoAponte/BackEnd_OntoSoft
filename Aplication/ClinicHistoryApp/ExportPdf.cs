@@ -113,7 +113,7 @@ namespace Aplication.ClinicHistoryApp
                        
                 //AQUI ES DONDE INICIA LA CONSTRUCCION DE LOS ESTILOS DEL PDF.
                 document.Open();
-                Image image = iTextSharp.text.Image.GetInstance("/app/heroku_output/Aplication/images/logo.png");
+                Image image = iTextSharp.text.Image.GetInstance("https://firebasestorage.googleapis.com/v0/b/repositorio-ontosoft.appspot.com/o/logo.png?alt=media&token=1a4f33fc-6f34-40d1-afda-699f5142841f");
                 image.BorderWidth = 0;
                 image.Alignment = Element.ALIGN_LEFT;
                 float percentage = 0.0f;
