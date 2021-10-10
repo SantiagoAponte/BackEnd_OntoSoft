@@ -13,8 +13,7 @@ namespace Aplication.AppoinmentsApp
     {
          public class Execute : IRequest {
         public Guid? Id {get;set;}
-        public DateTime dateInit {get;set;}
-        public DateTime dateFinal {get;set;}
+        public DateTime date {get;set;}
         public string Title {get;set;}
         public string Text {get;set;}
         public List<string> ListUsers {get;set;}
@@ -24,8 +23,7 @@ namespace Aplication.AppoinmentsApp
             public ExecuteValidator(){
                 RuleFor( x => x.Title).NotEmpty().WithMessage("El campo no debe estar vacio");
                 RuleFor( x => x.Text).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.dateInit).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.dateFinal).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.date).NotEmpty().WithMessage("El campo no debe estar vacio");
             }
         }
 
@@ -46,8 +44,7 @@ namespace Aplication.AppoinmentsApp
 
                var appoinment = new Appoinments {
                    Id = appoinmentId,
-                   dateInit = request.dateInit,
-                   dateFinal = request.dateFinal,
+                   date = request.date,
                    Title = request.Title,
                    Text = request.Text
                };

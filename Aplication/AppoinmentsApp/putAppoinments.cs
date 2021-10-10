@@ -17,8 +17,7 @@ namespace Aplication.AppoinmentsApp
          public class Execute : IRequest
         {
             public Guid Id { get; set; }
-             public DateTime dateInit {get;set;}
-            public DateTime dateFinal {get;set;}
+            public DateTime date {get;set;}
             public string Title {get;set;}
             public string Text {get;set;}
             public List<string> ListUsers {get;set;}
@@ -47,8 +46,7 @@ namespace Aplication.AppoinmentsApp
                     throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la cita"});
                 }
                 /*actualizar unicamente la información de la cita*/
-                appoinment.dateInit = request.dateInit;
-                appoinment.dateFinal = request.dateFinal;
+                appoinment.date = request.date;
                 appoinment.Title = request.Title ?? appoinment.Title;
                 appoinment.Text = request.Text ?? appoinment.Text;
 
