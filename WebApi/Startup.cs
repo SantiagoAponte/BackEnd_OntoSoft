@@ -48,7 +48,6 @@ namespace WebApi
             services.AddCors(o => o.AddPolicy("corsApp", builder => {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
-           services.enableCors();
 
             services.AddDbContext<OntoSoftContext>(opt => {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
