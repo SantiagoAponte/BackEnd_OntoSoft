@@ -12,7 +12,7 @@ namespace Aplication.AppoinmentsApp
     public class PostAppoinment
     {
          public class Execute : IRequest {
-        public Guid? id {get;set;}
+        public string id {get;set;}
         public DateTime start {get;set;}
         public string title {get;set;}
         public string text {get;set;}
@@ -37,13 +37,13 @@ namespace Aplication.AppoinmentsApp
             public async Task<Unit> Handle(Execute request, CancellationToken cancellationToken)
             {
                
-               Guid appoinmentId = Guid.NewGuid();
+               string appoinmentId = request.id;
                if(request.id != null){
-                 appoinmentId = request.id ?? Guid.NewGuid();
+              
                }
 
                var appoinment = new Appoinments {
-                   id = appoinmentId.ToString(),
+                   id = appoinmentId,
                    start = request.start,
                    title = request.title,
                    text = request.text
