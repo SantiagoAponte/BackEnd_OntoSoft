@@ -14,15 +14,15 @@ namespace Aplication.AppoinmentsApp
          public class Execute : IRequest {
         public Guid? id {get;set;}
         public DateTime start {get;set;}
-        public string Title {get;set;}
-        public string Text {get;set;}
+        public string title {get;set;}
+        public string text {get;set;}
         public List<string> ListUsers {get;set;}
         }
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.Title).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.Text).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.title).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.text).NotEmpty().WithMessage("El campo no debe estar vacio");
                 RuleFor( x => x.start).NotEmpty().WithMessage("El campo no debe estar vacio");
             }
         }
@@ -45,8 +45,8 @@ namespace Aplication.AppoinmentsApp
                var appoinment = new Appoinments {
                    id = appoinmentId.ToString(),
                    start = request.start,
-                   Title = request.Title,
-                   Text = request.Text
+                   title = request.title,
+                   text = request.text
                };
 
                 _context.Appoinments.Add(appoinment);
@@ -55,7 +55,7 @@ namespace Aplication.AppoinmentsApp
                     foreach(var _id in request.ListUsers){
                         var userAppoinments = new UserAppoinments{
                             UserId = _id,
-                            AppoinmentsId = appoinmentId.ToString()
+                            Appoinmentsid = appoinmentId.ToString()
                         };
                         _context.UserAppoinments.Add(userAppoinments);
                     }

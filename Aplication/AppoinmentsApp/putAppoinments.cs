@@ -47,13 +47,13 @@ namespace Aplication.AppoinmentsApp
                 }
                 /*actualizar unicamente la información de la cita*/
                 appoinment.start = request.start;
-                appoinment.Title = request.Title ?? appoinment.Title;
-                appoinment.Text = request.Text ?? appoinment.Text;
+                appoinment.title = request.Title ?? appoinment.title;
+                appoinment.text = request.Text ?? appoinment.text;
 
                 if(request.ListUsers!=null){
                     if(request.ListUsers.Count>0){
                         /*Eliminar los usuarios actuales del curso en la base de datos*/
-                        var usersBD = _context.UserAppoinments.Where(x => x.AppoinmentsId == request.Id);
+                        var usersBD = _context.UserAppoinments.Where(x => x.Appoinmentsid == request.Id);
                         foreach(var userDelete in usersBD){
                             _context.UserAppoinments.Remove(userDelete);
                         }
@@ -62,7 +62,7 @@ namespace Aplication.AppoinmentsApp
                         /*Procedimiento para agregar usuarios que provienen del cliente que edita la cita*/
                         foreach(var id in request.ListUsers){
                             var newUser = new UserAppoinments {
-                                AppoinmentsId = request.Id,
+                                Appoinmentsid = request.Id,
                                 UserId = id
                             };
                             _context.UserAppoinments.Add(newUser);

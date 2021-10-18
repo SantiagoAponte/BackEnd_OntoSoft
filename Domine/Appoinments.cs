@@ -7,8 +7,8 @@ namespace Domine
     {
         public string id {get;set;}
         public DateTime start {get;set;}
-        public string Title {get;set;}
-        public string Text {get;set;}
+        public string title {get;set;}
+        public string text {get;set;}
         public ICollection<UserAppoinments> userLink {get;set;}
 
         
