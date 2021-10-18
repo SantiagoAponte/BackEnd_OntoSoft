@@ -9,7 +9,7 @@ namespace Domine
 
         public Appoinments Appoinments {get;set;}
 
-        public Guid AppoinmentsId {get;set;}
+        public string AppoinmentsId {get;set;}
 
         public User User {get;set;}
     }

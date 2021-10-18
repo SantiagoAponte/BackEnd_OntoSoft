@@ -12,8 +12,8 @@ namespace Aplication.AppoinmentsApp
     public class PostAppoinment
     {
          public class Execute : IRequest {
-        public Guid? Id {get;set;}
-        public DateTime date {get;set;}
+        public Guid? id {get;set;}
+        public DateTime start {get;set;}
         public string Title {get;set;}
         public string Text {get;set;}
         public List<string> ListUsers {get;set;}
@@ -23,7 +23,7 @@ namespace Aplication.AppoinmentsApp
             public ExecuteValidator(){
                 RuleFor( x => x.Title).NotEmpty().WithMessage("El campo no debe estar vacio");
                 RuleFor( x => x.Text).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.date).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.start).NotEmpty().WithMessage("El campo no debe estar vacio");
             }
         }
 
@@ -38,13 +38,13 @@ namespace Aplication.AppoinmentsApp
             {
                
                Guid appoinmentId = Guid.NewGuid();
-               if(request.Id != null){
-                 appoinmentId = request.Id ?? Guid.NewGuid();
+               if(request.id != null){
+                 appoinmentId = request.id ?? Guid.NewGuid();
                }
 
                var appoinment = new Appoinments {
-                   Id = appoinmentId,
-                   date = request.date,
+                   id = appoinmentId.ToString(),
+                   start = request.start,
                    Title = request.Title,
                    Text = request.Text
                };
@@ -55,7 +55,7 @@ namespace Aplication.AppoinmentsApp
                     foreach(var _id in request.ListUsers){
                         var userAppoinments = new UserAppoinments{
                             UserId = _id,
-                            AppoinmentsId = appoinmentId
+                            AppoinmentsId = appoinmentId.ToString()
                         };
                         _context.UserAppoinments.Add(userAppoinments);
                     }

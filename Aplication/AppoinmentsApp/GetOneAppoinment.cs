@@ -15,7 +15,7 @@ namespace Aplication.AppoinmentsApp
     public class GetOneAppoinment
     {
         public class OneAppoinment : IRequest<AppoinmentsDto>{
-            public Guid Id {get;set;}
+            public string Id {get;set;}
         }
 
         public class Manager : IRequestHandler<OneAppoinment, AppoinmentsDto>
@@ -33,7 +33,7 @@ namespace Aplication.AppoinmentsApp
                var appoinment = await _context.Appoinments
                .Include(x=>x.userLink)
                .ThenInclude(y => y.User)
-               .FirstOrDefaultAsync(a => a.Id == request.Id);
+               .FirstOrDefaultAsync(a => a.id == request.Id);
 
                 if(appoinment==null){
                 //throw new Exception("No se puede eliminar curso");
