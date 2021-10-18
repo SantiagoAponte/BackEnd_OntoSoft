@@ -6,6 +6,6 @@ namespace Aplication.AppoinmentsApp.Dtos
     {
         public string UserId {get;set;}
 
-        public Guid AppoinmentsId {get;set;}
+        public string AppoinmentsId {get;set;}
     }
 }
