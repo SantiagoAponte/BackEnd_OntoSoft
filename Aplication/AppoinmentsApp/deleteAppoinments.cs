@@ -24,7 +24,7 @@ namespace Aplication.AppoinmentsApp
             public async Task<Unit> Handle(Execute request, CancellationToken cancellationToken)
             {
                 /* Elimina todos los usuarios que contiene esa cita*/
-                var usersBD = _context.UserAppoinments.Where(x=> x.Appoinmentsid == request.Id);
+                var usersBD = _context.UserAppoinments.Where(x=> x.AppoinmentsId == request.Id);
                 foreach(var user in usersBD){
                     _context.UserAppoinments.Remove(user);
                 }
