@@ -5,10 +5,10 @@ namespace Domine
 {
     public class Appoinments
     {
-        public string id {get;set;}
-        public DateTime start {get;set;}
-        public string title {get;set;}
-        public string text {get;set;}
+        public Guid Id {get;set;}
+        public DateTime date {get;set;}
+        public string Title {get;set;}
+        public string Text {get;set;}
         public ICollection<UserAppoinments> userLink {get;set;}
 
         

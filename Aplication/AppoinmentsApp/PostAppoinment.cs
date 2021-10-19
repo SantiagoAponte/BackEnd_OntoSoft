@@ -12,18 +12,18 @@ namespace Aplication.AppoinmentsApp
     public class PostAppoinment
     {
          public class Execute : IRequest {
-        public string id {get;set;}
-        public DateTime start {get;set;}
-        public string title {get;set;}
-        public string text {get;set;}
+        public Guid? Id {get;set;}
+        public DateTime date {get;set;}
+        public string Title {get;set;}
+        public string Text {get;set;}
         public List<string> ListUsers {get;set;}
         }
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.title).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.text).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.start).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.Title).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.Text).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.date).NotEmpty().WithMessage("El campo no debe estar vacio");
             }
         }
 
@@ -37,16 +37,16 @@ namespace Aplication.AppoinmentsApp
             public async Task<Unit> Handle(Execute request, CancellationToken cancellationToken)
             {
                
-               string appoinmentId = request.id;
-               if(request.id != null){
-              
+               Guid appoinmentId = Guid.NewGuid();
+               if(request.Id != null){
+                 appoinmentId = request.Id ?? Guid.NewGuid();
                }
 
                var appoinment = new Appoinments {
-                   id = appoinmentId,
-                   start = request.start,
-                   title = request.title,
-                   text = request.text
+                   Id = appoinmentId,
+                   date = request.date,
+                   Title = request.Title,
+                   Text = request.Text
                };
 
                 _context.Appoinments.Add(appoinment);
@@ -55,7 +55,7 @@ namespace Aplication.AppoinmentsApp
                     foreach(var _id in request.ListUsers){
                         var userAppoinments = new UserAppoinments{
                             UserId = _id,
-                            Appoinmentsid = appoinmentId.ToString()
+                            AppoinmentsId = appoinmentId
                         };
                         _context.UserAppoinments.Add(userAppoinments);
                     }

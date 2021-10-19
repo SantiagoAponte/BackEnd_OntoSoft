@@ -16,8 +16,8 @@ namespace Aplication.AppoinmentsApp
     {
          public class Execute : IRequest
         {
-            public string Id { get; set; }
-            public DateTime start {get;set;}
+            public Guid Id { get; set; }
+            public DateTime date {get;set;}
             public string Title {get;set;}
             public string Text {get;set;}
             public List<string> ListUsers {get;set;}
@@ -46,14 +46,14 @@ namespace Aplication.AppoinmentsApp
                     throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la cita"});
                 }
                 /*actualizar unicamente la información de la cita*/
-                appoinment.start = request.start;
-                appoinment.title = request.Title ?? appoinment.title;
-                appoinment.text = request.Text ?? appoinment.text;
+                appoinment.date = request.date;
+                appoinment.Title = request.Title ?? appoinment.Title;
+                appoinment.Text = request.Text ?? appoinment.Text;
 
                 if(request.ListUsers!=null){
                     if(request.ListUsers.Count>0){
                         /*Eliminar los usuarios actuales del curso en la base de datos*/
-                        var usersBD = _context.UserAppoinments.Where(x => x.Appoinmentsid == request.Id);
+                        var usersBD = _context.UserAppoinments.Where(x => x.AppoinmentsId == request.Id);
                         foreach(var userDelete in usersBD){
                             _context.UserAppoinments.Remove(userDelete);
                         }
@@ -62,7 +62,7 @@ namespace Aplication.AppoinmentsApp
                         /*Procedimiento para agregar usuarios que provienen del cliente que edita la cita*/
                         foreach(var id in request.ListUsers){
                             var newUser = new UserAppoinments {
-                                Appoinmentsid = request.Id,
+                                AppoinmentsId = request.Id,
                                 UserId = id
                             };
                             _context.UserAppoinments.Add(newUser);

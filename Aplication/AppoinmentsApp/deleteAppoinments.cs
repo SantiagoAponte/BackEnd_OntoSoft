@@ -12,7 +12,7 @@ namespace Aplication.AppoinmentsApp
     public class deleteAppoinments
     {
         public class Execute : IRequest {
-            public string Id {get;set;}
+            public Guid Id {get;set;}
         }
 
         public class Manager : IRequestHandler<Execute>
