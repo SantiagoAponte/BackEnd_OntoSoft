@@ -25,8 +25,8 @@ namespace WebApi.Controllers
             return await mediator.Send(data);
         }
 
-        [Authorize]
-        [HttpDelete("deleterol")]
+       //[Authorize]
+        [HttpPost("deleterol")]
         public async Task<ActionResult<Unit>> DeleteRol(deleteRol.Execute data){
             return await mediator.Send(data);
         }
