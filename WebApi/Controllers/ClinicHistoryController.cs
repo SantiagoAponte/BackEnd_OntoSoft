@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    public class ClinicHistoryController : myControllerBase
+    public class clinichistoryController : myControllerBase
     {
         
         [HttpGet("users/{id}")]
@@ -23,37 +23,37 @@ namespace WebApi.Controllers
             return await mediator.Send(new getClinicHistoryWithUser.OneClinicHistoryUser{Id = id});
         }
 
-        [HttpGet("backgroundOral")]
+        [HttpGet("backgroundoral")]
         public async Task<ActionResult<List<BackgroundOral>>> Get(){
 
             return await mediator.Send(new getAllBackgroundOral.ListbackgroundOral());
         }
-        [HttpGet("backgroundMedical")]
+        [HttpGet("backgroundmedical")]
         public async Task<ActionResult<List<BackgroundMedical>>> GetResultAsync(){
 
             return await mediator.Send(new getAllBackgroundMedical.ListbackgroundMedical());
         }
-          [HttpGet("exportPdf/{id}")]
+          [HttpGet("exportpdf/{id}")]
          public async Task<ActionResult<Stream>> GetTask(string id){
              return await mediator.Send(new ExportPdf.getClinicHistoryInPdf(id));
         }
 
-        [HttpPost("addClinicHistory")]
+        [HttpPost("addclinichistory")]
         public async Task<ActionResult<Unit>> CreateClinicHistory(PostClinicHistory.Execute data){
             return await mediator.Send(data);
         }
 
-        [HttpPost("addEvolution")]
+        [HttpPost("addevolution")]
         public async Task<ActionResult<Unit>> CreateEvolution(PostPatientEvolution.Execute data){
             return await mediator.Send(data);
         }
 
-        [HttpPost("addRadiography")]
+        [HttpPost("addradiography")]
         public async Task<ActionResult<Unit>> CreateOralRadiography(PostOralRadiography.Execute data){
             return await mediator.Send(data);
         }
 
-        [HttpPost("addTreamentPlan")]
+        [HttpPost("addtreamentplan")]
         public async Task<ActionResult<Unit>> CreateTreamentPlan(PostTreamentPlan.Execute data){
             return await mediator.Send(data);
         }

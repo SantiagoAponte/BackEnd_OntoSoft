@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    public class OdontogramController : myControllerBase
+    public class odontogramController : myControllerBase
     {
         [HttpGet("tooths")]
         public async Task<ActionResult<List<tooth>>> GetTooths(){
@@ -18,19 +18,19 @@ namespace WebApi.Controllers
             return await mediator.Send(new GetTooth.ListTooths());
         }
 
-        [HttpGet("typeProcess")]
+        [HttpGet("typeprocess")]
         public async Task<ActionResult<List<typeProcess>>> GetTypeProcess(){
 
             return await mediator.Send(new GetTypeProcess.ListTypeProcess());
         }
 
-        [HttpGet("faceTooths")]
+        [HttpGet("facetooths")]
         public async Task<ActionResult<List<FaceTooth>>> GetfaceTooths(){
 
             return await mediator.Send(new GetFaceTooth.ListfaceTooths());
         }
 
-        [HttpPost("addOdontogram")]
+        [HttpPost("addodontogram")]
         public async Task<ActionResult<Unit>> CreateOdontogram(PostOdontogram.Execute data){
             return await mediator.Send(data);
         }

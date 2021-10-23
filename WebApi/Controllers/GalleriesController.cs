@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers
 {
     //https://localhost:5000/api/Galleries/upload
-    public class GalleriesController : myControllerBase
+    public class galleriesController : myControllerBase
     {
         [HttpPost("upload")]
         public async Task<ActionResult<Unit>> GuardarArchivo(uploadGalleries.Execute data){

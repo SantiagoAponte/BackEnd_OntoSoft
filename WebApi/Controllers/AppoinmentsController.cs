@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    public class AppoinmentsController : myControllerBase
+    public class appoinmentsController : myControllerBase
     {
         [HttpGet]
         public async Task<ActionResult<List<AppoinmentsDto>>> Get(){
@@ -20,7 +20,7 @@ namespace WebApi.Controllers
         }
 
         
-        //http://localhost:5000/api/Appoinments/{id}
+        //http://localhost:5000/api/appoinments/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<AppoinmentsDto>> ObtainOneAppoinment(Guid id){
             return await mediator.Send(new GetOneAppoinment.OneAppoinment{Id = id});
@@ -39,13 +39,13 @@ namespace WebApi.Controllers
 
 
 
-        [HttpPut("{id}")]
+        [HttpPut("edit/{id}")]
         public async Task<ActionResult<Unit>> putAppoinment(Guid id, putAppoinments.Execute data){
             data.Id = id;
             return await mediator.Send(data);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<ActionResult<Unit>> deleteAppoinment(Guid id){
             return await mediator.Send(new deleteAppoinments.Execute{Id = id});
         }

@@ -14,12 +14,12 @@ namespace WebApi.Controllers
 {
      [ApiController]
     // [AllowAnonymous]
-        public class UserController : myControllerBase
+        public class userController : myControllerBase
     {
          private IForgetPassword _forgetPassword;
         private IMailService _mailService;
         private IConfiguration _configuration;
-        public UserController(IForgetPassword forgetPassword, IMailService mailService, IConfiguration configuration)
+        public userController(IForgetPassword forgetPassword, IMailService mailService, IConfiguration configuration)
         {
             _forgetPassword = forgetPassword;
             _mailService = mailService;
@@ -27,21 +27,21 @@ namespace WebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<ActionResult<userLoginDto>> Login(Login.Execute data){
             return await mediator.Send(data);
         }
         // https://localhost:5000/api/user/register
         [AllowAnonymous]
-        [HttpPost("Register")] 
+        [HttpPost("register")] 
         public async Task<ActionResult<userRegisterDto>> Register(UserRegister.Execute data){
             return await mediator.Send(data);
         }
 
 
-        //https://localhost:5000/api/User/ForgetPassword
+        //https://localhost:5000/api/user/forgetpassword
         
-        [HttpPost("ForgetPassword")] [AllowAnonymous]
+        [HttpPost("forgetpassword")] [AllowAnonymous]
         public async Task<IActionResult> ForgetPassword(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -55,13 +55,13 @@ namespace WebApi.Controllers
             return BadRequest(result); // 400
         }
 
-        [HttpPut("ResetPassword")] 
+        [HttpPut("resetpassword")] 
         [AllowAnonymous]
         public async Task<ActionResult<UserManagerResponse>> ResetPassword(ResetPassword.Execute data){
             return await mediator.Send(data);
         }
 
-        //https://localhost:5000/api/User/
+        //https://localhost:5000/api/user/
         [HttpGet]
         // [Authorize (Roles = "SuperAdmin")]
         // [Authorize (Roles = "Paciente")]
@@ -72,19 +72,19 @@ namespace WebApi.Controllers
         }
 
         // https://localhost:5000/api/user/edit
-        [HttpPut("Edit")]
+        [HttpPut("edit")]
         public async Task<ActionResult<UserData>> Actualizar(UserPut.Execute data){
            return await mediator.Send(data);     
         }
     
-        // https://localhost:5000/api/user/AllUsers
-        [HttpGet("AllUsers")]
+        // https://localhost:5000/api/user/allusers
+        [HttpGet("allusers")]
         public async Task<ActionResult<List<UserPrueba>>> Get(){
             return await mediator.Send(new getAllUsers.ListUsers());
         }
 
-        // https://localhost:5000/api/user/typeDocument
-        [HttpGet("typeDocument")]
+        // https://localhost:5000/api/user/typedocument
+        [HttpGet("typedocument")]
         public async Task<ActionResult<List<typeDocument>>> GetResult(){
 
             return await mediator.Send(new getTypeDocument.ListTypeDocument());
