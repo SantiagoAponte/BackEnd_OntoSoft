@@ -24,7 +24,7 @@ namespace Security.Token
             if(roles != null){
                 foreach(var rol  in roles){
                     claims.Add(new Claim(ClaimTypes.Role, rol ));
-                    // claims.Add(new Claim("clinicHistoryId", usuario.clinicHistory.Id.ToString())); //evaluarlo con fercho
+                     claims.Add(new Claim("clinicHistoryId", usuario.clinicHistory.Id.ToString()));
                     // claims.Add(new Claim("appoinmentId", usuario.appoinmentsLink.ToList()[0].AppoinmentsId.ToString())); //tal vez no vaya, crece en el tiempo
                     // claims.Add(new Claim("odontogramId", usuario.odontogram.ToList()[0].Id.ToString())); //tal vez no vaya, crece en el tiempo, pero se puede dejar uno solo por user.
                     // claims.Add(new Claim("fullName", usuario.fullName));
