@@ -8,8 +8,6 @@ namespace Aplication.Security.Users.Dtos
         public string Email {get;set;}
         public string fullName {get;set;}
         public string Username {get;set;}
-
-        public IdentityUserRole<string> RoleId {get;set;}
     
     }
 }

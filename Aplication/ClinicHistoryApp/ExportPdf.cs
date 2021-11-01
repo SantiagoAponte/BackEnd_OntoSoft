@@ -55,13 +55,13 @@ namespace Aplication.ClinicHistoryApp
                 .Include(x=>x.patientEvolutionList)
                 .Include(x=>x.oralRadiographyList)
                 .Include(x=>x.treamentPlanList)
-                .Include(x=>x.Odontogram)
-                .ThenInclude(x=>x.toothTypeProcessLink)
-                .ThenInclude(x=>x.Tooth)
-                .ThenInclude(x=>x.typeProcessLink)
-                .ThenInclude(x=>x.typeProcess)
-                .ThenInclude(x=>x.toothLink)
-                .ThenInclude(x=>x.faceTooth)
+                // .Include(x=>x.Odontogram)
+                // .ThenInclude(x=>x.toothTypeProcessLink)
+                // .ThenInclude(x=>x.Tooth)
+                // .ThenInclude(x=>x.typeProcessLink)
+                // .ThenInclude(x=>x.typeProcess)
+                // .ThenInclude(x=>x.toothLink)
+                // .ThenInclude(x=>x.faceTooth)
                 .Include(x=>x.BackgroundMedicalsLink)
                 .ThenInclude(x=>x.BackgroundMedicals)
                 .Include(x=>x.BackgroundOralsLink)
@@ -1544,82 +1544,82 @@ namespace Aplication.ClinicHistoryApp
 
                 /*ESPACIO PARA TRABAJAR EL ODONTOGRAMA*/
 
-                 PdfPTable tableOdontogram = new PdfPTable(1);
-                tableOdontogram.WidthPercentage = 90f;
-                PdfPCell cellOdontogram = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("6. DIAGNOSTICO ODONTOGRAMA", fontHeader )};
-                tableOdontogram.SpacingAfter = 3;
-                cellOdontogram.Border = Rectangle.NO_BORDER;
-                tableOdontogram.AddCell(cellOdontogram);
+            //      PdfPTable tableOdontogram = new PdfPTable(1);
+            //     tableOdontogram.WidthPercentage = 90f;
+            //     PdfPCell cellOdontogram = new PdfPCell() {Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase("6. DIAGNOSTICO ODONTOGRAMA", fontHeader )};
+            //     tableOdontogram.SpacingAfter = 3;
+            //     cellOdontogram.Border = Rectangle.NO_BORDER;
+            //     tableOdontogram.AddCell(cellOdontogram);
 
-                 document.Add(tableOdontogram);
+            //      document.Add(tableOdontogram);
 
-                /*CONSTRUCCIÒN DE LOGICA Y TABLA, CELDAS PARA ODONTOGRAMA*/
-                PdfPTable tableInfoOdontogram = new PdfPTable(5);
-                float[] widths20 = new float[] {60f, 60f, 60f, 60f, 60f};
-                tableInfoOdontogram.SetWidthPercentage(widths20, rect);
+            //     /*CONSTRUCCIÒN DE LOGICA Y TABLA, CELDAS PARA ODONTOGRAMA*/
+            //     PdfPTable tableInfoOdontogram = new PdfPTable(5);
+            //     float[] widths20 = new float[] {60f, 60f, 60f, 60f, 60f};
+            //     tableInfoOdontogram.SetWidthPercentage(widths20, rect);
 
-                PdfPCell cellheaderIdOdontogram = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Odontogram no." , fontHeader )};
-                tableInfoOdontogram.AddCell(cellheaderIdOdontogram);
+            //     PdfPCell cellheaderIdOdontogram = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase("Odontogram no." , fontHeader )};
+            //     tableInfoOdontogram.AddCell(cellheaderIdOdontogram);
 
-                PdfPCell cellheaderRegister = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Fecha de revisiòn" , fontHeader )};
-                tableInfoOdontogram.AddCell(cellheaderRegister);
+            //     PdfPCell cellheaderRegister = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase("Fecha de revisiòn" , fontHeader )};
+            //     tableInfoOdontogram.AddCell(cellheaderRegister);
 
-                PdfPCell cellheaderObservationOdontogram = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Observaciòn" , fontHeader )};
-                tableInfoOdontogram.AddCell(cellheaderObservationOdontogram);
+            //     PdfPCell cellheaderObservationOdontogram = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase("Observaciòn" , fontHeader )};
+            //     tableInfoOdontogram.AddCell(cellheaderObservationOdontogram);
 
-                PdfPCell cellheaderTooth= new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Diente y Cara Revisada" , fontHeader )};
-                tableInfoOdontogram.AddCell(cellheaderTooth);
+            //     PdfPCell cellheaderTooth= new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase("Diente y Cara Revisada" , fontHeader )};
+            //     tableInfoOdontogram.AddCell(cellheaderTooth);
 
-                PdfPCell cellheaderTypeProcess= new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Tipo de proceso" , fontHeader )};
-                tableInfoOdontogram.AddCell(cellheaderTypeProcess);
+            //     PdfPCell cellheaderTypeProcess= new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase("Tipo de proceso" , fontHeader )};
+            //     tableInfoOdontogram.AddCell(cellheaderTypeProcess);
             
-                tableInfoOdontogram.WidthPercentage = 90;
+            //     tableInfoOdontogram.WidthPercentage = 90;
 
-                PdfPTable tableOdontogramText = new PdfPTable(5);
-                float[] widths21 = new float[] {60f, 60f, 60f,60f, 60f};
-                tableOdontogramText.SetWidthPercentage(widths21, rect);
+            //     PdfPTable tableOdontogramText = new PdfPTable(5);
+            //     float[] widths21 = new float[] {60f, 60f, 60f,60f, 60f};
+            //     tableOdontogramText.SetWidthPercentage(widths21, rect);
 
                
-               for(int i = 0; i < odontogramData.Count; i++){
-                foreach (var atribute in clinicHistory)
-                {
-                var name = atribute.oralRadiographyList.ToList();
+            //    for(int i = 0; i < odontogramData.Count; i++){
+            //     foreach (var atribute in clinicHistory)
+            //     {
+            //     var name = atribute.oralRadiographyList.ToList();
                 
-                PdfPCell cellId = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase( atribute.Odontogram.ToList()[i].Id.ToString() , fontData )};
-                tableOdontogramText.AddCell(cellId);
+            //     PdfPCell cellId = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase( atribute.Odontogram.ToList()[i].Id.ToString() , fontData )};
+            //     tableOdontogramText.AddCell(cellId);
 
-                PdfPCell celldateRegister = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(atribute.Odontogram.ToList()[i].date_register.ToShortDateString().ToString(), fontData )};
-                tableOdontogramText.AddCell(celldateRegister);
+            //     PdfPCell celldateRegister = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase(atribute.Odontogram.ToList()[i].date_register.ToShortDateString().ToString(), fontData )};
+            //     tableOdontogramText.AddCell(celldateRegister);
 
-                PdfPCell cellObservation = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(atribute.Odontogram.ToList()[i].observation.ToString(), fontData )};
-                tableOdontogramText.AddCell(cellObservation);
+            //     PdfPCell cellObservation = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase(atribute.Odontogram.ToList()[i].observation.ToString(), fontData )};
+            //     tableOdontogramText.AddCell(cellObservation);
 
-                PdfPCell cellTooth = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase("Diente: " + atribute.Odontogram.ToList()[i].toothTypeProcessLink.ToList()[i].Tooth.ubicacion 
-                + " Cara: " + atribute.Odontogram.ToList()[i].toothTypeProcessLink.ToList()[i].faceTooth.description 
-                + "\n", fontData )};
-                tableOdontogramText.AddCell(cellTooth);
+            //     PdfPCell cellTooth = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase("Diente: " + atribute.Odontogram.ToList()[i].toothTypeProcessLink.ToList()[i].Tooth.ubicacion 
+            //     + " Cara: " + atribute.Odontogram.ToList()[i].toothTypeProcessLink.ToList()[i].faceTooth.description 
+            //     + "\n", fontData )};
+            //     tableOdontogramText.AddCell(cellTooth);
 
-                PdfPCell cellTypeProcess = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(atribute.Odontogram.ToList()[i].toothTypeProcessLink.ToList()[i].Tooth.typeProcessLink.ToList()[i].typeProcess.name + "\n", fontData )};
-                tableOdontogramText.AddCell(cellTypeProcess);
-                }
-               }
-                tableOdontogramText.WidthPercentage = 90;
+            //     PdfPCell cellTypeProcess = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
+            //     Phrase = new Phrase(atribute.Odontogram.ToList()[i].toothTypeProcessLink.ToList()[i].Tooth.typeProcessLink.ToList()[i].typeProcess.name + "\n", fontData )};
+            //     tableOdontogramText.AddCell(cellTypeProcess);
+            //     }
+            //    }
+            //     tableOdontogramText.WidthPercentage = 90;
 
-                tableOdontogramText.SpacingAfter = 10;
+            //     tableOdontogramText.SpacingAfter = 10;
 
-                document.Add(tableInfoOdontogram);
-                document.Add(tableOdontogramText);
+            //     document.Add(tableInfoOdontogram);
+            //     document.Add(tableOdontogramText);
                 /*AQUI ACABA LA CONFIGURACIÒN PARA EL ODONTOGRAMA*/
 
                 /*CONSTRUCCIÒN DE FIRMAS LEGALES PARA ACEPTACIÒN*/

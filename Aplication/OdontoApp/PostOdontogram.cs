@@ -17,7 +17,7 @@ namespace Aplication.AppoinmentsApp
         public string observation {get;set;}
         public List<typeProcessTooth> typeProcessTooth {get;set;}
         public string UserId {get;set;} 
-        public Guid clinicHistoryId{get;set;}
+        // public Guid clinicHistoryId{get;set;}
         }
 
         public class ExecuteValidator : AbstractValidator<Execute>{
@@ -51,7 +51,7 @@ namespace Aplication.AppoinmentsApp
                    date_register = DateTime.UtcNow,
                    observation = request.observation,
                    UserId = request.UserId,
-                   clinicHistoryId = request.clinicHistoryId,
+                //    clinicHistoryId = request.clinicHistoryId,
                    toothTypeProcessLink = request.typeProcessTooth,
                                  
                     };

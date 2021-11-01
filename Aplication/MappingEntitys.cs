@@ -37,14 +37,12 @@ namespace Aplication
             // .ForMember(x => x.Tooth, y => y. MapFrom( z => z.Tooth))
             // .ForMember(x => x.typeProcess, y => y. MapFrom( z => z.typeProcess))
             // .ForMember(x => x.faceTooth, y => y. MapFrom( z => z.faceTooth));
-            CreateMap<User, UserPrueba>(); 
-            CreateMap<IdentityUserRole<string>, UserPrueba>()
-            .ForMember(x => x.RoleId, y => y.MapFrom(z => z.RoleId));       
+            CreateMap<User, UserPrueba>();       
 
             /*Mapeo de todas las entidades que permiten construir en su totalidad la historia clinica*/
             CreateMap<ClinicHistory, clinicHistoryDto>()
             .ForMember(x => x.UserDetails, y => y.MapFrom( z => z.user))
-            .ForMember(x => x.Odontograms, y => y.MapFrom( z => z.Odontogram))
+            // .ForMember(x => x.Odontograms, y => y.MapFrom( z => z.Odontogram))
             .ForMember(x => x.BackgroundMedicals, y => y.MapFrom( z => z.BackgroundMedicalsLink.Select( a => a.BackgroundMedicals).ToList()))
             .ForMember(x => x.BackgroundOrals, y => y.MapFrom( z => z.BackgroundOralsLink.Select( a => a.BackgroundOrals).ToList()))
             .ForMember(x => x.patientEvolutions, y => y.MapFrom(z => z.patientEvolutionList))

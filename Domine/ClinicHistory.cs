@@ -15,7 +15,7 @@ namespace Domine
         public ICollection<backgroundMedicalClinicHistory> BackgroundMedicalsLink {get;set;}
         public bool backgroundOral {get;set;}
         public ICollection<backgroundOralClinicHistory> BackgroundOralsLink {get;set;}
-        public ICollection<Odontogram> Odontogram {get;set;}
+        // public ICollection<Odontogram> Odontogram {get;set;}
         public ICollection<OralRadiography> oralRadiographyList {get;set;}
         public ICollection<TreamentPlan> treamentPlanList {get;set;}
         public ICollection<PatientEvolution> patientEvolutionList {get;set;}
