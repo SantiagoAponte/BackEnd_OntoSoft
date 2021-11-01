@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Aplication.Interfaces.Contracts;
+using Aplication.ManagerExcepcion;
 using Aplication.Security.Users.Dtos;
 using Domine;
 using FluentValidation;
@@ -24,9 +26,9 @@ namespace Aplication.Security
         }
     public class ExecuteValidator : AbstractValidator<Execute>{
     public ExecuteValidator(){
-        RuleFor(x => x.Email).NotEmpty().WithMessage("El campo no debe estar vacio");
-        RuleFor(x => x.Username).NotEmpty().WithMessage("El campo no debe estar vacio");
-        RuleFor(x => x.Password).NotEmpty().WithMessage("El campo no debe estar vacio");
+        RuleFor(x => x.Email).NotEmpty().WithMessage(x => "El campo de Email no puede estar vacio");
+        RuleFor(x => x.Username).NotEmpty().WithMessage(x => "El campo de Username no puede estar vacio");
+        RuleFor(x => x.Password).NotEmpty().WithMessage(x => "El campo de Password no puede estar vacio");
         // RuleFor(x => x.RolName).NotEmpty().WithMessage("El campo no debe estar vacio");
                 // RuleFor(x => x.Password).Null();
                 // RuleFor(x => x.Image).Null();
@@ -68,14 +70,15 @@ namespace Aplication.Security
 
                var result = await _userManager.CreateAsync(user, request.Password);
             //    var result2 =  await _userManager.AddToRoleAsync(user, request.RolName);
-                if(result.Succeeded){
+                if(result.Succeeded)
+                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se registro al usuario "+ user.Email +" con exito!"});
                     return new userRegisterDto {
                     Username = user.UserName,
                     Token = _jwtGenerator.CreateToken(user, null),
                     Email = user.Email,
                     fullName = request.fullName
                     };
-                }
+                
                 throw new Exception("No se pudo agregar al nuevo usuario, verifique que su contraseña tenga al menos una mayuscula, numeros y un caracter especial");
             }
         }

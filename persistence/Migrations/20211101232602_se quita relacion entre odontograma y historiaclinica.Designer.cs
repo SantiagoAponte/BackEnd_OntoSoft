@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using persistence;
 
 namespace persistence.Migrations
 {
     [DbContext(typeof(OntoSoftContext))]
-    partial class OntoSoftContextModelSnapshot : ModelSnapshot
+    [Migration("20211101232602_se quita relacion entre odontograma y historiaclinica")]
+    partial class sequitarelacionentreodontogramayhistoriaclinica
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

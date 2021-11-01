@@ -43,9 +43,10 @@ namespace Aplication.OdontoApp
 
                 var result = await _context.SaveChangesAsync();
 
-                if(result>0){
-                    return Unit.Value;
-                }
+                if(result>0)
+                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se elimino el odontograma con exito!"});
+                return Unit.Value;
+                
 
                 throw new Exception("¡Error! " + "No se pudieron guardar los cambios");
             }

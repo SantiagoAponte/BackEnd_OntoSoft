@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
@@ -22,8 +24,10 @@ namespace Aplication.AppoinmentsApp
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.observation).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.date_register).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.observation).NotEmpty().WithMessage(x => "La observación no puede ser vacia.");
+                RuleFor( x => x.date_register).NotEmpty().WithMessage(x => "la fecha de registro no puede ser nula");
+                RuleFor( x => x.UserId).NotEmpty().WithMessage(x => "Debe de seleccionar primero un usuario para crear el odontograma.");
+                RuleFor( x => x.typeProcessTooth).NotEmpty().WithMessage(x => "Asegurese de haber seleccionado al menos un procedimiento en algun diente");
             }
         }
 
@@ -58,9 +62,10 @@ namespace Aplication.AppoinmentsApp
                     _context.Odontogram.Add(odontogram);     
                      
                  var valor = await _context.SaveChangesAsync();
-                        if(valor>0){
+                        if(valor>0)
+                        throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se creo el odontograma con exito!"});
                         return Unit.Value;
-                        }
+                        
                      throw new Exception("No se pudo crear el Odontograma");
             }
         }

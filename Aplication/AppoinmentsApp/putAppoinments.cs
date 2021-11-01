@@ -27,8 +27,9 @@ namespace Aplication.AppoinmentsApp
 
          public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.Title).NotEmpty();
-                RuleFor( x => x.Text).NotEmpty();
+                RuleFor( x => x.Title).NotEmpty().WithMessage(x=>"El campo Title no debe estar vacio");
+                RuleFor( x => x.Text).NotEmpty().WithMessage(x=>"El campo Text no debe estar vacio");
+                RuleFor( x => x.date).NotEmpty().WithMessage(x=>"El campo date no debe estar vacio");
             }
         }
 
@@ -76,6 +77,7 @@ namespace Aplication.AppoinmentsApp
                  var result = await _context.SaveChangesAsync();
 
                 if (result > 0)
+                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se actualizo la cita con exito!"});
                     return Unit.Value;
 
                 throw new Exception("¡Error! " + "No se pudo guardar los cambios de la cita");

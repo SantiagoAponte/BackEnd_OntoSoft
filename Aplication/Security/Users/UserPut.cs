@@ -49,9 +49,9 @@ namespace Aplication.Security
             public ExecuteValidator()
             {
                 // RuleFor(x => x.fullname).NotEmpty();
-                RuleFor(x => x.Email).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor(x => x.PasswordHash).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor(x => x.Username).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor(x => x.Email).NotEmpty().WithMessage(x => "El campo de Email no puede estar vacio");
+                RuleFor(x => x.PasswordHash).NotEmpty().WithMessage(x => "el campo de password no puede estar vacio");
+                RuleFor(x => x.Username).NotEmpty().WithMessage(x => "El campo userName no puede estar vacio");
             }
         }
 
@@ -155,6 +155,7 @@ namespace Aplication.Security
 
 
                 if (resultadoUpdate.Succeeded)
+                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se actualizo la información con exito!"});
                 {
                     return new UserData
                     {

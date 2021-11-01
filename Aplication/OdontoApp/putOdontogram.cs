@@ -24,7 +24,9 @@ namespace Aplication.OdontoApp
 
          public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.observation).NotEmpty();
+                RuleFor( x => x.observation).NotEmpty().WithMessage(x => "La observación no puede ser vacia.");
+                RuleFor( x => x.date_register).NotEmpty().WithMessage(x => "la fecha de registro no puede ser nula");
+                RuleFor( x => x.typeProcessTooth).NotEmpty().WithMessage(x => "Asegurese de haber seleccionado al menos un procedimiento en algun diente");
             }
         }
 
@@ -91,7 +93,8 @@ namespace Aplication.OdontoApp
                 var result = await _context.SaveChangesAsync();
 
                 if (result > 0)
-                    return Unit.Value;
+                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se actualizo el odontograma con exito!"});
+                return Unit.Value;
 
                 throw new Exception("¡Error! " + "No se pudo guardar los cambios en el Odontograma");
                  

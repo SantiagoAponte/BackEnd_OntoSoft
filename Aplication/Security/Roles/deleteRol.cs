@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +17,7 @@ namespace Aplication.Security
         }
         public class ExecuteValidation : AbstractValidator<Execute>{
             public  ExecuteValidation(){
-                RuleFor(x => x.Name).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor(x => x.Name).NotEmpty().WithMessage(x => "El campo de Name (RolName) no puede estar vacio");
             }
         }
 
@@ -32,9 +34,10 @@ namespace Aplication.Security
                     throw new Exception("No existe el rol");
                 }
                 var result = await _roleManager.DeleteAsync(role);
-                if(result.Succeeded){
-                    return Unit.Value;
-                }
+                if(result.Succeeded)
+                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se elimino el rol con exito!"});
+                return Unit.Value;
+                
                 throw new Exception("No se pudo eliminar el rol");
             }
         }

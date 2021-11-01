@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
@@ -21,9 +23,9 @@ namespace Aplication.AppoinmentsApp
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.Title).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.Text).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.date).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.Title).NotEmpty().WithMessage(x=>"El campo Title no debe estar vacio");
+                RuleFor( x => x.Text).NotEmpty().WithMessage(x=>"El campo Text no debe estar vacio");
+                RuleFor( x => x.date).NotEmpty().WithMessage(x=>"El campo date no debe estar vacio");
             }
         }
 
@@ -61,9 +63,11 @@ namespace Aplication.AppoinmentsApp
                     }
                 }
                          var valor = await _context.SaveChangesAsync();
-                        if(valor>0){
+                        if(valor>0)
+                        throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se creo la cita con exito!"});
                         return Unit.Value;
-                        }
+                        
+                    
                      throw new Exception("No se pudo crear la cita");
             }
         }

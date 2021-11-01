@@ -29,8 +29,8 @@ namespace Aplication.Security
         {
             public ExecuteValidator()
             {
-                RuleFor(x => x.Email).NotEmpty();
-                RuleFor(x => x.Password).NotEmpty();
+                RuleFor(x => x.Email).NotEmpty().WithMessage(x => "El campo de Email no puede estar vacio");;
+                RuleFor(x => x.Password).NotEmpty().WithMessage(x => "El campo de Password no puede estar vacio");;
             }
         }
 
@@ -54,7 +54,7 @@ namespace Aplication.Security
                 var user = await _userManager.FindByEmailAsync(request.Email);
                 if (user == null)
                 {
-                    throw new ManagerError(HttpStatusCode.Unauthorized);
+                     throw new ManagerError(HttpStatusCode.Unauthorized, new {mensaje ="Este usuario no se encuentra registrado en nuestro sistema o no esta permitido su ingreso"});
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
@@ -76,7 +76,7 @@ namespace Aplication.Security
                         return new userLoginDto
                         {
                             // fullName = user.fullName,
-                            Message = "Login exitoso!",
+                            Message = "Login exitoso!, Bienvenido a OntoSoft",
                             Token = _jwtGenerator.CreateToken(user, listRoles),
                             
                             // Username = user.UserName,
@@ -105,7 +105,7 @@ namespace Aplication.Security
                         return new userLoginDto
                         {
                             // fullName = user.fullName,
-                            Message = "Login exitoso!",
+                            Message = "Login exitoso!, Bienvenido a OntoSoft",
                             Token = _jwtGenerator.CreateToken(user, listRoles)
                             // Username = user.UserName,
                             // Email = user.Email,
@@ -129,7 +129,7 @@ namespace Aplication.Security
                         };
                     }
                 }
-                throw new ManagerError(HttpStatusCode.Unauthorized);
+                throw new ManagerError(HttpStatusCode.Unauthorized, new {mensaje ="Este usuario no se encuentra registrado en nuestro sistema o no esta permitido su ingreso"});
             }
         }
 

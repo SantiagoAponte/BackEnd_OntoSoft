@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
@@ -16,8 +18,8 @@ namespace Aplication.Security
         }
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor(x => x.Email).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor(x => x.RolName).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor(x => x.Email).NotEmpty().WithMessage(x => "El campo de Email no puede estar vacio");
+                RuleFor(x => x.RolName).NotEmpty().WithMessage(x => "El campo de RolName no puede estar vacio");
                 }
             }
             public class Manager : IRequestHandler<Execute>
@@ -43,9 +45,10 @@ namespace Aplication.Security
                          throw new Exception("El usuario no existe");
                      }
                    var result =  await _userManager.AddToRoleAsync(userIden, request.RolName);
-                   if(result.Succeeded){
+                   if(result.Succeeded)
+                   throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se asigno el rol al usuario "+ userIden +"con exito!"});
                        return Unit.Value;
-                   }
+                   
                    throw new Exception("No se pudo agregar el Rol al usuario");
             }
         }

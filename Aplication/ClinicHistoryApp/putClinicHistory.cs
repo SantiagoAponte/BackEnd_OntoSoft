@@ -37,15 +37,16 @@ namespace Aplication.ClinicHistoryApp
 
          public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.backgroundMedical).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.backgroundOral).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.UserId).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.dateRegister).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.ListBackgroundMedical).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.observationPatient).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.observationRadiography).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.observationTreamentPlan).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.Name).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.backgroundMedical).NotEmpty().WithMessage(x => "El campo backgroundMedical no puede estar vacio");
+                RuleFor( x => x.backgroundOral).NotEmpty().WithMessage(x => "El campo backgroundOral no puede estar vacio");
+                RuleFor( x => x.UserId).NotEmpty().WithMessage(x => "El campo UserId no puede estar vacio");
+                RuleFor( x => x.dateRegister).NotEmpty().WithMessage(x => "El campo dateRegister no puede estar vacio");
+                RuleFor( x => x.ListBackgroundMedical).NotEmpty().WithMessage(x => "El campo ListBackgroundMedical no puede estar vacio");
+                RuleFor( x => x.ListBackgroundOral).NotEmpty().WithMessage(x => "El campo ListBackgroundOral no puede estar vacio");
+                RuleFor( x => x.observationPatient).NotEmpty().WithMessage(x=> "El campo observationPatient no debe estar vacio");
+                RuleFor( x => x.observationRadiography).NotEmpty().WithMessage(x=> "El campo observationRadiography no debe estar vacio");
+                RuleFor( x => x.observationTreamentPlan).NotEmpty().WithMessage(x=> "El campo observationTreamentPlan no debe estar vacio");
+                RuleFor( x => x.Name).NotEmpty().WithMessage(x=>"El campo Name no debe estar vacio");
             }
         }
 

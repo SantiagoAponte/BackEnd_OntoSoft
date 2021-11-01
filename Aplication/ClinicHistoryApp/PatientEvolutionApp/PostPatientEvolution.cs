@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
@@ -20,9 +22,9 @@ namespace Aplication.ClinicHistoryApp.PatientEvolutionApp
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.observation).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.dateCreate).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.clinicHistoryId).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.observation).NotEmpty().WithMessage(x=> "El campo observation no debe estar vacio");
+                RuleFor( x => x.dateCreate).NotEmpty().WithMessage(x=> "El campo dateCreate no debe estar vacio");
+                RuleFor( x => x.clinicHistoryId).NotEmpty().WithMessage(x=> "El campo clinicHistoryId no debe estar vacio");
             }
         }
 
@@ -50,9 +52,10 @@ namespace Aplication.ClinicHistoryApp.PatientEvolutionApp
                 _context.patientEvolution.Add(patientEvolution);
                 
                  var valor = await _context.SaveChangesAsync();
-                        if(valor>0){
+                        if(valor>0)
+                        throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se creo la evolución del paciente con exito!"});
                         return Unit.Value;
-                        }
+                        
                      throw new Exception("No se pudo añadir la observación de evolución al paciente");
             }
         }

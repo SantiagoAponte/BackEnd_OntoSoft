@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,7 @@ namespace Aplication.Security
         public class ExecuteValidation : AbstractValidator<Execute>{
 
             public ExecuteValidation(){
-                RuleFor(x => x.Name).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor(x => x.Name).NotEmpty().WithMessage(x => "El campo de Name (RolName) no puede estar vacio");
             }
         }
 
@@ -36,9 +37,10 @@ namespace Aplication.Security
                     throw new Exception("Ya existe el rol");
                 }
                 var result = await _roleManager.CreateAsync(new IdentityRole(request.Name));
-                if(result.Succeeded){
-                    return Unit.Value;
-                }
+                if(result.Succeeded)
+                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se añadio el rol con exito!"});
+                return Unit.Value;
+                
                 throw new Exception("No se pudo guardar el rol");
             }
         }

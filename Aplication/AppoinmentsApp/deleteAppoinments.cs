@@ -40,9 +40,10 @@ namespace Aplication.AppoinmentsApp
 
                 var result = await _context.SaveChangesAsync();
 
-                if(result>0){
+                if(result>0)
+                    throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se elimino la cita con exito!"});
                     return Unit.Value;
-                }
+                
 
                 throw new Exception("¡Error! " + "No se pudieron guardar los cambios");
             }

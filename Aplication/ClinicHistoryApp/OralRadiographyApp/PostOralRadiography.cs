@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
@@ -20,9 +22,9 @@ namespace Aplication.ClinicHistoryApp.OralRadiographyApp
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.observation).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.dateRegister).NotEmpty().WithMessage("El campo no debe estar vacio");
-                RuleFor( x => x.clinicHistoryId).NotEmpty().WithMessage("El campo no debe estar vacio");
+                RuleFor( x => x.observation).NotEmpty().WithMessage(x=> "El campo observation no debe estar vacio");
+                RuleFor( x => x.dateRegister).NotEmpty().WithMessage(x=> "El campo dateRegister no debe estar vacio");
+                RuleFor( x => x.clinicHistoryId).NotEmpty().WithMessage(x=> "El campo clinicHistoryId no debe estar vacio");
             }
         }
 
@@ -51,9 +53,10 @@ namespace Aplication.ClinicHistoryApp.OralRadiographyApp
                 _context.oralRadiography.Add(oralRadiography);
                 
                  var valor = await _context.SaveChangesAsync();
-                        if(valor>0){
+                        if(valor>0)
+                        throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se creo el registro de radiografia con exito!"});
                         return Unit.Value;
-                        }
+                        
                      throw new Exception("No se pudo añadir el registro de Radiografia oral para el paciente");
             }
         }
