@@ -52,10 +52,9 @@ namespace Aplication.ClinicHistoryApp.PatientEvolutionApp
                 _context.patientEvolution.Add(patientEvolution);
                 
                  var valor = await _context.SaveChangesAsync();
-                        if(valor>0)
-                        throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se creo la evolución del paciente con exito!"});
+                        if(valor>0){
                         return Unit.Value;
-                        
+                        }
                      throw new Exception("No se pudo añadir la observación de evolución al paciente");
             }
         }

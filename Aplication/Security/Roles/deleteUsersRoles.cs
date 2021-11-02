@@ -45,9 +45,9 @@ namespace Aplication.Security
                     }
 
                     var result = await _userManager.RemoveFromRoleAsync(userIden, request.RolName);
-                    if(result.Succeeded)
-                    throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se elimino el rol al usuario "+ userIden +"con exito!"});
+                    if(result.Succeeded){
                     return Unit.Value;
+                    }
                     
                     throw new Exception("No se pudo eliminar el rol del usuario");
             }

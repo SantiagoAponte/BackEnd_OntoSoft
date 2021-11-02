@@ -53,10 +53,9 @@ namespace Aplication.ClinicHistoryApp.OralRadiographyApp
                 _context.oralRadiography.Add(oralRadiography);
                 
                  var valor = await _context.SaveChangesAsync();
-                        if(valor>0)
-                        throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se creo el registro de radiografia con exito!"});
+                        if(valor>0){
                         return Unit.Value;
-                        
+                        }
                      throw new Exception("No se pudo añadir el registro de Radiografia oral para el paciente");
             }
         }

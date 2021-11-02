@@ -34,9 +34,9 @@ namespace Aplication.Security
                     throw new Exception("No existe el rol");
                 }
                 var result = await _roleManager.DeleteAsync(role);
-                if(result.Succeeded)
-                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se elimino el rol con exito!"});
+                if(result.Succeeded){
                 return Unit.Value;
+                }
                 
                 throw new Exception("No se pudo eliminar el rol");
             }

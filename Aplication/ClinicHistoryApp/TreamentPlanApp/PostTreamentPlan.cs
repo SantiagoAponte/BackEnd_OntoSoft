@@ -53,10 +53,9 @@ namespace Aplication.ClinicHistoryApp.TreamentPlanApp
                 _context.treamentPlan.Add(treamentPlan);
                 
                  var valor = await _context.SaveChangesAsync();
-                        if(valor>0)
-                        throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se creo el plan de tratamiento con exito!"});
+                        if(valor>0){
                         return Unit.Value;
-                        
+                        }
                      throw new Exception("No se pudo añadir el registro de Radiografia oral para el paciente");
             }
         }

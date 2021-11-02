@@ -155,7 +155,6 @@ namespace Aplication.Security
 
 
                 if (resultadoUpdate.Succeeded)
-                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se actualizo la información con exito!"});
                 {
                     return new UserData
                     {

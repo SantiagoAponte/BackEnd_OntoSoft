@@ -70,15 +70,14 @@ namespace Aplication.Security
 
                var result = await _userManager.CreateAsync(user, request.Password);
             //    var result2 =  await _userManager.AddToRoleAsync(user, request.RolName);
-                if(result.Succeeded)
-                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se registro al usuario "+ user.Email +" con exito!"});
+                if(result.Succeeded){
                     return new userRegisterDto {
                     Username = user.UserName,
                     Token = _jwtGenerator.CreateToken(user, null),
                     Email = user.Email,
                     fullName = request.fullName
                     };
-                
+                }
                 throw new Exception("No se pudo agregar al nuevo usuario, verifique que su contraseña tenga al menos una mayuscula, numeros y un caracter especial");
             }
         }

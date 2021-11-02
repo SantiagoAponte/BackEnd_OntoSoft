@@ -166,9 +166,9 @@ namespace Aplication.ClinicHistoryApp
 
                 var result = await _context.SaveChangesAsync();
 
-                if (result > 0)
+                if (result > 0){
                     return Unit.Value;
-
+                }
                 throw new Exception("¡Error! " + "No se pudo guardar los cambios en el Odontograma");
                  
                     }

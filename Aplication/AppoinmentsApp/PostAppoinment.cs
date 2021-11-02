@@ -63,9 +63,9 @@ namespace Aplication.AppoinmentsApp
                     }
                 }
                          var valor = await _context.SaveChangesAsync();
-                        if(valor>0)
-                        throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se creo la cita con exito!"});
+                        if(valor>0){
                         return Unit.Value;
+                        }
                         
                     
                      throw new Exception("No se pudo crear la cita");

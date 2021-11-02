@@ -37,9 +37,9 @@ namespace Aplication.Security
                     throw new Exception("Ya existe el rol");
                 }
                 var result = await _roleManager.CreateAsync(new IdentityRole(request.Name));
-                if(result.Succeeded)
-                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se añadio el rol con exito!"});
+                if(result.Succeeded){   
                 return Unit.Value;
+                }
                 
                 throw new Exception("No se pudo guardar el rol");
             }

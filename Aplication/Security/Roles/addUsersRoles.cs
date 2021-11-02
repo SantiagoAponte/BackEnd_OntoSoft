@@ -45,10 +45,9 @@ namespace Aplication.Security
                          throw new Exception("El usuario no existe");
                      }
                    var result =  await _userManager.AddToRoleAsync(userIden, request.RolName);
-                   if(result.Succeeded)
-                   throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se asigno el rol al usuario "+ userIden +"con exito!"});
+                   if(result.Succeeded){
                        return Unit.Value;
-                   
+                   }
                    throw new Exception("No se pudo agregar el Rol al usuario");
             }
         }

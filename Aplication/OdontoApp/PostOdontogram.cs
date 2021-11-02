@@ -62,10 +62,9 @@ namespace Aplication.AppoinmentsApp
                     _context.Odontogram.Add(odontogram);     
                      
                  var valor = await _context.SaveChangesAsync();
-                        if(valor>0)
-                        throw new ManagerError(HttpStatusCode.OK, new {mensaje = "¡Se creo el odontograma con exito!"});
+                        if(valor>0){
                         return Unit.Value;
-                        
+                        }
                      throw new Exception("No se pudo crear el Odontograma");
             }
         }
