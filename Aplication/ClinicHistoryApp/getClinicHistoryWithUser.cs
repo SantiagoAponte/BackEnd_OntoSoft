@@ -34,13 +34,13 @@ namespace Aplication.ClinicHistoryApp
                .Include(x=>x.patientEvolutionList)
                .Include(x=>x.oralRadiographyList)
                .Include(x=>x.treamentPlanList)
-            //    .Include(x=>x.Odontogram)
-            //    .ThenInclude(x=>x.toothTypeProcessLink)
-            //    .ThenInclude(x=>x.Tooth)
-            //    .ThenInclude(x=>x.typeProcessLink)
-            //    .ThenInclude(x=>x.typeProcess)
-            //    .ThenInclude(x=>x.toothLink)
-            //    .ThenInclude(x=>x.faceTooth)
+               .Include(x=>x.Odontogram)
+               .ThenInclude(x=>x.toothTypeProcessLink)
+               .ThenInclude(x=>x.Tooth)
+               .ThenInclude(x=>x.typeProcessLink)
+               .ThenInclude(x=>x.typeProcess)
+               .ThenInclude(x=>x.toothLink)
+               .ThenInclude(x=>x.faceTooth)
                .Include(x=>x.BackgroundMedicalsLink)
                .ThenInclude(x=>x.BackgroundMedicals)
                .Include(x=>x.BackgroundOralsLink)
@@ -49,7 +49,7 @@ namespace Aplication.ClinicHistoryApp
 
                 if(user==null){
                 //throw new Exception("No se puede eliminar curso");
-                throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro al usuario"});
+                throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro al usuario"});
                 }
 
                 var userDto = _mapper.Map<ClinicHistory,clinicHistoryDto>(user);
