@@ -34,7 +34,7 @@ namespace Aplication.GalleriesArchive
                         Name = request.Name,
                         Extension = request.Extension,
                         Id = Guid.NewGuid(),
-                        dateCreate = DateTime.UtcNow,
+                        dateCreate = DateTime.UtcNow.AddHours(-5),
                         ObjectReference = request.ObjectReference ?? Guid.Empty
                     };
                     _context.Galleries.Add(arch);
@@ -42,7 +42,7 @@ namespace Aplication.GalleriesArchive
                     archive.Contain = Convert.FromBase64String(request.Data);
                     archive.Name = request.Name;
                     archive.Extension = request.Extension;
-                    archive.dateCreate = DateTime.UtcNow;
+                    archive.dateCreate = DateTime.UtcNow.AddHours(-5);
                 }
 
                var resultado = await _context.SaveChangesAsync();

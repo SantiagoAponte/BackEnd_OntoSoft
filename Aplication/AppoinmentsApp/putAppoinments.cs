@@ -49,7 +49,7 @@ namespace Aplication.AppoinmentsApp
                     throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro la cita"});
                 }
                 /*actualizar unicamente la información de la cita*/
-                appoinment.date = request.date;
+                appoinment.date = request.date.AddHours(-5);
                 appoinment.Title = request.Title ?? appoinment.Title;
                 appoinment.Text = request.Text ?? appoinment.Text;
 

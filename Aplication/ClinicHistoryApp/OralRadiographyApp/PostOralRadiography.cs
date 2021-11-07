@@ -49,7 +49,7 @@ namespace Aplication.ClinicHistoryApp.OralRadiographyApp
                var oralRadiography = new OralRadiography {
                    Id = oralRadiographyId,
                    observation = request.observation,
-                   dateRegister = DateTime.UtcNow,
+                   dateRegister = DateTime.UtcNow.AddHours(-5),
                    clinicHistoryId = request.clinicHistoryId,
                    
                };

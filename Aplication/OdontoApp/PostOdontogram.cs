@@ -56,7 +56,7 @@ namespace Aplication.AppoinmentsApp
 
                var odontogram = new Odontogram {
                    Id = odontogramId,
-                   date_register = DateTime.UtcNow,
+                   date_register = DateTime.UtcNow.AddHours(-5),
                    observation = request.observation,
                    UserId = request.UserId,
                    clinicHistoryId = request.clinicHistoryId,

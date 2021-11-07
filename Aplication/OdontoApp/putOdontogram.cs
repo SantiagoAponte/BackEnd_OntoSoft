@@ -47,7 +47,7 @@ namespace Aplication.OdontoApp
                     throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro el odontograma"});
                 }
                 /*actualizar unicamente la información de la cita*/
-                odontogram.date_register = DateTime.UtcNow;
+                odontogram.date_register = DateTime.UtcNow.AddHours(-5);
                 odontogram.observation = request.observation ?? odontogram.observation;
                 odontogram.toothTypeProcessLink = request.typeProcessTooth;
 

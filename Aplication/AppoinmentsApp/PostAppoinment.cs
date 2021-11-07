@@ -46,7 +46,7 @@ namespace Aplication.AppoinmentsApp
 
                var appoinment = new Appoinments {
                    Id = appoinmentId,
-                   date = request.date,
+                   date = request.date.AddHours(-5),
                    Title = request.Title,
                    Text = request.Text
                };

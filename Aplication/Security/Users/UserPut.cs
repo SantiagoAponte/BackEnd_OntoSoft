@@ -140,7 +140,7 @@ namespace Aplication.Security
                 userIden.addresContact = request.addresContact;
                 userIden.centerEmergency = request.centerEmergency;
                 userIden.eps = request.eps;
-                userIden.dateBirth = request.dateBirth;
+                userIden.dateBirth = request.dateBirth.AddHours(-5);
                 userIden.city = request.city;
                 userIden.address = request.address;
                 userIden.gender = request.gender;
@@ -188,7 +188,7 @@ namespace Aplication.Security
                         addresContact = userIden.addresContact,
                         centerEmergency = userIden.centerEmergency,
                         eps = userIden.eps,
-                        dateBirth = userIden.dateBirth,
+                        dateBirth = userIden.dateBirth.AddHours(-5),
                         city = userIden.city,
                         address = userIden.address,
                         gender = userIden.gender,

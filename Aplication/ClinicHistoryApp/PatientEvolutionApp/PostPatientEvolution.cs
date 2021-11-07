@@ -49,7 +49,7 @@ namespace Aplication.ClinicHistoryApp.PatientEvolutionApp
                var patientEvolution = new PatientEvolution {
                    Id = patientEvolutionId,
                    observation = request.observation,
-                   dateCreate = DateTime.UtcNow,
+                   dateCreate = DateTime.UtcNow.AddHours(-5),
                    clinicHistoryId = request.clinicHistoryId,
                };
                 _context.patientEvolution.Add(patientEvolution);

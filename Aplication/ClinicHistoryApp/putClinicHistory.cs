@@ -79,7 +79,7 @@ namespace Aplication.ClinicHistoryApp
                     throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro el tratamiento del paciente"});
                 }
                 /*actualizar unicamente la información de la cita*/
-                clinicHistory.dateRegister = request.dateRegister;
+                clinicHistory.dateRegister = request.dateRegister.AddHours(-5);
                 clinicHistory.phoneCompanion = request.phoneCompanion ?? clinicHistory.phoneCompanion;
                 clinicHistory.nameCompanion = request.nameCompanion ?? clinicHistory.nameCompanion;
                 // clinicHistory.UserId = request.UserId ?? clinicHistory.UserId;
@@ -134,7 +134,7 @@ namespace Aplication.ClinicHistoryApp
                         var NewpatientEvolution = new PatientEvolution {
                             Id = request.IdPatient,
                             observation = request.observationPatient,
-                            dateCreate = request.dateCreate,
+                            dateCreate = request.dateCreate.AddHours(-5),
                             clinicHistoryId = request.Id
                         };
                         _context.patientEvolution.Add(NewpatientEvolution);
@@ -147,7 +147,7 @@ namespace Aplication.ClinicHistoryApp
                         var NewOralRadiography = new OralRadiography {
                             Id = request.IdRadiography,
                             observation = request.observationRadiography,
-                            dateRegister = DateTime.UtcNow,
+                            dateRegister = DateTime.UtcNow.AddHours(-5),
                             clinicHistoryId = request.Id
                         };
                         _context.oralRadiography.Add(NewOralRadiography);

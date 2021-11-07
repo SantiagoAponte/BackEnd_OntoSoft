@@ -14,7 +14,7 @@ namespace Domine
         public string addresContact {get;set;} = "default";
         public string centerEmergency {get;set;} = "default";
         public string eps {get;set;} = "default";
-        public DateTime dateBirth {get;set;} = DateTime.UtcNow;
+        public DateTime dateBirth {get;set;} = DateTime.UtcNow.AddHours(-5);
         public string city {get;set;} = "default";
         public string address {get;set;} = "default";
         public string gender {get;set;} = "default";
