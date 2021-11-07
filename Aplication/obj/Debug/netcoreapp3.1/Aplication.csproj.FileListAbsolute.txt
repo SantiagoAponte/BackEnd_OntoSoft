@@ -55,3 +55,18 @@ C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\Back
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.CopyComplete
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.dll
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Aplication.deps.json
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Aplication.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Aplication.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Domine.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\persistence.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\Domine.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\bin\Debug\netcoreapp3.1\persistence.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.AssemblyReference.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.GeneratedMSBuildEditorConfig.editorconfig
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.AssemblyInfoInputs.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.AssemblyInfo.cs
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.CoreCompileInputs.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.csproj.CopyComplete
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Aplication\obj\Debug\netcoreapp3.1\Aplication.pdb

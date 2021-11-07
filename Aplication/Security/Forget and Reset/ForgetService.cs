@@ -10,6 +10,8 @@ using SendGrid.Helpers.Mail.Model;
 using Microsoft.Extensions.Configuration;
 using SendGrid;
 using System.Threading;
+using Aplication.ManagerExcepcion;
+using System.Net;
 
 namespace Aplication.Security
 {
@@ -28,17 +30,19 @@ namespace Aplication.Security
         public async Task<UserManagerResponse> ForgetPasswordAsync(string email)
         {
             var user = await _userManger.FindByEmailAsync(email);
-            if (user == null)
-                return new UserManagerResponse
-                {
-                    IsSuccess = false,
-                    Message = "No existe ningun usuario con este Email",
-                };
+            if (user == null){
+                 throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje ="No existe ningun usuario con este Email"});
+            }
+                // return new UserManagerResponse
+                // {
+                //     IsSuccess = false,
+                //     Message = "No existe ningun usuario con este Email",
+                // };
                  user.Email = email;
             var token = await _userManger.GeneratePasswordResetTokenAsync(user);
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validToken = WebEncoders.Base64UrlEncode(encodedToken);
-            string url = $"{_configuration["AppUrl"]}https://localhost:5000/api/User/ResetPassword?email={email}&token={validToken}";
+            string url = $"{_configuration["AppUrl"]}https://ontosoft.herokuapp.com/api/User/ResetPassword?email={email}&token={validToken}";
             
             var apiKey = "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";
             var client = new SendGridClient(apiKey);

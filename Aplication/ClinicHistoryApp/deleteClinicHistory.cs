@@ -29,23 +29,23 @@ namespace Aplication.ClinicHistoryApp
                 var clinicHistory = await _context.clinicHistories.FindAsync(request.Id);
                 if(clinicHistory==null){
                     
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro historia clinica"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro historia clinica"});
                 }
                 var patientEvolution = await _context.patientEvolution.FindAsync(request.IdPatient);
                 if(patientEvolution==null){
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la evolución del paciente"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro la evolución del paciente"});
                 }
                
                 var oralRadiography = await _context.oralRadiography.FindAsync(request.IdRadiography);
                 if(oralRadiography==null){
                     
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la radiografia del paciente"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro la radiografia del paciente"});
                 }
                 
                 var treamentPlan = await _context.treamentPlan.FindAsync(request.IdTreamentPlan);
                 if(treamentPlan==null){
                     
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro el tratamiento del paciente"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro el tratamiento del paciente"});
                 }
                       
 
@@ -81,8 +81,7 @@ namespace Aplication.ClinicHistoryApp
                 if(result>0){
                     return Unit.Value;
                 }
-
-                throw new Exception("¡Error! " + "No se pudieron guardar los cambios");
+                 throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "¡Error! " + "No se pudieron guardar los cambios"});
             }
         }
     }

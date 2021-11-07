@@ -17,7 +17,8 @@ namespace Aplication.Security
         }
         public class ExecuteValidation : AbstractValidator<Execute>{
             public  ExecuteValidation(){
-                RuleFor(x => x.Name).NotEmpty().WithMessage(x => "El campo de Name (RolName) no puede estar vacio");
+                RuleFor(x => x.Name).NotEmpty().WithMessage("El campo de Name (RolName) no puede estar vacio")
+                .NotNull().WithMessage("El campo de Name (RolName) no puede ser nulo");
             }
         }
 
@@ -31,14 +32,13 @@ namespace Aplication.Security
             {
                 var role = await _roleManager.FindByNameAsync(request.Name);
                 if(role == null){
-                    throw new Exception("No existe el rol");
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No existe el rol"});
                 }
                 var result = await _roleManager.DeleteAsync(role);
                 if(result.Succeeded){
                 return Unit.Value;
                 }
-                
-                throw new Exception("No se pudo eliminar el rol");
+                throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "No se pudo eliminar el rol"});
             }
         }
     }

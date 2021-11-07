@@ -24,9 +24,9 @@ namespace Aplication.OdontoApp
 
          public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.observation).NotEmpty().WithMessage(x => "La observación no puede ser vacia.");
-                RuleFor( x => x.date_register).NotEmpty().WithMessage(x => "la fecha de registro no puede ser nula");
-                RuleFor( x => x.typeProcessTooth).NotEmpty().WithMessage(x => "Asegurese de haber seleccionado al menos un procedimiento en algun diente");
+                RuleFor( x => x.observation).NotEmpty().WithMessage("El campo de observation no puede ser vacio").NotNull().WithMessage("El campo de observación no puede ser vacio o nulo.");
+                RuleFor( x => x.date_register).NotEmpty().WithMessage("El campo de date_register no puede ser vacio").NotNull().WithMessage("El campo de fecha de registro no puede ser vacio o nulo");
+                RuleFor( x => x.typeProcessTooth).NotEmpty().WithMessage("El campo de typeProcessTooth no puede ser vacio").NotNull().WithMessage("Asegurese de haber seleccionado al menos un procedimiento en algun diente");
             }
         }
 
@@ -44,7 +44,7 @@ namespace Aplication.OdontoApp
                 var odontogram = await _context.Odontogram.FindAsync(request.Id);
                   if(
                       odontogram==null){
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro el odontograma"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro el odontograma"});
                 }
                 /*actualizar unicamente la información de la cita*/
                 odontogram.date_register = DateTime.UtcNow;
@@ -95,9 +95,7 @@ namespace Aplication.OdontoApp
                 if (result > 0){
                 return Unit.Value;
                 }
-
-                throw new Exception("¡Error! " + "No se pudo guardar los cambios en el Odontograma");
-                 
+                throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "¡Error! " + "No se pudo guardar los cambios en el Odontograma"});
                     }
                      
                 }

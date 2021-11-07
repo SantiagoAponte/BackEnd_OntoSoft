@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using Domine;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +29,7 @@ namespace Aplication.Security
             {
                 var userIden = await _userManager.FindByIdAsync(request.Id);
                 if(userIden == null){
-                    throw new Exception("No existe el usuario");
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No existe el usuario"});
                 }
 
                 var result =await _userManager.GetRolesAsync(userIden);

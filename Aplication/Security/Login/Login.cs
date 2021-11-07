@@ -14,11 +14,13 @@ using Domine;
 using Aplication.Interfaces.Contracts;
 using Aplication.Security.Users.Dtos;
 using persistence;
+using System.Text.RegularExpressions;
 
 namespace Aplication.Security
 {
     public class Login
     {
+      
         public class Execute : IRequest<userLoginDto>
         {
             public string Email { get; set; }
@@ -27,10 +29,12 @@ namespace Aplication.Security
 
         public class ExecuteValidator : AbstractValidator<Execute>
         {
+        readonly Regex regEx = new Regex("^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$");
             public ExecuteValidator()
             {
-                RuleFor(x => x.Email).NotEmpty().WithMessage(x => "El campo de Email no puede estar vacio");;
-                RuleFor(x => x.Password).NotEmpty().WithMessage(x => "El campo de Password no puede estar vacio");;
+                RuleFor(x => x.Email).NotEmpty().WithMessage("El campo de Email no puede ser vacio").NotNull().WithMessage( "El campo de Email no puede ser nulo");
+                RuleFor(x => x.Password).NotEmpty().WithMessage("Contraseña invalida, el campo no puede estar vacio").NotNull().WithMessage("La contraseña no puede ser nula")
+                .Matches(regEx).WithMessage("la Contraseña no tiene el formato correcto: Mínimo 8 caracteres, al menos 1 letra, 1 número y 1 carácter especial.");
             }
         }
 
@@ -54,10 +58,13 @@ namespace Aplication.Security
                 var user = await _userManager.FindByEmailAsync(request.Email);
                 if (user == null)
                 {
-                     throw new ManagerError(HttpStatusCode.Unauthorized, new {mensaje ="Este usuario no se encuentra registrado en nuestro sistema o no esta permitido su ingreso"});
+                     throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje ="No existe un usuario registrado con este email"});
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+                if(result == null){
+                     throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje ="Contraseña invalida, por favor verifique de nuevo"});
+                }
                 var resultRoles = await _userManager.GetRolesAsync(user);
                 var listRoles = new List<string>(resultRoles);
 
@@ -129,7 +136,7 @@ namespace Aplication.Security
                         };
                     }
                 }
-                throw new ManagerError(HttpStatusCode.Unauthorized, new {mensaje ="Este usuario no se encuentra registrado en nuestro sistema o no esta permitido su ingreso"});
+                throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje ="Este usuario no se encuentra registrado en nuestro sistema o no esta permitido su ingreso"});
             }
         }
 

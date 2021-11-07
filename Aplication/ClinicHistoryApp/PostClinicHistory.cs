@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
@@ -26,12 +28,12 @@ namespace Aplication.ClinicHistoryApp
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.backgroundMedical).NotEmpty().WithMessage(x => "El campo backgroundMedical no puede estar vacio");
-                RuleFor( x => x.backgroundOral).NotEmpty().WithMessage(x => "El campo backgroundOral no puede estar vacio");
-                RuleFor( x => x.UserId).NotEmpty().WithMessage(x => "El campo UserId no puede estar vacio");
-                RuleFor( x => x.dateRegister).NotEmpty().WithMessage(x => "El campo dateRegister no puede estar vacio");
-                RuleFor( x => x.ListBackgroundMedical).NotEmpty().WithMessage(x => "El campo ListBackgroundMedical no puede estar vacio");
-                RuleFor( x => x.ListBackgroundOral).NotEmpty().WithMessage(x => "El campo ListBackgroundOral no puede estar vacio");
+                RuleFor( x => x.backgroundMedical).NotEmpty().WithMessage("El campo backgroundMedical no puede estar vacio").NotNull().WithMessage("El campo backgroundMedical no puede ser nulo");
+                RuleFor( x => x.backgroundOral).NotEmpty().WithMessage("El campo backgroundOral no puede estar vacio").NotNull().WithMessage("El campo backgroundOral no puede ser nulo");
+                RuleFor(x => x.UserId).NotNull().WithMessage("El campo UserId no puede estar vacio").NotEmpty().WithMessage("El campo UserId no puede ser nulo");
+                RuleFor(x => x.dateRegister).NotEmpty().WithMessage("El campo dateRegister no puede estar vacio").WithMessage("El campo dateRegister no puede ser nulo");
+                // RuleFor(x => x.ListBackgroundMedical).NotEmpty().WithMessage("El campo ListBackgroundMedical no puede estar vacio o nulo");
+                // RuleFor(x => x.ListBackgroundOral).NotEmpty().WithMessage("El campo ListBackgroundOral no puede estar vacio o nulo" + "debe tener al menos un antecedente");
             }
         }
 
@@ -54,7 +56,7 @@ namespace Aplication.ClinicHistoryApp
                    Id = clinicHistoryId,
                    phoneCompanion = request.phoneCompanion,
                    nameCompanion = request.nameCompanion,
-                   dateRegister = DateTime.UtcNow,
+                   dateRegister = request.dateRegister,
                    backgroundMedical = request.backgroundMedical,
                    backgroundOral = request.backgroundOral,
                    UserId = request.UserId,
@@ -88,7 +90,7 @@ namespace Aplication.ClinicHistoryApp
                         if(valor>0){
                         return Unit.Value;
                         }
-                     throw new Exception("No se pudo crear la historia clinica");
+                        throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje ="No se pudo crear la historia clinica"}); 
             }
         }
     }

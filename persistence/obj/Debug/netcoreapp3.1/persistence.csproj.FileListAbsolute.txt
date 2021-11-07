@@ -59,3 +59,19 @@ C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\Back
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.dll
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.pdb
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.genruntimeconfig.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\bin\Debug\netcoreapp3.1\persistence.deps.json
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\bin\Debug\netcoreapp3.1\persistence.runtimeconfig.json
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\bin\Debug\netcoreapp3.1\persistence.runtimeconfig.dev.json
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\bin\Debug\netcoreapp3.1\persistence.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\bin\Debug\netcoreapp3.1\persistence.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\bin\Debug\netcoreapp3.1\Domine.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\bin\Debug\netcoreapp3.1\Domine.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.csproj.AssemblyReference.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.AssemblyInfoInputs.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.AssemblyInfo.cs
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.csproj.CoreCompileInputs.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.csproj.CopyComplete
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\persistence\obj\Debug\netcoreapp3.1\persistence.genruntimeconfig.cache

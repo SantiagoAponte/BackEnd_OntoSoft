@@ -37,16 +37,18 @@ namespace Aplication.ClinicHistoryApp
 
          public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.backgroundMedical).NotEmpty().WithMessage(x => "El campo backgroundMedical no puede estar vacio");
-                RuleFor( x => x.backgroundOral).NotEmpty().WithMessage(x => "El campo backgroundOral no puede estar vacio");
-                RuleFor( x => x.UserId).NotEmpty().WithMessage(x => "El campo UserId no puede estar vacio");
-                RuleFor( x => x.dateRegister).NotEmpty().WithMessage(x => "El campo dateRegister no puede estar vacio");
-                RuleFor( x => x.ListBackgroundMedical).NotEmpty().WithMessage(x => "El campo ListBackgroundMedical no puede estar vacio");
-                RuleFor( x => x.ListBackgroundOral).NotEmpty().WithMessage(x => "El campo ListBackgroundOral no puede estar vacio");
-                RuleFor( x => x.observationPatient).NotEmpty().WithMessage(x=> "El campo observationPatient no debe estar vacio");
-                RuleFor( x => x.observationRadiography).NotEmpty().WithMessage(x=> "El campo observationRadiography no debe estar vacio");
-                RuleFor( x => x.observationTreamentPlan).NotEmpty().WithMessage(x=> "El campo observationTreamentPlan no debe estar vacio");
-                RuleFor( x => x.Name).NotEmpty().WithMessage(x=>"El campo Name no debe estar vacio");
+                RuleFor( x => x.backgroundMedical).NotEmpty().WithMessage("El campo backgroundMedical no puede estar vacio").NotNull().WithMessage("El campo backgroundMedical no puede ser nulo");
+                RuleFor( x => x.backgroundOral).NotEmpty().WithMessage("El campo backgroundOral no puede estar vacio").NotNull().WithMessage("El campo backgroundOral no puede ser nulo");
+                RuleFor( x => x.Id).NotEmpty().WithMessage("Primero indique un id de historia clinica para actualizarla.").NotNull().WithMessage("Este id de historia clinica no existe, es nulo");
+                RuleFor( x => x.UserId).NotEmpty().WithMessage("El campo UserId no puede estar vacio").NotNull().WithMessage("El campo UserId no puede ser nulo");
+                RuleFor( x => x.dateRegister).NotEmpty().WithMessage("El campo dateRegister no puede estar vacio").NotNull().WithMessage("El campo dateRegister no puede ser nulo");
+                RuleFor( x => x.dateCreate).NotEmpty().WithMessage("El campo dateCreate no puede estar vacio").NotNull().WithMessage("El campo dateCreate no puede ser nulo");
+                // RuleFor( x => x.ListBackgroundMedical).NotEmpty().WithMessage(x => "El campo ListBackgroundMedical no puede estar vacio");
+                // RuleFor( x => x.ListBackgroundOral).NotEmpty().WithMessage(x => "El campo ListBackgroundOral no puede estar vacio");
+                RuleFor( x => x.observationPatient).NotEmpty().WithMessage("El campo observationPatient no debe estar vacio").NotNull().WithMessage("El campo observationPatient no debe ser nulo");
+                RuleFor( x => x.observationRadiography).NotEmpty().WithMessage("El campo observationRadiography no debe estar vacio").NotNull().WithMessage("El campo observationRadiography no debe ser nulo");
+                RuleFor( x => x.observationTreamentPlan).NotEmpty().WithMessage("El campo observationTreamentPlan no debe estar vacio").NotNull().WithMessage("El campo observationTreamentPlan no debe ser nulo");
+                RuleFor( x => x.Name).NotEmpty().WithMessage("El campo Name no debe estar vacio").NotNull().WithMessage("El campo Name no debe ser nulo");
             }
         }
 
@@ -64,20 +66,20 @@ namespace Aplication.ClinicHistoryApp
                 var clinicHistory = await _context.clinicHistories.FindAsync(request.Id);
                   if(
                       clinicHistory==null){
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la historia clinica"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro la historia clinica"});
                 }
                 var patientEvolution = await _context.patientEvolution.FindAsync(request.IdPatient);
                   if(
                       patientEvolution==null){
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la evolución del paciente"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro la evolución del paciente"});
                 }
                 var treamentPlan = await _context.treamentPlan.FindAsync(request.IdTreamentPlan);
                   if(
                       treamentPlan==null){
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro el tratamiento del paciente"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro el tratamiento del paciente"});
                 }
                 /*actualizar unicamente la información de la cita*/
-                clinicHistory.dateRegister = DateTime.UtcNow;
+                clinicHistory.dateRegister = request.dateRegister;
                 clinicHistory.phoneCompanion = request.phoneCompanion ?? clinicHistory.phoneCompanion;
                 clinicHistory.nameCompanion = request.nameCompanion ?? clinicHistory.nameCompanion;
                 // clinicHistory.UserId = request.UserId ?? clinicHistory.UserId;
@@ -132,7 +134,7 @@ namespace Aplication.ClinicHistoryApp
                         var NewpatientEvolution = new PatientEvolution {
                             Id = request.IdPatient,
                             observation = request.observationPatient,
-                            dateCreate = DateTime.UtcNow,
+                            dateCreate = request.dateCreate,
                             clinicHistoryId = request.Id
                         };
                         _context.patientEvolution.Add(NewpatientEvolution);
@@ -169,8 +171,7 @@ namespace Aplication.ClinicHistoryApp
                 if (result > 0){
                     return Unit.Value;
                 }
-                throw new Exception("¡Error! " + "No se pudo guardar los cambios en el Odontograma");
-                 
+                 throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "¡Error! " + "No se pudo guardar los cambios en el Odontograma"});
                     }
                      
                 }

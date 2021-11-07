@@ -37,9 +37,10 @@ namespace Aplication.Security
             public async Task<UserData> Handle(Execute request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByNameAsync(_userSesion.ObtainUserSesion());
-
+                
                 var resultRoles = await _userManager.GetRolesAsync(user);
                 var listRoles = new List<string>(resultRoles);
+                
                 
                 var imagenPerfil = await _context.Galleries.Where(x => x.ObjectReference == new System.Guid(user.Id)).FirstOrDefaultAsync();
                 if (imagenPerfil != null)

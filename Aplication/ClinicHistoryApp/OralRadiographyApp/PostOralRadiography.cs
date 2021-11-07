@@ -22,9 +22,9 @@ namespace Aplication.ClinicHistoryApp.OralRadiographyApp
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.observation).NotEmpty().WithMessage(x=> "El campo observation no debe estar vacio");
-                RuleFor( x => x.dateRegister).NotEmpty().WithMessage(x=> "El campo dateRegister no debe estar vacio");
-                RuleFor( x => x.clinicHistoryId).NotEmpty().WithMessage(x=> "El campo clinicHistoryId no debe estar vacio");
+                RuleFor( x => x.observation).NotNull().WithMessage("El campo observation no debe ser nulo").NotEmpty().WithMessage("El campo observation no debe estar vacio");
+                RuleFor( x => x.dateRegister).NotNull().WithMessage("El campo dateRegister no debe ser nulo").NotEmpty().WithMessage("El campo dateRegister no debe estar vacio");
+                RuleFor( x => x.clinicHistoryId).NotNull().WithMessage("El campo clinicHistoryId no debe ser nulo").NotEmpty().WithMessage("El campo clinicHistoryId no debe estar vacio");
             }
         }
 
@@ -42,6 +42,9 @@ namespace Aplication.ClinicHistoryApp.OralRadiographyApp
                if(request.Id != null){
                  oralRadiographyId = request.Id ?? Guid.NewGuid();
                }
+               if(request.clinicHistoryId == null){
+                   throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "Asegurese de primero haber creado una historia clinica para el usuario."});
+               }
                
                var oralRadiography = new OralRadiography {
                    Id = oralRadiographyId,
@@ -56,7 +59,7 @@ namespace Aplication.ClinicHistoryApp.OralRadiographyApp
                         if(valor>0){
                         return Unit.Value;
                         }
-                     throw new Exception("No se pudo añadir el registro de Radiografia oral para el paciente");
+                    throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "No se pudo añadir el registro de Radiografia oral para el paciente"});
             }
         }
     }

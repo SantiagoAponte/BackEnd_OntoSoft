@@ -18,8 +18,8 @@ namespace Aplication.Security
         }
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor(x => x.Email).NotEmpty().WithMessage(x => "El campo de Email no puede estar vacio");
-                RuleFor(x => x.RolName).NotEmpty().WithMessage(x => "El campo de RolName no puede estar vacio");
+                RuleFor(x => x.Email).NotEmpty().WithMessage("El campo de Email no puede estar vacio").NotNull().WithMessage("El campo de Email no puede ser nulo");
+                RuleFor(x => x.RolName).NotEmpty().WithMessage("El campo de RolName no puede estar vacio").NotNull().WithMessage("El campo de RolName no puede ser nulo");
                 }
             }
             public class Manager : IRequestHandler<Execute>
@@ -38,17 +38,17 @@ namespace Aplication.Security
                 
                 var role = await _roleManager.FindByNameAsync(request.RolName);
                      if(role == null){
-                         throw new Exception("El rol no existe");
+                          throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "El rol no existe"});
                      }
                      var userIden = await _userManager.FindByEmailAsync(request.Email);
                      if(userIden == null){
-                         throw new Exception("El usuario no existe");
+                         throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "El usuario no existe"});
                      }
                    var result =  await _userManager.AddToRoleAsync(userIden, request.RolName);
                    if(result.Succeeded){
                        return Unit.Value;
                    }
-                   throw new Exception("No se pudo agregar el Rol al usuario");
+                   throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "No se pudo agregar el Rol al usuario"});
             }
         }
         }

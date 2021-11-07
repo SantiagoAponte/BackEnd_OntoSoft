@@ -23,9 +23,9 @@ namespace Aplication.AppoinmentsApp
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.Title).NotEmpty().WithMessage(x=>"El campo Title no debe estar vacio");
-                RuleFor( x => x.Text).NotEmpty().WithMessage(x=>"El campo Text no debe estar vacio");
-                RuleFor( x => x.date).NotEmpty().WithMessage(x=>"El campo date no debe estar vacio");
+                RuleFor( x => x.Title).NotNull().WithMessage("El campo Title no debe ser nulo").NotEmpty().WithMessage("El campo Title no debe estar vacio");
+                RuleFor( x => x.Text).NotNull().WithMessage("El campo Text no debe ser nulo").NotEmpty().WithMessage("El campo Text no debe estar vacio");
+                RuleFor( x => x.date).NotNull().WithMessage("El campo date no debe ser nulo").NotEmpty().WithMessage("El campo date no debe estar vacio");
             }
         }
 
@@ -66,9 +66,7 @@ namespace Aplication.AppoinmentsApp
                         if(valor>0){
                         return Unit.Value;
                         }
-                        
-                    
-                     throw new Exception("No se pudo crear la cita");
+                     throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "No se pudo crear la cita"});
             }
         }
     }

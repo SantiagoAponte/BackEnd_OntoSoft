@@ -35,3 +35,13 @@ C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\Back
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.csproj.CoreCompileInputs.cache
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.dll
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\bin\Debug\netcoreapp3.1\Domine.deps.json
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\bin\Debug\netcoreapp3.1\Domine.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\bin\Debug\netcoreapp3.1\Domine.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.csproj.AssemblyReference.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.GeneratedMSBuildEditorConfig.editorconfig
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.AssemblyInfoInputs.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.AssemblyInfo.cs
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.csproj.CoreCompileInputs.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Domine\obj\Debug\netcoreapp3.1\Domine.pdb

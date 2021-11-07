@@ -32,7 +32,7 @@ namespace Aplication.OdontoApp
                 var odonto = await _context.Odontogram.FindAsync(request.Id);
                 if(odonto==null){
                     //throw new Exception("No se puede eliminar curso");
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro el Odontograma"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro el Odontograma"});
                 }
                 _context.Remove(odonto);
 
@@ -46,7 +46,7 @@ namespace Aplication.OdontoApp
                 if(result>0){
                 return Unit.Value;
                 }
-                throw new Exception("¡Error! " + "No se pudieron guardar los cambios");
+                throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "¡Error! " + "No se pudieron guardar los cambios"});
             }
         }
     }

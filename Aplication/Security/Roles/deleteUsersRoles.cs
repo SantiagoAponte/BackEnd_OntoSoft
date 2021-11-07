@@ -19,8 +19,9 @@ namespace Aplication.Security
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor(x => x.Email).NotEmpty().WithMessage(x => "El campo de Email no puede estar vacio");
-                RuleFor(x => x.RolName).NotEmpty().WithMessage(x => "El campo de RolName no puede estar vacio");
+                RuleFor(x => x.Email).NotEmpty().WithMessage("El campo de Email no puede ser vacio").NotNull().WithMessage("El campo de Email no puede ser nulo");
+                RuleFor(x => x.RolName).NotEmpty().WithMessage("El campo de RolName no deberia ser vacio")
+                .NotNull().WithMessage("El campo de RolName no puede ser nulo");
             }
         }
         public class Manager : IRequestHandler<Execute>
@@ -36,20 +37,19 @@ namespace Aplication.Security
             {
                     var role = await _roleManager.FindByNameAsync(request.RolName);
                     if(role == null){
-                        throw new Exception("No se encontro el rol");
+                        throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro el rol"});
                     }
 
                     var userIden = await _userManager.FindByEmailAsync(request.Email);
                     if(userIden == null){
-                        throw new Exception("No se encontro al usuario");
+                        throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro al usuario"});
                     }
 
                     var result = await _userManager.RemoveFromRoleAsync(userIden, request.RolName);
                     if(result.Succeeded){
                     return Unit.Value;
                     }
-                    
-                    throw new Exception("No se pudo eliminar el rol del usuario");
+                    throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "No se pudo eliminar el rol del usuario"});
             }
         }
     }

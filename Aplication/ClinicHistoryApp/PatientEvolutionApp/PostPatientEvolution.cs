@@ -22,9 +22,9 @@ namespace Aplication.ClinicHistoryApp.PatientEvolutionApp
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.observation).NotEmpty().WithMessage(x=> "El campo observation no debe estar vacio");
-                RuleFor( x => x.dateCreate).NotEmpty().WithMessage(x=> "El campo dateCreate no debe estar vacio");
-                RuleFor( x => x.clinicHistoryId).NotEmpty().WithMessage(x=> "El campo clinicHistoryId no debe estar vacio");
+                RuleFor( x => x.observation).NotNull().WithMessage("El campo observation no debe ser nulo").NotEmpty().WithMessage("El campo observation no debe estar vacio");
+                RuleFor( x => x.dateCreate).NotNull().WithMessage("El campo dateCreate no debe ser nulo").NotEmpty().WithMessage("El campo dateCreate no debe estar vacio");
+                RuleFor( x => x.clinicHistoryId).NotNull().WithMessage("El campo clinicHistoryId no debe ser nulo").NotEmpty().WithMessage("El campo clinicHistoryId no debe estar vacio");
             }
         }
 
@@ -42,6 +42,9 @@ namespace Aplication.ClinicHistoryApp.PatientEvolutionApp
                if(request.Id != null){
                  patientEvolutionId = request.Id ?? Guid.NewGuid();
                }
+               if(request.clinicHistoryId == null){
+                   throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "Asegurese de primero haber creado una historia clinica para el usuario."});
+               }
                
                var patientEvolution = new PatientEvolution {
                    Id = patientEvolutionId,
@@ -55,7 +58,7 @@ namespace Aplication.ClinicHistoryApp.PatientEvolutionApp
                         if(valor>0){
                         return Unit.Value;
                         }
-                     throw new Exception("No se pudo añadir la observación de evolución al paciente");
+                     throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "No se pudo añadir la observación de evolución al paciente"});
             }
         }
     }

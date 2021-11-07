@@ -798,24 +798,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Santiago.Aponte\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\santiago.aponte\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Domine\\Domine.csproj",
+      "projectUniqueName": "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\Domine\\Domine.csproj",
       "projectName": "Domine",
-      "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Domine\\Domine.csproj",
-      "packagesPath": "C:\\Users\\Santiago.Aponte\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Domine\\obj\\",
+      "projectPath": "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\Domine\\Domine.csproj",
+      "packagesPath": "C:\\Users\\santiago.aponte\\.nuget\\packages\\",
+      "outputPath": "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\Domine\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Santiago.Aponte\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\santiago.aponte\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -864,7 +859,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

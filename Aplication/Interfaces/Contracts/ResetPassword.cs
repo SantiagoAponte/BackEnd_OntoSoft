@@ -34,8 +34,8 @@ namespace Aplication.Interfaces.Contracts
         {
             public ExecuteValidator()
             {
-                RuleFor(x => x.Email).NotEmpty();
-                RuleFor(x => x.Password).NotEmpty();
+                RuleFor(x => x.Email).NotEmpty().WithMessage("El campo Email no puede estar vacio").NotNull().WithMessage("El campo Email no puede ser nulo");
+                RuleFor(x => x.Password).NotEmpty().WithMessage("El campo Password no puede estar vacio").NotNull().WithMessage("El campo Password no puede ser nulo");
             }
         }
     public class Manager : IRequestHandler<Execute, UserManagerResponse>
@@ -62,7 +62,7 @@ namespace Aplication.Interfaces.Contracts
                 var usuarioIden = await _userManager.FindByEmailAsync(request.Email);
             if (usuarioIden == null)
                 {
-                    throw new ManagerError(HttpStatusCode.NotFound, new { mensaje = "No existe un usuario con este Email" });
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new { mensaje = "No existe un usuario con este Email" });
                 }
 
                 usuarioIden.Email = request.Email;
@@ -81,8 +81,7 @@ namespace Aplication.Interfaces.Contracts
                       
                     };
                 }
-
-                throw new System.Exception("No se pudo actualizar la contraseña");
+                 throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje ="No se pudo actualizar la contraseña"});
             }
         }
     }

@@ -5,11 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Aplication.AppoinmentsApp;
 using Aplication.ClinicHistoryApp;
+using Aplication.ClinicHistoryApp.OralRadiographyApp;
+using Aplication.ClinicHistoryApp.PatientEvolutionApp;
+using Aplication.ClinicHistoryApp.TreamentPlanApp;
 using Aplication.Interfaces;
 using Aplication.Interfaces.Contracts;
+using Aplication.OdontoApp;
 using Aplication.Security;
 using AutoMapper;
 using Domine;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -53,11 +58,36 @@ namespace WebApi
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-
             services.AddControllers();
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+            services.AddControllers().AddFluentValidation(fv => {
+                fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                fv.RegisterValidatorsFromAssemblyContaining<PostClinicHistory>();
+                fv.RegisterValidatorsFromAssemblyContaining<putClinicHistory>();
+                fv.RegisterValidatorsFromAssemblyContaining<UserRegister>();
+                fv.RegisterValidatorsFromAssemblyContaining<UserPut>();
+                fv.RegisterValidatorsFromAssemblyContaining<Login>();
+                fv.RegisterValidatorsFromAssemblyContaining<PostOdontogram>();
+                fv.RegisterValidatorsFromAssemblyContaining<putOdontogram>();
+                fv.RegisterValidatorsFromAssemblyContaining<deleteOdontogram>();
+                fv.RegisterValidatorsFromAssemblyContaining<addRol>();
+                fv.RegisterValidatorsFromAssemblyContaining<addUsersRoles>();
+                fv.RegisterValidatorsFromAssemblyContaining<deleteRol>();
+                fv.RegisterValidatorsFromAssemblyContaining<ObtainRolUser>();
+                fv.RegisterValidatorsFromAssemblyContaining<ObtainUserRol>();
+                fv.RegisterValidatorsFromAssemblyContaining<PostAppoinment>();
+                fv.RegisterValidatorsFromAssemblyContaining<putAppoinments>();
+                fv.RegisterValidatorsFromAssemblyContaining<deleteAppoinments>();
+                fv.RegisterValidatorsFromAssemblyContaining<PostOralRadiography>();
+                fv.RegisterValidatorsFromAssemblyContaining<PostPatientEvolution>();
+                fv.RegisterValidatorsFromAssemblyContaining<PostTreamentPlan>();
+                fv.RegisterValidatorsFromAssemblyContaining<deleteUsersRoles>();
+                fv.RegisterValidatorsFromAssemblyContaining<ResetPassword>();
+
+
+            });
             
             var builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
@@ -78,6 +108,7 @@ namespace WebApi
                     ValidateIssuer = false
                 };
             });
+            
 
             
             services.AddAutoMapper(typeof(GetAppoinment.Manager));

@@ -7317,24 +7317,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Santiago.Aponte\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\santiago.aponte\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\WebApi\\WebApi.csproj",
+      "projectUniqueName": "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\WebApi\\WebApi.csproj",
       "projectName": "WebApi",
-      "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\WebApi\\WebApi.csproj",
-      "packagesPath": "C:\\Users\\Santiago.Aponte\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\WebApi\\obj\\",
+      "projectPath": "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\WebApi\\WebApi.csproj",
+      "packagesPath": "C:\\Users\\santiago.aponte\\.nuget\\packages\\",
+      "outputPath": "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\WebApi\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Santiago.Aponte\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\santiago.aponte\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7348,11 +7343,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Aplication\\Aplication.csproj": {
-              "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Aplication\\Aplication.csproj"
+            "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\Aplication\\Aplication.csproj": {
+              "projectPath": "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\Aplication\\Aplication.csproj"
             },
-            "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Security\\Security.csproj": {
-              "projectPath": "C:\\Users\\Santiago.Aponte\\OneDrive - LA VITAL COLOMBIA SAS\\Documentos\\GitHub\\BackEnd_OntoSoft\\Security\\Security.csproj"
+            "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\Security\\Security.csproj": {
+              "projectPath": "D:\\proyectos personales\\tesis\\BackEnd_OntoSoft\\Security\\Security.csproj"
             }
           }
         }
@@ -7398,7 +7393,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

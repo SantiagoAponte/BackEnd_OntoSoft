@@ -27,9 +27,9 @@ namespace Aplication.AppoinmentsApp
 
          public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.Title).NotEmpty().WithMessage(x=>"El campo Title no debe estar vacio");
-                RuleFor( x => x.Text).NotEmpty().WithMessage(x=>"El campo Text no debe estar vacio");
-                RuleFor( x => x.date).NotEmpty().WithMessage(x=>"El campo date no debe estar vacio");
+                RuleFor( x => x.Title).NotEmpty().WithMessage("El campo Title no debe estar vacio");
+                RuleFor( x => x.Text).NotEmpty().WithMessage("El campo Text no debe estar vacio");
+                RuleFor( x => x.date).NotEmpty().WithMessage("El campo date no debe estar vacio");
             }
         }
 
@@ -46,7 +46,7 @@ namespace Aplication.AppoinmentsApp
                 var appoinment = await _context.Appoinments.FindAsync(request.Id);
                   if(
                       appoinment==null){
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la cita"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro la cita"});
                 }
                 /*actualizar unicamente la información de la cita*/
                 appoinment.date = request.date;
@@ -79,8 +79,7 @@ namespace Aplication.AppoinmentsApp
                 if (result > 0){
                     return Unit.Value;
                 }
-
-                throw new Exception("¡Error! " + "No se pudo guardar los cambios de la cita");
+                   throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "¡Error! " + "No se pudo guardar los cambios de la cita"});
             }
         }
     }

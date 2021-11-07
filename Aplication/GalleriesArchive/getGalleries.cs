@@ -27,7 +27,7 @@ namespace Aplication.GalleriesArchive
             {
                 var archive = await _context.Galleries.Where(x => x.ObjectReference == request.Id).FirstOrDefaultAsync();
                 if(archive == null) {
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje ="No se encontro la imagen"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje ="No se encontro la imagen"});
                 }
 
                 var archivoGenerico = new galleriesDto{

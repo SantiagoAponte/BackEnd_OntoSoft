@@ -12,6 +12,6 @@ namespace Aplication.Security
         // public string Imagen {get;set;}
         public Boolean IsSuccess {get;set;}
         public string Message {get;set;}
-        public string Errors {get;set;}
+        // public string Errors {get;set;}
     }
 }

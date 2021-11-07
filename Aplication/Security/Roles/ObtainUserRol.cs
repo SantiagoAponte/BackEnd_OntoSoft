@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Aplication.ManagerExcepcion;
 using Domine;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +29,7 @@ namespace Aplication.Security
             {
                 var roleIden = await _roleManager.FindByNameAsync(request.roleName);
                 if(roleIden == null){
-                    throw new Exception("No existe el rol");
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No existe el rol"});
                 }
                 var Name = request.roleName;
 

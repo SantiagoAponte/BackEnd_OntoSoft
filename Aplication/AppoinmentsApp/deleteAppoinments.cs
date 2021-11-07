@@ -32,7 +32,7 @@ namespace Aplication.AppoinmentsApp
                 var appoinment = await _context.Appoinments.FindAsync(request.Id);
                 if(appoinment==null){
                     //throw new Exception("No se puede eliminar curso");
-                    throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro la cita"});
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro la cita"});
                 }
                 _context.Remove(appoinment);
 
@@ -43,8 +43,7 @@ namespace Aplication.AppoinmentsApp
                 if(result>0){
                     return Unit.Value;
                 }
-
-                throw new Exception("¡Error! " + "No se pudieron guardar los cambios");
+                throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje ="¡Error! " + "No se pudieron guardar los cambios"});
             }
         }
     }

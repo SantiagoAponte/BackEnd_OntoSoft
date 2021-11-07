@@ -63,3 +63,20 @@ C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\Back
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.CopyComplete
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.dll
 C:\Users\Santiago.Aponte\OneDrive - LA VITAL COLOMBIA SAS\Documentos\GitHub\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Security.deps.json
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Security.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Security.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Aplication.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Domine.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\persistence.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Aplication.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\Domine.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\bin\Debug\netcoreapp3.1\persistence.pdb
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.AssemblyReference.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.GeneratedMSBuildEditorConfig.editorconfig
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.AssemblyInfoInputs.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.AssemblyInfo.cs
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.CoreCompileInputs.cache
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.csproj.CopyComplete
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.dll
+D:\proyectos personales\tesis\BackEnd_OntoSoft\Security\obj\Debug\netcoreapp3.1\Security.pdb
