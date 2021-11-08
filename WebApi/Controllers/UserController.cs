@@ -89,6 +89,10 @@ namespace WebApi.Controllers
 
             return await mediator.Send(new getTypeDocument.ListTypeDocument());
         }
+        [HttpGet("details/{id}")]
+        public async Task<ActionResult<UserData>> ObtainDetailsWithUser(string id){
+            return await mediator.Send(new getUserDetails.OneDetailUser{Id = id});
+        }
 
     }
 }

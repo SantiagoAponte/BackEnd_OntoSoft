@@ -37,7 +37,8 @@ namespace Aplication
             // .ForMember(x => x.Tooth, y => y. MapFrom( z => z.Tooth))
             // .ForMember(x => x.typeProcess, y => y. MapFrom( z => z.typeProcess))
             // .ForMember(x => x.faceTooth, y => y. MapFrom( z => z.faceTooth));
-            CreateMap<User, UserPrueba>();       
+            CreateMap<User, UserPrueba>();     
+            CreateMap<User, UserData>();    
 
             /*Mapeo de todas las entidades que permiten construir en su totalidad la historia clinica*/
             CreateMap<ClinicHistory, clinicHistoryDto>()
