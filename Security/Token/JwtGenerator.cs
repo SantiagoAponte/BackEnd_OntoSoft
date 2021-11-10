@@ -52,7 +52,7 @@ namespace Security.Token
 
             var tokenDescripcion = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(60),
+                Expires = DateTime.Now.AddDays(30),
                 SigningCredentials = credenciales
             };
 
