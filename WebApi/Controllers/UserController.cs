@@ -41,7 +41,7 @@ namespace WebApi.Controllers
 
         //https://localhost:5000/api/user/forgetpassword
         
-        [HttpPost("forgetpassword")] [AllowAnonymous]
+        [HttpGet("forgetpassword")] [AllowAnonymous]
         public async Task<IActionResult> ForgetPassword(string email)
         {
             if (string.IsNullOrEmpty(email))
