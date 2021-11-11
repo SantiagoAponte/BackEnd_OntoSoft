@@ -136,7 +136,7 @@ namespace Aplication.Security
                         };
                     }
                 }
-                throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje ="Este usuario no se encuentra registrado en nuestro sistema o no esta permitido su ingreso"});
+                throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje ="Contraseña invalida!, por favor verifique su contraseña."});
             }
         }
 
