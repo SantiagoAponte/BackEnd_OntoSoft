@@ -42,12 +42,12 @@ namespace WebApi.Controllers
         //https://localhost:5000/api/user/forgetpassword
         
         [HttpGet("forgetpassword")] [AllowAnonymous]
-        public async Task<IActionResult> ForgetPassword(string email)
+        public async Task<IActionResult> ForgetPassword(string email, string host)
         {
             if (string.IsNullOrEmpty(email))
                 return NotFound();
 
-            var result = await _forgetPassword.ForgetPasswordAsync(email);
+            var result = await _forgetPassword.ForgetPasswordAsync(email, host);
 
             if (result.IsSuccess)
                 return Ok(result); // 200

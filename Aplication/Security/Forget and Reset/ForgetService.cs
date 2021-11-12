@@ -27,7 +27,7 @@ namespace Aplication.Security
             _configuration = configuration;
             _mailService = mailService;
         }
-        public async Task<UserManagerResponse> ForgetPasswordAsync(string email)
+        public async Task<UserManagerResponse> ForgetPasswordAsync(string email, string host)
         {
             var user = await _userManger.FindByEmailAsync(email);
             if (user == null){
@@ -42,7 +42,8 @@ namespace Aplication.Security
             var token = await _userManger.GeneratePasswordResetTokenAsync(user);
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validToken = WebEncoders.Base64UrlEncode(encodedToken);
-            string url = $"{_configuration["AppUrl"]}https://ontosoft.herokuapp.com/api/User/ResetPassword?email={email}&token={validToken}";
+            var hostFront = host;
+            string url = $"{_configuration["AppUrl"]}{hostFront}/password?token={validToken}&email={email}";
             
             var apiKey = "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";
             var client = new SendGridClient(apiKey);

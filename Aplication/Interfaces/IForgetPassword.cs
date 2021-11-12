@@ -7,6 +7,6 @@ namespace Aplication.Interfaces.Contracts
 {
     public interface IForgetPassword
     {
-        Task<UserManagerResponse> ForgetPasswordAsync(string email);
+        Task<UserManagerResponse> ForgetPasswordAsync(string email, string host);
     }
 }
