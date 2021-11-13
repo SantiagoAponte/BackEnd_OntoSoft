@@ -28,8 +28,8 @@ namespace Aplication.ClinicHistoryApp
 
         public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.backgroundMedical).NotEmpty().WithMessage("El campo backgroundMedical no puede estar vacio").NotNull().WithMessage("El campo backgroundMedical no puede ser nulo");
-                RuleFor( x => x.backgroundOral).NotEmpty().WithMessage("El campo backgroundOral no puede estar vacio").NotNull().WithMessage("El campo backgroundOral no puede ser nulo");
+                RuleFor( x => x.backgroundMedical).NotNull().WithMessage("El campo backgroundMedical no puede ser nulo");
+                RuleFor( x => x.backgroundOral).NotNull().WithMessage("El campo backgroundOral no puede ser nulo");
                 RuleFor(x => x.UserId).NotNull().WithMessage("El campo UserId no puede estar vacio").NotEmpty().WithMessage("El campo UserId no puede ser nulo");
                 RuleFor(x => x.dateRegister).NotEmpty().WithMessage("El campo dateRegister no puede estar vacio").WithMessage("El campo dateRegister no puede ser nulo");
                 // RuleFor(x => x.ListBackgroundMedical).NotEmpty().WithMessage("El campo ListBackgroundMedical no puede estar vacio o nulo");

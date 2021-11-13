@@ -49,7 +49,7 @@ namespace Aplication.ClinicHistoryApp
 
                 if(user==null){
                 //throw new Exception("No se puede eliminar curso");
-                throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro al usuario"});
+                throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro la historia clinica del usuario, por favor verifique la información."});
                 }
 
                 var userDto = _mapper.Map<ClinicHistory,clinicHistoryDto>(user);
