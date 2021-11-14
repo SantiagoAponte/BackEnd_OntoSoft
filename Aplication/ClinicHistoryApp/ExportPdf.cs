@@ -85,17 +85,17 @@ namespace Aplication.ClinicHistoryApp
                 var User = _context.User.FirstOrDefault(x=>x.Id == request.Id);
                  
                  /*Logica para calcular la edad por años y meses*/
-                int age = DateTime.Today.AddTicks(-clinicHistory[0].user.dateBirth.Ticks).Year - 1;
-                double ageperMonth = DateTime.Now.Subtract(clinicHistory[0].user.dateBirth).Days / (365 / 12);
-                string message = "";
+                // int age = DateTime.Today.AddTicks(-clinicHistory[0].user.dateBirth.Ticks).Year - 1;
+                // double ageperMonth = DateTime.UtcNow.Subtract(clinicHistory[0].user.dateBirth).Days / (365 / 12);
+                // string message = "";
 
-                if(ageperMonth > age){
-                    message = (age + " años");
+                // if(ageperMonth > age){
+                //     message = (age + " años");
                     
-                }
-                else{
-                     message= (ageperMonth + " meses"); 
-                }
+                // }
+                // else{
+                //      message= (ageperMonth + " meses"); 
+                // }
 
                 /*Logica para marcar los antecedentes medicos que tiene el paciente*/
                 var idTableBackgroundMedicals = _context.backgroundMedicals.ToList();           
@@ -266,7 +266,7 @@ namespace Aplication.ClinicHistoryApp
                 tableInfo.AddCell(cellGender);
 
                 PdfPCell cellAge = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
-                Phrase = new Phrase(message, fontData )};
+                Phrase = new Phrase("message", fontData )};
                 tableInfo.AddCell(cellAge);
 
                 PdfPCell celldateBirth = new PdfPCell() {CellEvent = roundRectangle, Border = PdfPCell.NO_BORDER, Padding = 3,
