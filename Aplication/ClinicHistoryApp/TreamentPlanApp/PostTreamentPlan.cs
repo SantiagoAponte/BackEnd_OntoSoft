@@ -59,7 +59,7 @@ namespace Aplication.ClinicHistoryApp.TreamentPlanApp
                         if(valor>0){
                         return Unit.Value;
                         }
-                        throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "No se pudo añadir el registro de Radiografia oral para el paciente"});
+                        throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "No se pudo añadir el registro de Plan de tratamiento para el paciente"});
             }
         }
     }

@@ -7,6 +7,7 @@ using Aplication.ManagerExcepcion;
 using Domine;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using persistence;
 
 namespace Aplication.ClinicHistoryApp
@@ -39,9 +40,11 @@ namespace Aplication.ClinicHistoryApp
 
         public class Manager : IRequestHandler<Execute>
         {
+            private readonly UserManager<User> _userManager;
             private readonly OntoSoftContext _context;
-            public Manager(OntoSoftContext context){
+            public Manager(OntoSoftContext context,UserManager<User> userManager){
                 _context = context;
+                 _userManager = userManager;
             }
 
             public async Task<Unit> Handle(Execute request, CancellationToken cancellationToken)
@@ -51,6 +54,11 @@ namespace Aplication.ClinicHistoryApp
                if(request.Id != null){
                  clinicHistoryId = request.Id ?? Guid.NewGuid();
                }
+              var user = await _userManager.FindByIdAsync(request.UserId);
+                if (user == null)
+                {
+                     throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje ="Primero debe seleccionar un usuario para realizarle un registro de información"});
+                }
                
                var clinicHistory = new ClinicHistory {
                    Id = clinicHistoryId,
