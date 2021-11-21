@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Aplication.Security.Users;
 using Aplication.Security.Users.Dtos;
 using Domine;
+using MediatR;
 
 namespace WebApi.Controllers
 {
@@ -92,6 +93,10 @@ namespace WebApi.Controllers
         [HttpGet("details/{id}")]
         public async Task<ActionResult<UserData>> ObtainDetailsWithUser(string id){
             return await mediator.Send(new getUserDetails.OneDetailUser{Id = id});
+        }
+       [HttpDelete("delete/{id}")]
+        public async Task<ActionResult<Unit>> deleteAppoinment(string id){
+            return await mediator.Send(new deleteUser.Execute{Id = id});
         }
 
     }
