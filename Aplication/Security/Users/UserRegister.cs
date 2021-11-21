@@ -23,7 +23,7 @@ namespace Aplication.Security
         public string Username {get;set;}
         public string Password {get;set;}
         public string fullName {get;set;}
-        // public string RolName {get;set;}
+        public string RolName {get;set;} = "default";
         }
     public class ExecuteValidator : AbstractValidator<Execute>{
     readonly Regex regEx = new Regex("^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$");
@@ -60,10 +60,10 @@ namespace Aplication.Security
                if(existUserName){
                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje ="Existe ya un usuario con este username"});
                }
-                // var role = await _roleManager.FindByNameAsync(request.RolName);
-                // if(role == null){
-                //     throw new Exception("El rol no existe");
-                // }
+                var role = await _roleManager.FindByNameAsync(request.RolName);
+                if(role == null){
+                   throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje ="El rol default no existe, debe crearse en base de datos"});
+                }
                 var user = new User {
                     Email = request.Email,
                     UserName = request.Username,
@@ -71,15 +71,17 @@ namespace Aplication.Security
                 };
 
                var result = await _userManager.CreateAsync(user, request.Password);
-            //    var result2 =  await _userManager.AddToRoleAsync(user, request.RolName);
+               var result2 =  await _userManager.AddToRoleAsync(user, request.RolName);
                 if(result.Succeeded){
                     return new userRegisterDto {
                     Username = user.UserName,
                     Token = _jwtGenerator.CreateToken(user, null),
                     Email = user.Email,
-                    fullName = request.fullName
+                    fullName = request.fullName,
+                    RolName = "default"
                     };
                 }
+                Console.WriteLine(result);
                 throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje ="No se pudo agregar al nuevo usuario, verifique que su contraseña tenga al menos una mayuscula, numeros, un caracter especial y ser de 8 digitos"});
             }
         }

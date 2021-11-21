@@ -37,7 +37,7 @@ namespace Aplication.AppoinmentsApp
 
                 if(user==null){
                 //throw new Exception("No se puede eliminar curso");
-                throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro al usuario"});
+                throw new ManagerError(HttpStatusCode.NotFound, new {mensaje = "No se encontro al usuario para traer sus citas"});
                 }
 
                 var userDto = _mapper.Map<User,UserDto>(user);
