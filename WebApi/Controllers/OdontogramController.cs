@@ -51,9 +51,13 @@ namespace WebApi.Controllers
             return await mediator.Send(data);
         }
 
-        [HttpDelete("delete")]
-        public async Task<ActionResult<Unit>> deleteAppoinment(deleteOdontogram.Execute data){
-            return await mediator.Send(data);
+        // [HttpDelete("delete")]
+        // public async Task<ActionResult<Unit>> deleteOdontogram(deleteOdontogram.Execute data){
+        //     return await mediator.Send(data);
+        // }
+         [HttpDelete("delete/{id}")]
+        public async Task<ActionResult<Unit>> deleteAppoinment(Guid id){
+            return await mediator.Send(new deleteOdontogram.Execute{Id = id});
         }
     }
 }
