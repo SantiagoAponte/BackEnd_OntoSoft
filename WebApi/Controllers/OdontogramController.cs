@@ -41,7 +41,7 @@ namespace WebApi.Controllers
             return await mediator.Send(new GetOdontogram.ListTooth());
         }
         [HttpGet("users/{id}")]
-        public async Task<ActionResult<odontogramDto>> ObtainOneOdontogramWithUser(string id){
+        public async Task<ActionResult<List<odontogramDto>>> ObtainOneOdontogramWithUser(string id){
             return await mediator.Send(new GetOdontogramWithUser.OneOdontogramUser{Id = id});
         }
 
