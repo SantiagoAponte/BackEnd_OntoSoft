@@ -95,8 +95,13 @@ namespace WebApi.Controllers
             return await mediator.Send(new getUserDetails.OneDetailUser{Id = id});
         }
        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult<Unit>> deleteAppoinment(string id){
+        public async Task<ActionResult<Unit>> deleteUser(string id){
             return await mediator.Send(new deleteUser.Execute{Id = id});
+        }
+        [HttpPut("edit/{id}")]
+        public async Task<ActionResult<Unit>> putUserforAdmin(string id, UserPutForAdmin.Execute data){
+            data.Id = id;
+            return await mediator.Send(data);
         }
 
     }

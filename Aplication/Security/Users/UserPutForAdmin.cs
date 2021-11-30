@@ -4,9 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Aplication.Interfaces.Contracts;
 using Aplication.ManagerExcepcion;
-using Aplication.Security.Users.Dtos;
 using Domine;
 using FluentValidation;
 using MediatR;
@@ -14,14 +12,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using persistence;
 
-namespace Aplication.Security
+namespace Aplication.Security.Users
 {
-    public class UserPut
+    public class UserPutForAdmin
     {
-        public class Execute : IRequest<UserData>
+        public class Execute : IRequest
         {
+            public string Id {get;set;}
             public string Email { get; set; }
-            public string PasswordHash { get; set; }
             public string Username { get; set; }
             public string fullname {get;set;}
              public string PhoneNumber {get;set;}
@@ -42,7 +40,6 @@ namespace Aplication.Security
             public List<string> typeDocumentId {get;set;}
             public ImagenPerfil imagenPerfil { get; set; }
         }
-
         public class ExecuteValidator : AbstractValidator<Execute>
         {
             public ExecuteValidator()
@@ -50,7 +47,7 @@ namespace Aplication.Security
                 // RuleFor(x => x.fullname).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().NotNull().WithMessage("El campo de Email no puede estar vacio o nulo");
                 // RuleFor(x => x.PasswordHash).NotEmpty().NotNull().WithMessage("el campo de Password no puede estar vacio o nulo");
-                RuleFor(x => x.Username).NotEmpty().NotNull().WithMessage("El campo Username no puede estar vacio o nulo");
+                RuleFor(x => x.Username).NotEmpty().WithMessage("El campo Username no puede estar vacio o nulo");
                 RuleFor(x => x.fullname).NotEmpty().NotNull().WithMessage("El campo fullname no puede estar vacio o nulo");
                 RuleFor(x => x.PhoneNumber).NotEmpty().NotNull().WithMessage("El campo PhoneNumber no puede estar vacio o nulo");
                 RuleFor(x => x.phoneEmergency).NotEmpty().NotNull().WithMessage("El campo phoneEmergency no puede estar vacio o nulo");
@@ -72,26 +69,26 @@ namespace Aplication.Security
 
             }
         }
-
-        public class Manager : IRequestHandler<Execute, UserData>
+        public class Manager : IRequestHandler<Execute>
         {
             private readonly    OntoSoftContext _context;
             private readonly UserManager<User> _userManager;
-            private readonly IJwtGenerator _jwtGenerator;
+     
 
-            private readonly IPasswordHasher<User> _passwordHasher;
-
-            public Manager(OntoSoftContext context, UserManager<User> userManager, IJwtGenerator jwtGenerator, IPasswordHasher<User> passwordHasher)
+            public Manager(OntoSoftContext context, UserManager<User> userManager)
             {
                 _context = context;
                 _userManager = userManager;
-                _jwtGenerator = jwtGenerator;
-                _passwordHasher = passwordHasher;
             }
 
-            public async Task<UserData> Handle(Execute request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Execute request, CancellationToken cancellationToken)
             {
-                var userIden = await _userManager.FindByNameAsync(request.Username);
+                var user = await _context.Users.FindAsync(request.Id);
+                  if(
+                      user==null){
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje = "No se encontro al usuario"});
+                }
+                  var userIden = await _userManager.FindByNameAsync(request.Username);
                 if (userIden == null)
                 {
                     throw new ManagerError(HttpStatusCode.NotAcceptable, new { mensaje = "No existe un usuario con este username" });
@@ -131,7 +128,6 @@ namespace Aplication.Security
                 }
 
                 userIden.fullName = request.fullname;
-                userIden.PasswordHash = _passwordHasher.HashPassword(userIden, request.PasswordHash);
                 userIden.Email = request.Email;
                 userIden.PhoneNumber = request.PhoneNumber;
                 userIden.phoneEmergency = request.phoneEmergency;
@@ -153,11 +149,7 @@ namespace Aplication.Security
                foreach(var _id in request.typeDocumentId){
                  userIden.typeDocumentId = _id;
                } 
-
                 var resultadoUpdate = await _userManager.UpdateAsync(userIden);
-
-                var resultadoRoles = await _userManager.GetRolesAsync(userIden);
-                var listRoles = new List<string>(resultadoRoles);
 
                 var imagenPerfil = await _context.Galleries.Where(x => x.ObjectReference == new Guid(userIden.Id)).FirstAsync();
                 ImagenPerfil imagenProfile = null;
@@ -168,38 +160,16 @@ namespace Aplication.Security
                         Data = Convert.ToBase64String(imagenPerfil.Contain),
                         Name = imagenPerfil.Name,
                         Extension = imagenPerfil.Extension
-                    };
+                    };        
                 }
+        
+                var resultFull = await _context.SaveChangesAsync();
 
-
-                if (resultadoUpdate.Succeeded)
-                {
-                    return new UserData
-                    {
-                        fullName = userIden.fullName,
-                        Username = userIden.UserName,
-                        Email = userIden.Email,
-                        Token = _jwtGenerator.CreateToken(userIden, listRoles),
-                        imagenPerfil = imagenProfile,
-                        PhoneNumber = userIden.PhoneNumber,
-                        phoneEmergency = userIden.phoneEmergency,
-                        contactEmergency = userIden.contactEmergency,
-                        addresContact = userIden.addresContact,
-                        centerEmergency = userIden.centerEmergency,
-                        eps = userIden.eps,
-                        dateBirth = userIden.dateBirth.AddHours(-5),
-                        city = userIden.city,
-                        address = userIden.address,
-                        gender = userIden.gender,
-                        document = userIden.document,
-                        height = userIden.height,
-                        weight = userIden.weight,
-                        rh = userIden.rh,
-                        bloodType = userIden.bloodType,
-                        typeDocumentId = userIden.typeDocumentId
-                    };
+                if (resultFull > 0 && resultadoUpdate == IdentityResult.Success){
+                throw new ManagerError(HttpStatusCode.BadRequest, new {mensaje = "Error, no se pudo actualizar la información del usuario"});   
+                // return Unit.Value;
                 }
-                throw new ManagerError(HttpStatusCode.BadRequest, new { mensaje = "No se pudo actualizar la información del usuario" });
+                throw new ManagerError(HttpStatusCode.OK, new {mensaje = "Se actualizo la información del usuario con exito"});
             }
         }
     }

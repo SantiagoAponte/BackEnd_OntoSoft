@@ -33,6 +33,11 @@ namespace Aplication.Security.Users
                 foreach(var user in usersBD){
                     _context.Users.Remove(user);
                 }
+                var clinicHistoryBD = _context.clinicHistories.Where(x => x.UserId == request.Id);
+                        foreach(var relationDelete in clinicHistoryBD){
+                            _context.clinicHistories.Remove(relationDelete);
+                        }
+
                 var result = await _context.SaveChangesAsync();
 
                 if(result>0){
