@@ -98,7 +98,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult<Unit>> deleteUser(string id){
             return await mediator.Send(new deleteUser.Execute{Id = id});
         }
-        [HttpPost("edit/{id}")]
+        [HttpPut("edit/{id}")]
         public async Task<ActionResult<Unit>> putUserforAdmin(string id, UserPutForAdmin.Execute data){
             data.Id = id;
             return await mediator.Send(data);

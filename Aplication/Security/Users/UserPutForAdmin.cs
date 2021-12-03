@@ -100,32 +100,32 @@ namespace Aplication.Security.Users
                     throw new ManagerError(HttpStatusCode.NotAcceptable, new { mensaje = "Este email o username pertenece a otro usuario" });
                 }
 
-                // if (request.imagenPerfil != null)
-                // {
+                if (request.imagenPerfil != null)
+                {
                     
-                //         // var resultadoImagen = await _context.Galleries.Where(x => x.ObjectReference == new Guid(userIden.Id)).FirstOrDefaultAsync();
-                //         // if (resultadoImagen == null)
-                //         // {
-                //         //     var imagen = new Galleries
-                //         //     {
-                //         //         Contain = System.Convert.FromBase64String(request.imagenPerfil.Data),
-                //         //         Name = request.imagenPerfil.Name,
-                //         //         Extension = request.imagenPerfil.Extension,
-                //         //         ObjectReference = new Guid(userIden.Id),
-                //         //         Id = Guid.NewGuid(),
-                //         //         dateCreate = DateTime.UtcNow
-                //         //     };
-                //         //     _context.Galleries.Add(imagen);
-                //         // }
-                //         // else
-                //         // {
-                //         //     resultadoImagen.Contain = System.Convert.FromBase64String(request.imagenPerfil.Data);
-                //         //     resultadoImagen.Name = request.imagenPerfil.Name;
-                //         //     resultadoImagen.Extension = request.imagenPerfil.Extension;
-                //         // }
+                        var resultadoImagen = await _context.Galleries.Where(x => x.ObjectReference == new Guid(userIden.Id)).FirstOrDefaultAsync();
+                        if (resultadoImagen == null)
+                        {
+                            var imagen = new Galleries
+                            {
+                                Contain = System.Convert.FromBase64String(request.imagenPerfil.Data),
+                                Name = request.imagenPerfil.Name,
+                                Extension = request.imagenPerfil.Extension,
+                                ObjectReference = new Guid(userIden.Id),
+                                Id = Guid.NewGuid(),
+                                dateCreate = DateTime.UtcNow
+                            };
+                            _context.Galleries.Add(imagen);
+                        }
+                        else
+                        {
+                            resultadoImagen.Contain = System.Convert.FromBase64String(request.imagenPerfil.Data);
+                            resultadoImagen.Name = request.imagenPerfil.Name;
+                            resultadoImagen.Extension = request.imagenPerfil.Extension;
+                        }
                     
 
-                // }
+                }
 
                 userIden.fullName = request.fullname;
                 userIden.Email = request.Email;
@@ -151,17 +151,17 @@ namespace Aplication.Security.Users
                } 
                 var resultadoUpdate = await _userManager.UpdateAsync(userIden);
 
-                // var imagenPerfil = await _context.Galleries.Where(x => x.ObjectReference == new Guid(userIden.Id)).FirstAsync();
-                // ImagenPerfil imagenProfile = null;
-                // if (imagenPerfil != null)
-                // {
-                //     imagenProfile = new ImagenPerfil
-                //     {
-                //         Data = Convert.ToBase64String(imagenPerfil.Contain),
-                //         Name = imagenPerfil.Name,
-                //         Extension = imagenPerfil.Extension
-                //     };        
-                // }
+                var imagenPerfil = await _context.Galleries.Where(x => x.ObjectReference == new Guid(userIden.Id)).FirstAsync();
+                ImagenPerfil imagenProfile = null;
+                if (imagenPerfil != null)
+                {
+                    imagenProfile = new ImagenPerfil
+                    {
+                        Data = Convert.ToBase64String(imagenPerfil.Contain),
+                        Name = imagenPerfil.Name,
+                        Extension = imagenPerfil.Extension
+                    };        
+                }
         
                 var resultFull = await _context.SaveChangesAsync();
 
