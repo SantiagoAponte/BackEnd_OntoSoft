@@ -5,7 +5,7 @@ namespace Aplication.Security.Users.Dtos
     public class UserData
     {
         public string Email {get;set;}
-        public string PasswordHash {get;set;}
+        // public string PasswordHash {get;set;}
         public string fullName {get;set;}
         public string Token {get;set;}
         public string Username {get;set;}

@@ -47,19 +47,21 @@ namespace Aplication.Interfaces.Contracts
         private IConfiguration _configuration;
         private IMailService _mailService; 
         private readonly IJwtGenerator _jwtGenerator;
-        public Manager(UserManager<User> userManager, IConfiguration configuration, IMailService mailService, OntoSoftContext context, IPasswordHasher<User> passwordHasher, IJwtGenerator jwtGenerator) 
+        private readonly IUserSesion _userSesion;
+        public Manager(UserManager<User> userManager, IConfiguration configuration,IUserSesion usuarioSesion, IMailService mailService, OntoSoftContext context, IPasswordHasher<User> passwordHasher, IJwtGenerator jwtGenerator) 
         {
             _userManager = userManager;
             _configuration = configuration;
             _mailService = mailService;
             _passwordHasher = passwordHasher;
             _context = context;
+             _userSesion = usuarioSesion;
             _jwtGenerator = jwtGenerator;
 
         }
         public async Task<UserManagerResponse> Handle(Execute request, CancellationToken cancellationToken)
             {
-                var usuarioIden = await _userManager.FindByEmailAsync(request.Email);
+                var usuarioIden = await _userManager.FindByEmailAsync(_userSesion.ObtainUserSesion());
             if (usuarioIden == null)
                 {
                     throw new ManagerError(HttpStatusCode.NotAcceptable, new { mensaje = "No existe un usuario con este Email" });

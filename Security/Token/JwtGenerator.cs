@@ -14,7 +14,7 @@ namespace Security.Token
     {
         public string CreateToken(User usuario, List<string> roles)
         {
-            var claims = new List<Claim>{
+            var claims = new List<Claim>{ 
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Id),
                 new Claim(JwtRegisteredClaimNames.NameId, usuario.UserName),
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Email),

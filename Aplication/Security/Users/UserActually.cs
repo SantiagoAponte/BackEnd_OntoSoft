@@ -36,7 +36,7 @@ namespace Aplication.Security
             }
             public async Task<UserData> Handle(Execute request, CancellationToken cancellationToken)
             {
-                var user = await _userManager.FindByNameAsync(_userSesion.ObtainUserSesion());
+                var user = await _userManager.FindByEmailAsync(_userSesion.ObtainUserSesion());
                 
                 var resultRoles = await _userManager.GetRolesAsync(user);
                 var listRoles = new List<string>(resultRoles);
@@ -56,7 +56,7 @@ namespace Aplication.Security
                     {
                         fullName = user.fullName,
                         Username = user.UserName,
-                        Token = _jwtGenerator.CreateToken(user, listRoles),
+                        // Token = _jwtGenerator.CreateToken(user, listRoles),
                         Email = user.Email,
                         imagenPerfil = imagenUser,
                         PhoneNumber = user.PhoneNumber,
@@ -83,7 +83,7 @@ namespace Aplication.Security
                     {
                         fullName = user.fullName,
                         Username = user.UserName,
-                        Token = _jwtGenerator.CreateToken(user, listRoles),
+                        // Token = _jwtGenerator.CreateToken(user, listRoles),
                         Email = user.Email,
                         PhoneNumber = user.PhoneNumber,
                         phoneEmergency = user.phoneEmergency,

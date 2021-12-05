@@ -20,8 +20,9 @@ namespace Aplication.Security
     {
         public class Execute : IRequest<UserData>
         {
+            public string Id {get;set;}
             public string Email { get; set; }
-            public string PasswordHash { get; set; }
+            // public string PasswordHash { get; set; }
             public string Username { get; set; }
             public string fullname {get;set;}
              public string PhoneNumber {get;set;}
@@ -91,10 +92,10 @@ namespace Aplication.Security
 
             public async Task<UserData> Handle(Execute request, CancellationToken cancellationToken)
             {
-                var userIden = await _userManager.FindByNameAsync(request.Username);
+                var userIden = await _userManager.FindByIdAsync(request.Id);
                 if (userIden == null)
                 {
-                    throw new ManagerError(HttpStatusCode.NotAcceptable, new { mensaje = "No existe un usuario con este username" });
+                    throw new ManagerError(HttpStatusCode.NotAcceptable, new { mensaje = "No existe el usuario, verifique con el administrador" });
                 }
 
                 var result = await _context.Users.Where(x => x.Email == request.Email && x.UserName != request.Username).AnyAsync();
@@ -131,7 +132,7 @@ namespace Aplication.Security
                 }
 
                 userIden.fullName = request.fullname;
-                userIden.PasswordHash = _passwordHasher.HashPassword(userIden, request.PasswordHash);
+                // userIden.PasswordHash = _passwordHasher.HashPassword(userIden, request.PasswordHash);
                 userIden.Email = request.Email;
                 userIden.PhoneNumber = request.PhoneNumber;
                 userIden.phoneEmergency = request.phoneEmergency;
