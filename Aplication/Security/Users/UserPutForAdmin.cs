@@ -108,7 +108,7 @@ namespace Aplication.Security.Users
                         {
                             var imagen = new Galleries
                             {
-                                Contain = System.Convert.FromBase64String(request.imagenPerfil.Data),
+                                Contain = Convert.FromBase64String(request.imagenPerfil.Data),
                                 Name = request.imagenPerfil.Name,
                                 Extension = request.imagenPerfil.Extension,
                                 ObjectReference = new Guid(userIden.Id),
@@ -119,7 +119,7 @@ namespace Aplication.Security.Users
                         }
                         else
                         {
-                            resultadoImagen.Contain = System.Convert.FromBase64String(request.imagenPerfil.Data);
+                            resultadoImagen.Contain = Convert.FromBase64String(request.imagenPerfil.Data);
                             resultadoImagen.Name = request.imagenPerfil.Name;
                             resultadoImagen.Extension = request.imagenPerfil.Extension;
                         }
