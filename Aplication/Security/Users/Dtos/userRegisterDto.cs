@@ -7,5 +7,6 @@ namespace Aplication.Security.Users.Dtos
         public string Username {get;set;}
         public string fullName {get;set;}
         public string RolName {get;set;}
+        public ImagenPerfil imagenPerfil {get;set;}
     }
 }

@@ -24,6 +24,7 @@ namespace Aplication.Security
         public string Password {get;set;}
         public string fullName {get;set;}
         public string RolName {get;set;} = "default";
+        public ImagenPerfil imagenPerfil { get; set; }
         }
     public class ExecuteValidator : AbstractValidator<Execute>{
     readonly Regex regEx = new Regex("^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$");
@@ -64,21 +65,59 @@ namespace Aplication.Security
                 if(role == null){
                    throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje ="El rol default no existe, debe crearse en base de datos"});
                 }
-                var user = new User {
+                 var user = new User {
                     Email = request.Email,
                     UserName = request.Username,
                     fullName = request.fullName
                 };
 
+               
+                if (request.imagenPerfil != null)
+                {                  
+                        var resultadoImagen = await _context.Galleries.Where(x => x.ObjectReference == new Guid(user.Id)).FirstOrDefaultAsync();
+                        if (resultadoImagen == null)
+                        {
+                            var imagen = new Galleries
+                            {
+                                Contain = Convert.FromBase64String(request.imagenPerfil.Data),
+                                Name = request.imagenPerfil.Name,
+                                Extension = request.imagenPerfil.Extension,
+                                ObjectReference = new Guid(user.Id),
+                                Id = Guid.NewGuid(),
+                                dateCreate = DateTime.UtcNow
+                            };
+                            _context.Galleries.Add(imagen);
+                        }
+                        else
+                        {
+                            resultadoImagen.Contain = Convert.FromBase64String(request.imagenPerfil.Data);
+                            resultadoImagen.Name = request.imagenPerfil.Name;
+                            resultadoImagen.Extension = request.imagenPerfil.Extension;
+                        }
+                }
+
                var result = await _userManager.CreateAsync(user, request.Password);
                var result2 =  await _userManager.AddToRoleAsync(user, request.RolName);
+
+               var imagenPerfil = await _context.Galleries.Where(x => x.ObjectReference == new Guid(user.Id)).FirstAsync();
+                ImagenPerfil imagenProfile = null;
+                if (imagenPerfil != null)
+                {
+                    imagenProfile = new ImagenPerfil
+                    {
+                        Data = Convert.ToBase64String(imagenPerfil.Contain),
+                        Name = imagenPerfil.Name,
+                        Extension = imagenPerfil.Extension
+                    };
+                }
                 if(result.Succeeded){
                     return new userRegisterDto {
                     Username = user.UserName,
                     Token = _jwtGenerator.CreateToken(user, null),
                     Email = user.Email,
                     fullName = request.fullName,
-                    RolName = "default"
+                    RolName = "default",
+                    imagenPerfil = imagenProfile
                     };
                 }
                 Console.WriteLine(result);

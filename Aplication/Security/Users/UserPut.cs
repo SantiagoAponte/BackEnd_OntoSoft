@@ -49,26 +49,26 @@ namespace Aplication.Security
             public ExecuteValidator()
             {
                 // RuleFor(x => x.fullname).NotEmpty();
-                RuleFor(x => x.Email).NotEmpty().NotNull().WithMessage("El campo de Email no puede estar vacio o nulo");
+                // RuleFor(x => x.Email).NotEmpty().NotNull().WithMessage("El campo de Email no puede estar vacio o nulo");
                 // RuleFor(x => x.PasswordHash).NotEmpty().NotNull().WithMessage("el campo de Password no puede estar vacio o nulo");
-                RuleFor(x => x.Username).NotEmpty().NotNull().WithMessage("El campo Username no puede estar vacio o nulo");
-                RuleFor(x => x.fullname).NotEmpty().NotNull().WithMessage("El campo fullname no puede estar vacio o nulo");
-                RuleFor(x => x.PhoneNumber).NotEmpty().NotNull().WithMessage("El campo PhoneNumber no puede estar vacio o nulo");
-                RuleFor(x => x.phoneEmergency).NotEmpty().NotNull().WithMessage("El campo phoneEmergency no puede estar vacio o nulo");
-                RuleFor(x => x.contactEmergency).NotEmpty().NotNull().WithMessage("El campo contactEmergency no puede estar vacio o nulo");
-                RuleFor(x => x.addresContact).NotEmpty().NotNull().WithMessage("El campo addresContact no puede estar vacio o nulo");
-                RuleFor(x => x.centerEmergency).NotEmpty().NotNull().WithMessage("El campo centerEmergency no puede estar vacio o nulo");
-                RuleFor(x => x.eps).NotEmpty().NotNull().WithMessage("El campo eps no puede estar vacio o nulo");
-                RuleFor(x => x.dateBirth).NotEmpty().NotNull().WithMessage("El campo dateBirth no puede estar vacio o nulo");
-                RuleFor(x => x.city).NotEmpty().NotNull().WithMessage("El campo city no puede estar vacio o nulo");
-                RuleFor(x => x.address).NotEmpty().NotNull().WithMessage("El campo address no puede estar vacio o nulo");
-                RuleFor(x => x.gender).NotEmpty().NotNull().WithMessage("El campo gender no puede estar vacio o nulo");
-                RuleFor(x => x.document).NotEmpty().NotNull().WithMessage("El campo document no puede estar vacio o nulo");
-                RuleFor(x => x.height).NotEmpty().NotNull().WithMessage("El campo height no puede estar vacio o nulo");
-                RuleFor(x => x.weight).NotEmpty().NotNull().WithMessage("El campo weight no puede estar vacio o nulo");
-                RuleFor(x => x.rh).NotEmpty().NotNull().WithMessage("El campo rh no puede estar vacio o nulo");
-                RuleFor(x => x.bloodType).NotEmpty().NotNull().WithMessage("El campo bloodType no puede estar vacio o nulo");
-                RuleFor(x => x.typeDocumentId).NotEmpty().NotNull().WithMessage("El campo typeDocumentId no puede estar vacio o nulo");
+                // RuleFor(x => x.Username).NotEmpty().NotNull().WithMessage("El campo Username no puede estar vacio o nulo");
+                // RuleFor(x => x.fullname).NotEmpty().NotNull().WithMessage("El campo fullname no puede estar vacio o nulo");
+                // RuleFor(x => x.PhoneNumber).NotEmpty().NotNull().WithMessage("El campo PhoneNumber no puede estar vacio o nulo");
+                // RuleFor(x => x.phoneEmergency).NotEmpty().NotNull().WithMessage("El campo phoneEmergency no puede estar vacio o nulo");
+                // RuleFor(x => x.contactEmergency).NotEmpty().NotNull().WithMessage("El campo contactEmergency no puede estar vacio o nulo");
+                // RuleFor(x => x.addresContact).NotEmpty().NotNull().WithMessage("El campo addresContact no puede estar vacio o nulo");
+                // RuleFor(x => x.centerEmergency).NotEmpty().NotNull().WithMessage("El campo centerEmergency no puede estar vacio o nulo");
+                // RuleFor(x => x.eps).NotEmpty().NotNull().WithMessage("El campo eps no puede estar vacio o nulo");
+                // RuleFor(x => x.dateBirth).NotEmpty().NotNull().WithMessage("El campo dateBirth no puede estar vacio o nulo");
+                // RuleFor(x => x.city).NotEmpty().NotNull().WithMessage("El campo city no puede estar vacio o nulo");
+                // RuleFor(x => x.address).NotEmpty().NotNull().WithMessage("El campo address no puede estar vacio o nulo");
+                // RuleFor(x => x.gender).NotEmpty().NotNull().WithMessage("El campo gender no puede estar vacio o nulo");
+                // RuleFor(x => x.document).NotEmpty().NotNull().WithMessage("El campo document no puede estar vacio o nulo");
+                // RuleFor(x => x.height).NotEmpty().NotNull().WithMessage("El campo height no puede estar vacio o nulo");
+                // RuleFor(x => x.weight).NotEmpty().NotNull().WithMessage("El campo weight no puede estar vacio o nulo");
+                // RuleFor(x => x.rh).NotEmpty().NotNull().WithMessage("El campo rh no puede estar vacio o nulo");
+                // RuleFor(x => x.bloodType).NotEmpty().NotNull().WithMessage("El campo bloodType no puede estar vacio o nulo");
+                // RuleFor(x => x.typeDocumentId).NotEmpty().NotNull().WithMessage("El campo typeDocumentId no puede estar vacio o nulo");
                 
 
             }
