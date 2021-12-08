@@ -110,6 +110,8 @@ namespace Aplication.Security
                         Extension = imagenPerfil.Extension
                     };
                 }
+                var resultFull = await _context.SaveChangesAsync();
+                
                 if(result.Succeeded){
                     return new userRegisterDto {
                     Username = user.UserName,
