@@ -99,7 +99,7 @@ namespace Aplication.Security
                var result = await _userManager.CreateAsync(user, request.Password);
                var result2 =  await _userManager.AddToRoleAsync(user, request.RolName);
 
-               var imagenPerfil = await _context.Galleries.Where(x => x.ObjectReference == new Guid(user.Id)).FirstAsync();
+               var imagenPerfil = await _context.Galleries.Where(x => x.ObjectReference == new Guid(user.Id)).FirstOrDefaultAsync();
                 ImagenPerfil imagenProfile = null;
                 if (imagenPerfil != null)
                 {
@@ -111,7 +111,7 @@ namespace Aplication.Security
                     };
                 }
                 var resultFull = await _context.SaveChangesAsync();
-                
+
                 if(result.Succeeded){
                     return new userRegisterDto {
                     Username = user.UserName,
