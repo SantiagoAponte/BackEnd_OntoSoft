@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Aplication.AppoinmentsApp;
 using Aplication.ClinicHistoryApp;
 using Aplication.ClinicHistoryApp.OralRadiographyApp;
@@ -17,20 +13,15 @@ using Domine;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using persistence;
 using Security.Token;
@@ -109,8 +100,6 @@ namespace WebApi
                 };
             });
             
-
-            
             services.AddAutoMapper(typeof(GetAppoinment.Manager));
             services.AddAutoMapper(typeof(getClinicHistoryWithUser.Manager));
             services.AddMediatR(typeof(UserRegister.Manager).Assembly);
@@ -118,6 +107,8 @@ namespace WebApi
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserSesion, UserSesion>();
             services.AddScoped<IForgetPassword, ForgetService>();
+            services.AddScoped<IMailCreateAppoinment, createAppoinmentMail>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

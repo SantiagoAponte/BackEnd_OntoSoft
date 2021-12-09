@@ -27,9 +27,9 @@ namespace Aplication.AppoinmentsApp
 
          public class ExecuteValidator : AbstractValidator<Execute>{
             public ExecuteValidator(){
-                RuleFor( x => x.Title).NotEmpty().WithMessage("El campo Title no debe estar vacio");
-                RuleFor( x => x.Text).NotEmpty().WithMessage("El campo Text no debe estar vacio");
-                RuleFor( x => x.date).NotEmpty().WithMessage("El campo date no debe estar vacio");
+                // RuleFor( x => x.Title).NotEmpty().WithMessage("El campo Title no debe estar vacio");
+                // RuleFor( x => x.Text).NotEmpty().WithMessage("El campo Text no debe estar vacio");
+                // RuleFor( x => x.date).NotEmpty().WithMessage("El campo date no debe estar vacio");
             }
         }
 

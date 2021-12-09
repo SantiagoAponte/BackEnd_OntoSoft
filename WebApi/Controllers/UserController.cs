@@ -17,12 +17,14 @@ namespace WebApi.Controllers
     // [AllowAnonymous]
         public class userController : myControllerBase
     {
-         private IForgetPassword _forgetPassword;
+        private IForgetPassword _forgetPassword;
+        private IMailCreateAppoinment _mailCreateAppoinment;
         private IMailService _mailService;
         private IConfiguration _configuration;
-        public userController(IForgetPassword forgetPassword, IMailService mailService, IConfiguration configuration)
+        public userController(IForgetPassword forgetPassword,IMailCreateAppoinment mailCreateAppoinment, IMailService mailService, IConfiguration configuration)
         {
             _forgetPassword = forgetPassword;
+            _mailCreateAppoinment = mailCreateAppoinment;
             _mailService = mailService;
             _configuration = configuration;
         }
@@ -49,6 +51,30 @@ namespace WebApi.Controllers
                 return NotFound();
 
             var result = await _forgetPassword.ForgetPasswordAsync(email, host);
+
+            if (result.IsSuccess)
+                return Ok(result); // 200
+
+            return BadRequest(result); // 400
+        }
+       [HttpGet]
+        [Route("activated")]
+        public async  Task<IActionResult> SendmailActivated(string email){
+            var result = await _mailService.SendEmailAsync(email);
+            
+            if (result.IsSuccess)
+                return Ok(result); // 200
+
+            return BadRequest(result); // 400
+        }
+
+        [HttpGet("createdAppoinment")]
+        public async Task<IActionResult> SendmailCreateAppoinment(string email, string date, string time)
+        {
+            if (string.IsNullOrEmpty(email))
+                return NotFound();
+
+            var result = await _mailCreateAppoinment.SendEmailAppoinmentAsync(email, date, time);
 
             if (result.IsSuccess)
                 return Ok(result); // 200

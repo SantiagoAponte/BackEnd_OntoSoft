@@ -50,6 +50,17 @@ namespace WebApi.Controllers
             return await mediator.Send(new deleteAppoinments.Execute{Id = id});
         }
 
+        //  [HttpGet]
+        //  [Route("createdAppoinment")]
+        // public async  Task<IActionResult> SendmailCreateAppoinment(string email, string date, string time){
+        //     var result = await _mailCreateAppoinment.SendEmailAppoinmentAsync(email, "2020/10/01", "1:00 pm");
+            
+        //     if (result.IsSuccess)
+        //         return Ok(result); // 200
+
+        //     return BadRequest(result); // 400
+        // }
+
         // [HttpPost("report")]
         // public async Task<ActionResult<PaginacionModel>> Report(PaginacionCurso.Ejecuta data){
         //     return await Mediator.Send(data);

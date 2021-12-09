@@ -1,47 +1,40 @@
-using Aplication.Security;
+using System.Threading.Tasks;
+using Aplication.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Domine;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Threading.Tasks;
 
-namespace Aplication.Interfaces
+namespace Aplication.Security
 {
-    public interface IMailService
-    {
-         Task<UserManagerResponse> SendEmailAsync(string email);
-    }
-     public class SendGridMailService : IMailService
+    public class createAppoinmentMail : IMailCreateAppoinment
     {
          private UserManager<User> _userManger;
         private IConfiguration _configuration;
-        public SendGridMailService(IConfiguration configuration,UserManager<User> userManager)
+         private IMailService _mailService;
+        public createAppoinmentMail(IConfiguration configuration,UserManager<User> userManager,IMailService mailService)
         {
             _configuration = configuration; 
+            _mailService = mailService;
         }
-
-        public async Task<UserManagerResponse> SendEmailAsync(string email)
+        public async Task<UserManagerResponse> SendEmailAppoinmentAsync(string email, string date, string time)
         {
             //  var user = await _userManger.FindByEmailAsync(email);
             // if (user == null){
             //      throw new ManagerError(HttpStatusCode.NotAcceptable, new {mensaje ="No existe ningun usuario con este Email"});
             // }
-                // return new UserManagerResponse
-                // {
-                //     IsSuccess = false,
-                //     Message = "No existe ningun usuario con este Email",
-                // };
-                //  user.Email = email;
+            // user.Email = email;
             var apiKey = "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";
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage();
             msg.SetFrom(new EmailAddress("ontosoft5@gmail.com", "OntoSoft"));
             msg.AddTo(new EmailAddress(email,"Activación OntoSoft"));
-            msg.SetTemplateId("d-577d5cdaf6cb452cbf687ecbcebe2c8d");
-            // msg.SetTemplateData(new{
-            //         url = "Apreciado Paciente"
-            //         });
+            msg.SetTemplateId("d-8bde5f2be4c04e56b15308c42b5b527a");
+            msg.SetTemplateData(new{
+                    date = $"{date}",
+                    time = $"{time}"
+                    });
             var response = await client.SendEmailAsync(msg);
 
             return new UserManagerResponse
@@ -56,7 +49,6 @@ namespace Aplication.Interfaces
             // var to = new EmailAddress(toEmail);
             // var msg = MailHelper.CreateSingleTemplateEmail(from, to,"d-17616c7169ba421f966e318f4e620111", dynamicTemplateData);
             // var response = await client.SendEmailAsync(msg);
-            
         }
     }
 }

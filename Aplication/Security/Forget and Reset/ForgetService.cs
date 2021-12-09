@@ -6,10 +6,8 @@ using Domine;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using SendGrid.Helpers.Mail;
-using SendGrid.Helpers.Mail.Model;
 using Microsoft.Extensions.Configuration;
 using SendGrid;
-using System.Threading;
 using Aplication.ManagerExcepcion;
 using System.Net;
 
