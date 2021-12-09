@@ -19,12 +19,16 @@ namespace WebApi.Controllers
     {
         private IForgetPassword _forgetPassword;
         private IMailCreateAppoinment _mailCreateAppoinment;
+        private IMailEditAppoinment _mailUpdateAppoinment;
+        private IMailDeleteAppoinment _mailDeleteAppoinment;
         private IMailService _mailService;
         private IConfiguration _configuration;
-        public userController(IForgetPassword forgetPassword,IMailCreateAppoinment mailCreateAppoinment, IMailService mailService, IConfiguration configuration)
+        public userController(IForgetPassword forgetPassword,IMailCreateAppoinment mailCreateAppoinment, IMailEditAppoinment mailUpdateAppoinment, IMailDeleteAppoinment mailDeleteAppoinment, IMailService mailService, IConfiguration configuration)
         {
             _forgetPassword = forgetPassword;
             _mailCreateAppoinment = mailCreateAppoinment;
+            _mailUpdateAppoinment = mailUpdateAppoinment;
+            _mailDeleteAppoinment = mailDeleteAppoinment;
             _mailService = mailService;
             _configuration = configuration;
         }
@@ -67,6 +71,16 @@ namespace WebApi.Controllers
 
             return BadRequest(result); // 400
         }
+        [HttpGet]
+        [Route("deleteAppoinment")]
+        public async  Task<IActionResult> SendmailDelete(string email){
+            var result = await _mailDeleteAppoinment.SendEmailAsync(email);
+            
+            if (result.IsSuccess)
+                return Ok(result); // 200
+
+            return BadRequest(result); // 400
+        }
 
         [HttpGet("createdAppoinment")]
         public async Task<IActionResult> SendmailCreateAppoinment(string email, string date, string time)
@@ -75,6 +89,20 @@ namespace WebApi.Controllers
                 return NotFound();
 
             var result = await _mailCreateAppoinment.SendEmailAppoinmentAsync(email, date, time);
+
+            if (result.IsSuccess)
+                return Ok(result); // 200
+
+            return BadRequest(result); // 400
+        }
+
+        [HttpGet("updateAppoinment")]
+        public async Task<IActionResult> SendmailUpdateAppoinment(string email, string date, string time)
+        {
+            if (string.IsNullOrEmpty(email))
+                return NotFound();
+
+            var result = await _mailUpdateAppoinment.SendEmailAppoinmentAsync(email, date, time);
 
             if (result.IsSuccess)
                 return Ok(result); // 200

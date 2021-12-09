@@ -8,6 +8,7 @@ using Aplication.Interfaces;
 using Aplication.Interfaces.Contracts;
 using Aplication.OdontoApp;
 using Aplication.Security;
+using Aplication.Security.Forget_and_Reset;
 using AutoMapper;
 using Domine;
 using FluentValidation.AspNetCore;
@@ -108,7 +109,8 @@ namespace WebApi
             services.AddScoped<IUserSesion, UserSesion>();
             services.AddScoped<IForgetPassword, ForgetService>();
             services.AddScoped<IMailCreateAppoinment, createAppoinmentMail>();
-            
+            services.AddScoped<IMailEditAppoinment, editAppoinmentMail>();
+            services.AddScoped<IMailDeleteAppoinment, SendMailDeleteAppoinment>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
