@@ -119,10 +119,6 @@ namespace WebApi.Controllers
 
         [HttpPut("resetpassword")] 
         [AllowAnonymous]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Paciente")]
-        [Authorize (Roles = "Recepcionista")]
-        [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<UserManagerResponse>> ResetPassword(ResetPassword.Execute data){
             return await mediator.Send(data);
         }
