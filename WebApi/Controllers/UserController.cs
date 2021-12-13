@@ -35,10 +35,6 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Paciente")]
-        [Authorize (Roles = "Recepcionista")]
-        [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<userLoginDto>> Login(Login.Execute data){
             return await mediator.Send(data);
         }
