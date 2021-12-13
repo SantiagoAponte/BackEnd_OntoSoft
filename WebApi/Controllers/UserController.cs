@@ -35,6 +35,10 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Paciente")]
+        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<userLoginDto>> Login(Login.Execute data){
             return await mediator.Send(data);
         }
@@ -63,6 +67,7 @@ namespace WebApi.Controllers
         }
        [HttpGet]
         [Route("activated")]
+        [Authorize (Roles = "SuperAdmin")]
         public async  Task<IActionResult> SendmailActivated(string email){
             var result = await _mailService.SendEmailAsync(email);
             
@@ -73,6 +78,8 @@ namespace WebApi.Controllers
         }
         [HttpGet]
         [Route("deleteAppoinment")]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Recepcionista")]
         public async  Task<IActionResult> SendmailDelete(string email){
             var result = await _mailDeleteAppoinment.SendEmailAsync(email);
             
@@ -83,6 +90,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("createdAppoinment")]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Recepcionista")]
         public async Task<IActionResult> SendmailCreateAppoinment(string email, string date, string time)
         {
             if (string.IsNullOrEmpty(email))
@@ -97,6 +106,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("updateAppoinment")]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Recepcionista")]
         public async Task<IActionResult> SendmailUpdateAppoinment(string email, string date, string time)
         {
             if (string.IsNullOrEmpty(email))
@@ -112,47 +123,67 @@ namespace WebApi.Controllers
 
         [HttpPut("resetpassword")] 
         [AllowAnonymous]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Paciente")]
+        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<UserManagerResponse>> ResetPassword(ResetPassword.Execute data){
             return await mediator.Send(data);
         }
 
         //https://localhost:5000/api/user/
         [HttpGet]
-        // [Authorize (Roles = "SuperAdmin")]
-        // [Authorize (Roles = "Paciente")]
-        // [Authorize (Roles = "Recepcionista")]
-        // [Authorize (Roles = "Doctor")]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Paciente")]
+        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<UserData>> ObtainUser (){
             return await mediator.Send(new UserActually.Execute());
         }
 
         // https://localhost:5000/api/user/edit
         [HttpPut("edit")]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Paciente")]
+        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<UserData>> Actualizar(UserPut.Execute data){
            return await mediator.Send(data);     
         }
     
         // https://localhost:5000/api/user/allusers
         [HttpGet("allusers")]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<List<UserPrueba>>> Get(){
             return await mediator.Send(new getAllUsers.ListUsers());
         }
 
         // https://localhost:5000/api/user/typedocument
         [HttpGet("typedocument")]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Paciente")]
+        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<List<typeDocument>>> GetResult(){
 
             return await mediator.Send(new getTypeDocument.ListTypeDocument());
         }
         [HttpGet("details/{id}")]
+        [Authorize (Roles = "SuperAdmin")]
+        [Authorize (Roles = "Paciente")]
+        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "Doctor")]
         public async Task<ActionResult<UserData>> ObtainDetailsWithUser(string id){
             return await mediator.Send(new getUserDetails.OneDetailUser{Id = id});
         }
        [HttpDelete("delete/{id}")]
+       [Authorize (Roles = "SuperAdmin")]
         public async Task<ActionResult<Unit>> deleteUser(string id){
             return await mediator.Send(new deleteUser.Execute{Id = id});
         }
         [HttpPut("edit/{id}")]
+        [Authorize (Roles = "SuperAdmin")]
         public async Task<ActionResult<Unit>> putUserforAdmin(string id, UserPutForAdmin.Execute data){
             data.Id = id;
             return await mediator.Send(data);
