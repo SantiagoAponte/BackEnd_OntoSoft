@@ -14,8 +14,7 @@ namespace WebApi.Controllers
     public class appoinmentsController : myControllerBase
     {
         [HttpGet]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "SuperAdmin, Recepcionista")]
         public async Task<ActionResult<List<AppoinmentsDto>>> Get(){
 
             return await mediator.Send(new GetAppoinment.ListAppoinments());
@@ -24,27 +23,20 @@ namespace WebApi.Controllers
         
         //http://localhost:5000/api/appoinments/{id}
         [HttpGet("{id}")]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Paciente")]
-        [Authorize (Roles = "Recepcionista")]
-        [Authorize (Roles = "Doctor")]
+        [Authorize (Roles = "SuperAdmin, Paciente, Recepcionista, Doctor")]
         public async Task<ActionResult<AppoinmentsDto>> ObtainOneAppoinment(Guid id){
             return await mediator.Send(new GetOneAppoinment.OneAppoinment{Id = id});
         }
         
         //Api que trae todas las citas por el ID de un usuario.
         [HttpGet("users/{id}")]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Paciente")]
-        [Authorize (Roles = "Recepcionista")]
-        [Authorize (Roles = "Doctor")]
+        [Authorize (Roles = "SuperAdmin, Paciente, Recepcionista, Doctor")]
         public async Task<ActionResult<UserDto>> ObtainOneAppoinmentWithUser(string id){
             return await mediator.Send(new GetAppoinmentWithUser.OneAppoinmentUser{Id = id});
         }
 
         [HttpPost("add")]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "SuperAdmin, Recepcionista")]
         public async Task<ActionResult<Unit>> CreateAppoinment(PostAppoinment.Execute data){
             return await mediator.Send(data);
         }
@@ -52,16 +44,14 @@ namespace WebApi.Controllers
 
 
         [HttpPut("edit/{id}")]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "SuperAdmin, Recepcionista")]
         public async Task<ActionResult<Unit>> putAppoinment(Guid id, putAppoinments.Execute data){
             data.Id = id;
             return await mediator.Send(data);
         }
 
         [HttpDelete("delete/{id}")]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Recepcionista")]
+        [Authorize (Roles = "SuperAdmin, Recepcionista")]
         public async Task<ActionResult<Unit>> deleteAppoinment(Guid id){
             return await mediator.Send(new deleteAppoinments.Execute{Id = id});
         }

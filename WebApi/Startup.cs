@@ -15,9 +15,11 @@ using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,7 +52,10 @@ namespace WebApi
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddControllers();
+            services.AddControllers( opt => {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            });
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -100,12 +105,11 @@ namespace WebApi
                     ValidateIssuer = false
                 };
             });
-            
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddAutoMapper(typeof(GetAppoinment.Manager));
             services.AddAutoMapper(typeof(getClinicHistoryWithUser.Manager));
             services.AddMediatR(typeof(UserRegister.Manager).Assembly);
             services.AddTransient<IMailService, SendGridMailService>();
-            services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserSesion, UserSesion>();
             services.AddScoped<IForgetPassword, ForgetService>();
             services.AddScoped<IMailCreateAppoinment, createAppoinmentMail>();

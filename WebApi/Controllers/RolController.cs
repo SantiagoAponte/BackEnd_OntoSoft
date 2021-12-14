@@ -34,10 +34,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("listroles")]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Paciente")]
-        [Authorize (Roles = "Recepcionista")]
-        [Authorize (Roles = "Doctor")]
+        [Authorize (Roles = "SuperAdmin, Paciente, Recepcionista, Doctor")]
         public async Task<ActionResult<List<IdentityRole>>> obtainList(){
             return await mediator.Send(new RolList.Execute());
         }
@@ -55,18 +52,12 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("rolofuser/{Id}")]
-        [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Paciente")]
-        [Authorize (Roles = "Recepcionista")]
-        [Authorize (Roles = "Doctor")]
+        [Authorize (Roles = "SuperAdmin, Paciente, Recepcionista, Doctor")]
         public async Task<ActionResult<List<string>>> obtainRolUser (string id){
             return await mediator.Send(new ObtainRolUser.Execute{Id = id});
         }
          [HttpGet("user/{roleName}")]
-         [Authorize (Roles = "SuperAdmin")]
-        [Authorize (Roles = "Paciente")]
-        [Authorize (Roles = "Recepcionista")]
-        [Authorize (Roles = "Doctor")]
+         [Authorize (Roles = "SuperAdmin, Paciente, Recepcionista, Doctor")]
         public async Task<ActionResult<List<User>>> obtainUsersRol (string rolename){
             return await mediator.Send(new ObtainUserRol.Execute{roleName = rolename});
 
