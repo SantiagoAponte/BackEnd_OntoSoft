@@ -36,6 +36,7 @@ namespace WebApi.Controllers
             return await mediator.Send(new getAllBackgroundMedical.ListbackgroundMedical());
         }
         [HttpGet("exportpdf/{id}")]
+        [AllowAnonymous]
          public async Task<ActionResult<Stream>> GetTask(string id){
              return await mediator.Send(new ExportPdf.getClinicHistoryInPdf(id));
         }
