@@ -26,19 +26,16 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("backgroundoral")]
-        [Authorize (Roles = "SuperAdmin, Doctor")]
         public async Task<ActionResult<List<BackgroundOral>>> Get(){
 
             return await mediator.Send(new getAllBackgroundOral.ListbackgroundOral());
         }
         [HttpGet("backgroundmedical")]
-        [Authorize (Roles = "SuperAdmin, Doctor")]
         public async Task<ActionResult<List<BackgroundMedical>>> GetResultAsync(){
 
             return await mediator.Send(new getAllBackgroundMedical.ListbackgroundMedical());
         }
         [HttpGet("exportpdf/{id}")]
-        //[Authorize (Roles = "SuperAdmin, Paciente, Recepcionista, Doctor")]
          public async Task<ActionResult<Stream>> GetTask(string id){
              return await mediator.Send(new ExportPdf.getClinicHistoryInPdf(id));
         }
