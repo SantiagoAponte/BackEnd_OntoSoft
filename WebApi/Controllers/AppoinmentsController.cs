@@ -30,6 +30,7 @@ namespace WebApi.Controllers
         
         //Api que trae todas las citas por el ID de un usuario.
         [HttpGet("users/{id}")]
+        [AllowAnonymous]
         //[Authorize (Roles = "SuperAdmin, Paciente, Recepcionista, Doctor")]
         public async Task<ActionResult<UserDto>> ObtainOneAppoinmentWithUser(string id){
             return await mediator.Send(new GetAppoinmentWithUser.OneAppoinmentUser{Id = id});
